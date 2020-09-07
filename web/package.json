@@ -23,6 +23,7 @@
     "svelte": "^3.0.0",
     "svelte-check": "^1.0.0",
     "svelte-preprocess": "^4.0.0",
+    "svelte-routing": "^1.4.2",
     "tailwindcss": "^1.8.3",
     "tslib": "^2.0.0",
     "typescript": "^3.9.3"
