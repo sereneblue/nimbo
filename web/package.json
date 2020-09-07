@@ -4,7 +4,7 @@
   "scripts": {
     "build": "rollup -c --environment NODE_ENV:production",
     "dev": "rollup -c -w",
-    "start": "sirv public",
+    "start": "sirv public --single",
     "validate": "svelte-check"
   },
   "devDependencies": {
