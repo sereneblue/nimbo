@@ -14,8 +14,13 @@
   };
 
   const handleTitleBlur = (): void => {
-    content = bufferContent;
-    hasFocus = false;
+    // On Chrome, if user presses Esc it also calls this function
+    // Check if hasFocus is true before setting content
+
+    if (hasFocus) {
+      content = bufferContent;
+      hasFocus = false;
+    }
   }
 
   const handleTitleClick = (): void => {
