@@ -1,13 +1,19 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
+
   export let isCenter: boolean = false;
   export let content: string;
   export let maxLength: number = 50;
   export let tag: string;
 
+  const dispatch = createEventDispatcher();
+
   const handleTitleInput = (e: KeyboardEvent): void => {
     if (e.key == "Enter" && bufferContent) {
       content = bufferContent;
       hasFocus = false;
+
+      dispatch("updateTitle", content);
     } else if (e.key == "Escape") {
       hasFocus = false;
     }
@@ -20,6 +26,8 @@
     if (hasFocus) {
       content = bufferContent;
       hasFocus = false;
+
+      dispatch("updateTitle", content);
     }
   }
 
