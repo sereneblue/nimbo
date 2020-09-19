@@ -54,7 +54,11 @@
   }
 
   input {
-    @apply w-full block bg-white px-2 font-semibold;
+    @apply w-full block px-2 font-semibold bg-light-100 rounded;
+  }
+
+  :global(.dark) input {
+    @apply bg-dark-100;
   }
 </style>
 
