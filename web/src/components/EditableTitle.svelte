@@ -15,6 +15,7 @@
 
       dispatch("updateTitle", content);
     } else if (e.key == "Escape") {
+      bufferContent = content;
       hasFocus = false;
     }
   };
@@ -24,7 +25,7 @@
     // Check if hasFocus is true before setting content
 
     if (hasFocus) {
-      content = bufferContent;
+      bufferContent = content;
       hasFocus = false;
 
       dispatch("updateTitle", content);
