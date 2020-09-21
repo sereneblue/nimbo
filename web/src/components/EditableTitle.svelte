@@ -1,10 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
 
-  export let isCenter: boolean = false;
   export let content: string;
   export let maxLength: number = 50;
-  export let tag: string;
+  export let isTitle: boolean = false;
 
   const dispatch = createEventDispatcher();
 
@@ -62,21 +61,20 @@
   }
 </style>
 
-<div class="min-w-0" class:text-center={isCenter}>
+<div class="min-w-0">
   {#if hasFocus}
     <input 
       on:keydown={handleTitleInput}
       on:blur={handleTitleBlur}
-      class:text-2xl={tag === "h1"}
-      class:text-xl={tag === "h2"}
-      class:text-center={isCenter}
+      class:text-2xl={isTitle}
+      class:text-xl={!isTitle}
       type="text"
       bind:value={bufferContent}
       maxlength={maxLength}
       use:init>
   {:else}
     <div class="min-w-0" on:click={handleTitleClick}>
-      {#if tag == "h1"}
+      {#if isTitle}
         <h1 title={content}>{content}</h1>
       {:else}
         <h2 title={content}>{content}</h2>
