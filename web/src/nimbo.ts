@@ -58,4 +58,16 @@ export default class nimbo {
 
     await this.db.boards.delete(id);
   }
+
+  public async toggleBoardStar(boardId: string): Promise<void> {
+    let boardIndex: number = this.boards.findIndex(b => b.id === boardId);
+
+    if (boardIndex > -1) {
+      this.boards[boardIndex].isStarred = !this.boards[boardIndex].isStarred;
+    }
+
+    await this.db.boards.update(boardId, {
+      isStarred: this.boards[boardIndex].isStarred
+    });
+  }
 }
