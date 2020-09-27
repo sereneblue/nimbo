@@ -14,9 +14,7 @@
   const nimboStore: Writable<nimbo> = getContext("nimbo");
 
   const handleInput = (e: KeyboardEvent): void => {
-    if (e.key == "Escape") {
-      dispatch("close");
-    } else if (e.key == "Enter") {
+    if (e.key == "Enter") {
       handleCreateBoard(e);
     }
   }
