@@ -43,29 +43,12 @@
   let bufferContent: string = content;
 </script>
 
-<style lang="postcss">
-  h1 {
-    @apply w-full text-2xl font-semibold truncate overflow-hidden whitespace-no-wrap;
-  }
-
-  h2 {
-    @apply w-full text-xl font-semibold truncate overflow-hidden whitespace-no-wrap;
-  }
-
-  input {
-    @apply w-full block px-2 font-semibold bg-light-100 rounded;
-  }
-
-  :global(.dark) input {
-    @apply bg-dark-100;
-  }
-</style>
-
 <div class="min-w-0">
   {#if hasFocus}
     <input 
       on:keydown={handleTitleInput}
       on:blur={handleTitleBlur}
+      class="w-full block px-2 font-semibold bg-light-100 dark:bg-dark-100 rounded"
       class:text-2xl={isTitle}
       class:text-xl={!isTitle}
       type="text"
@@ -75,9 +58,13 @@
   {:else}
     <div class="min-w-0" on:click={handleTitleClick}>
       {#if isTitle}
-        <h1 title={content}>{content}</h1>
+        <h1 class="w-full text-2xl font-semibold truncate overflow-hidden whitespace-no-wrap" title={content}>
+          <span class="hover:bg-light-200 dark:hover:bg-dark-200">{content}</span>
+        </h1>
       {:else}
-        <h2 title={content}>{content}</h2>
+        <h2 class="w-full text-xl font-semibold truncate overflow-hidden whitespace-no-wrap" title={content}>
+          <span class="hover:bg-light-200 dark:hover:bg-dark-200">{content}</span>
+        </h2>
       {/if}
     </div>
   {/if}
