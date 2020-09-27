@@ -70,4 +70,10 @@ export default class nimbo {
       isStarred: this.boards[boardIndex].isStarred
     });
   }
+
+  public async updateViewTime(boardId: string): Promise<void> {
+    await this.db.boards.update(boardId, {
+      lastViewTime: new Date().getTime()
+    });
+  }
 }
