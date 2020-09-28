@@ -63,7 +63,7 @@
         </h1>
       {:else}
         <h2 class="w-full text-xl font-semibold truncate overflow-hidden whitespace-no-wrap" title={content}>
-          <span class="hover:bg-light-200 dark:hover:bg-dark-200">{content}</span>
+          <span class="hover:bg-light-100 dark:hover:bg-dark-100">{content}</span>
         </h2>
       {/if}
     </div>
