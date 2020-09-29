@@ -50,7 +50,7 @@
         aria-labelledby="options-menu">
         {#if index > 1}
           <button
-            on:click={(e) => emit(['move', [index, index - 1]])}
+            on:click={(e) => emit(['move', { from: index, to: index - 1}])}
             class="flex items-center w-full px-2 py-1 text-sm leading-5
               text-gray-700 hover:bg-gray-200 hover:text-gray-900
               focus:outline-none focus:bg-gray-200 focus:text-gray-900"
@@ -67,7 +67,7 @@
         {/if}
         {#if hasMore}
           <button
-            on:click={(e) => emit(['move', [index, index + 1]])}
+            on:click={(e) => emit(['move', { from: index, to: index + 1}])}
             class="flex items-center w-full px-2 py-1 text-sm leading-5
               text-gray-700 hover:bg-gray-200 hover:text-gray-900
               focus:outline-none focus:bg-gray-200 focus:text-gray-900"
