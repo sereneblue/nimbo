@@ -1,4 +1,5 @@
 import { nanoid } from '../../util';
+import type { SwapObject } from '../../types';
 import type List from './List';
 import type Card from './Card';
 
@@ -44,5 +45,18 @@ export default class Board {
 
   setTitle(title: string): void {
     this.title = title;
+  }
+
+  swapLists(l: SwapObject): void {
+    this.lists[l.from - 1].index = l.to;
+    this.lists[l.to - 1].index = l.from;
+    
+    let tmp: List = this.lists[l.from - 1];
+    this.lists[l.from - 1] = this.lists[l.to - 1];
+    this.lists[l.to - 1] = tmp;
+  }
+
+  toggleBoardStar(): void {
+    this.isStarred = !this.isStarred;
   }
 }
