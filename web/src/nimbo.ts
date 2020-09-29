@@ -80,9 +80,15 @@ export default class nimbo {
       let listIndex: number = this.boards[boardIndex].lists.findIndex(l => l.id === listId); 
 
       if (listIndex > -1) {
+        let updateFromIndex: number = this.boards[boardIndex].lists[listIndex].index;
         this.boards[boardIndex].lists.splice(listIndex, 1);
-
+        
+        for (let i: number = 0; i < this.boards[boardIndex].lists.length; i++) {
+          this.boards[boardIndex].lists[i].index = i + 1;
+        };
+        
         await this.db.lists.delete(listId);
+        await this.updateListIndexes(updateFromIndex);
       }
     }
   }
@@ -139,6 +145,12 @@ export default class nimbo {
         title
       });
     }
+  }
+
+  private async updateListIndexes(startIndex: number): Promise<void> {
+    await this.db.lists.where("index").above(startIndex).modify(l => {
+      l.index = l.index - 1;
+    });
   }
 
   public async updateListTitle(boardId: string, listId: string, title: string): Promise<void> {
