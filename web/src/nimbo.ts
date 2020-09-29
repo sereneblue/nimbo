@@ -18,9 +18,11 @@ export default class nimbo {
     this.boards = await this.db.boards.toArray();
     
     let lists: List[][] = await Promise.all(this.boards.map(b => this.db.lists.where({ boardId: b.id }).toArray()));
-    
+
     for (let i: number = 0; i < lists.length; i++) {
-      this.boards[i].lists = lists[i];
+      this.boards[i].lists = lists[i].sort((a: List, b: List): number => {
+        return a.index - b.index
+      });
 
       let cards: Card[][] = await Promise.all(this.boards[i].lists.map(l => this.db.cards.where({ listId: l.id }).toArray()));
       
