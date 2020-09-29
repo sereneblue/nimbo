@@ -2,7 +2,7 @@
   import { createEventDispatcher } from "svelte";
   import { fade } from "svelte/transition";
 
-  import { clickOutside } from "../util";
+  import { clickOutside } from "../../util";
 
   export let isOpen: boolean;
   export let index: number;
