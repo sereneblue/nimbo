@@ -1,7 +1,5 @@
 import { customAlphabet } from 'nanoid';
 
-const nanoid = customAlphabet('2346789ABCDEFGHJKLMNPQRTUVWXYZabcdefghijkmnpqrtwxyz', 10)
-
 const clickOutside = (node: Node, closeAction: Function): object => {
   const handleClick = (event: Event) => {
     let path = event.composedPath();
@@ -21,6 +19,8 @@ const clickOutside = (node: Node, closeAction: Function): object => {
     },
   };
 };
+
+const nanoid = customAlphabet('2346789ABCDEFGHJKLMNPQRTUVWXYZabcdefghijkmnpqrtwxyz', 10);
 
 export {
   clickOutside,
