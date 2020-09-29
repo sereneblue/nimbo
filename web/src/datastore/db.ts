@@ -15,8 +15,8 @@ export class nimboDB extends Dexie {
 
     db.version(1).stores({
       boards: "&id, title",
-      cards: "&id, title, listId",
-      lists: "&id, boardId"
+      cards: "&id, title, listId, index",
+      lists: "&id, boardId, index"
     });
 
     db.boards.mapToClass(Board);
