@@ -43,7 +43,7 @@
   let bufferContent: string = content;
 </script>
 
-<div class="min-w-0">
+<div class="min-w-0 w-full">
   {#if hasFocus}
     <input 
       on:keydown={handleTitleInput}
