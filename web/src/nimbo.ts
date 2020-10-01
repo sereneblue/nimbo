@@ -1,8 +1,8 @@
 import { nimboDB } from './datastore/db';
 import Board from './datastore/models/Board';
 import List from './datastore/models/List';
-import type Card from './datastore/models/Card';
-import type { SwapObject } from './types';
+import Card from './datastore/models/Card';
+import type { SortObject, SwapObject } from './types';
 
 export default class nimbo {
   db: nimboDB;
@@ -43,6 +43,22 @@ export default class nimbo {
 
   public closePalette() {
     this.showCommandPalette = false;
+  }
+
+  public async addNewCard(list: List, title: string): Promise<void> {
+    let boardIndex: number = this.boards.findIndex(b => b.id === list.boardId);
+    
+    if (boardIndex > -1) {
+      let listIndex: number = this.boards[boardIndex].lists.findIndex(l => l.id === list.id); 
+
+      if (listIndex > -1) {
+        let c: Card = new Card(list, title);
+
+        this.boards[boardIndex].lists[listIndex].cards = [...this.boards[boardIndex].lists[listIndex].cards, c];
+
+        await this.db.cards.add(c);
+      }
+    }
   }
 
   public async addNewList(boardId: string): Promise<void> {
@@ -106,6 +122,59 @@ export default class nimbo {
     return null;
   }
 
+  public async moveCard(c: SortObject): Promise<void> {
+    let boardIndex: number = this.boards.findIndex(b => b.id === c.boardId);
+
+    if (boardIndex > -1) {
+      let listFromIndex: number = this.boards[boardIndex].lists.findIndex(l => l.id === c.from.list); 
+      let listToIndex: number = this.boards[boardIndex].lists.findIndex(l => l.id === c.to.list); 
+
+      if (listFromIndex > -1 && listToIndex > -1) {
+        if (c.from.list != c.to.list) {
+          let fromListId: string;
+
+          let tmp: Card = this.boards[boardIndex].lists[listFromIndex].cards.splice(c.from.index, 1)[0]; 
+          fromListId = tmp.listId;
+
+          tmp.listId = this.boards[boardIndex].lists[listToIndex].id;
+          tmp.index = c.to.index + 1;
+
+          for (let i: number = c.from.index; i < this.boards[boardIndex].lists[listFromIndex].cards.length; i++) {
+            this.boards[boardIndex].lists[listFromIndex].cards[i].index--; 
+          }
+          
+          this.boards[boardIndex].lists[listToIndex].cards.splice(c.to.index, 0, tmp);
+
+          for (let i: number = c.to.index + 1; i < this.boards[boardIndex].lists[listToIndex].cards.length; i++) {
+            this.boards[boardIndex].lists[listToIndex].cards[i].index++; 
+          }
+
+          await this.updateCardIndexes(tmp, fromListId, c.from.index, c.to.index);
+        } else {
+          if (c.from.index != c.to.index) {
+            let tmp: Card = this.boards[boardIndex].lists[listFromIndex].cards.splice(c.from.index, 1)[0];
+            tmp.index = c.to.index + 1;
+
+            let positions: number[] = [c.from.index, c.to.index].sort();
+
+            // only change indexes of indexes between from/to
+            for (let i: number = positions[0]; i < positions[1]; i++) {
+              if (c.from.index < c.to.index) {
+                this.boards[boardIndex].lists[listFromIndex].cards[i].index--;
+              } else {
+                this.boards[boardIndex].lists[listFromIndex].cards[i].index++;
+              }
+            }
+
+            this.boards[boardIndex].lists[listFromIndex].cards.splice(c.to.index, 0, tmp);
+
+            await this.updateCardIndexes(tmp, tmp.listId, c.from.index, c.to.index);
+          }
+        }
+      }
+    }
+  }
+
   public async swapLists(boardId: string, l: SwapObject): Promise<void> {
     let boardIndex: number = this.boards.findIndex(b => b.id === boardId);
 
@@ -148,6 +217,45 @@ export default class nimbo {
         title
       });
     }
+  }
+
+  private async updateCardIndexes(c: Card, fromListId: string, fromIndex: number, toIndex: number): Promise<void> {
+    await this.db.transaction('rw', this.db.cards, this.db.lists, async (): Promise<void> =>{
+      if (c.listId != fromListId) {
+        await this.db.cards.where({ listId: fromListId }).filter((c: Card): boolean => {
+          return c.index > fromIndex
+        }).modify(c => {
+          c.index--;
+        });
+  
+        await this.db.cards.where({ listId: c.listId }).filter((c: Card): boolean => {
+          return c.index > toIndex
+        }).modify(c => {
+          c.index++;
+        });
+      } else {
+        let positions: number[] = [fromIndex, toIndex].sort();
+        
+        await this.db.cards.where({ listId: fromListId }).filter((c: Card): boolean => {
+          if (fromIndex < toIndex) {
+            return positions[0] + 1 < c.index && c.index <= positions[1] + 1;
+          }
+
+          return positions[0] < c.index && c.index <= positions[1];
+        }).modify(c => {
+          if (fromIndex < toIndex) {
+            c.index--;
+          } else {
+            c.index++;
+          }
+        });
+      }
+
+      await this.db.cards.update(c.id, {
+        listId: c.listId,
+        index: c.index
+      });
+    });
   }
 
   private async updateListIndexes(startIndex: number): Promise<void> {
