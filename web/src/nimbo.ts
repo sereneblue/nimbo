@@ -90,6 +90,7 @@ export default class nimbo {
         };
         
         await this.db.lists.delete(listId);
+        await this.db.cards.where({ listId }).delete();
         await this.updateListIndexes(updateFromIndex);
       }
     }
