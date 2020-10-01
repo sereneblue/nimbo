@@ -1,4 +1,5 @@
 import { nanoid } from '../../util';
+import type List from './List';
 
 enum ActivityType {};
 
@@ -15,6 +16,7 @@ type Activity = {
 export default class Card {
   id: string;
   listId: string;
+  index: number;
   title: string;
   description: string;
   created: number;
@@ -22,9 +24,10 @@ export default class Card {
   due: number;
   log: Activity[];
 
-  constructor(listId: string, title: string) {
+  constructor(list: List, title: string) {
     this.id = nanoid();
-    this.listId = listId;
+    this.listId = list.id;
+    this.index = list.cards.length + 1;
     this.title = title;
     this.created = new Date().getTime();
     this.checklist = new Array<ChecklistItem>();
