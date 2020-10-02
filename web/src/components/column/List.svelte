@@ -1,6 +1,5 @@
 <script lang="ts">
   import { createEventDispatcher, onMount } from "svelte";
-  import { fade } from "svelte/transition";
 
   import EditableTitle from "../EditableTitle.svelte";
   import ListCard from "./ListCard.svelte";
@@ -42,6 +41,8 @@
       if (bufferCard.value) {
         await $nimboStore.addNewCard(list, bufferCard.value);
         $nimboStore = $nimboStore;
+
+        scrollToBottom();
       }
 
       bufferCard.value = "";
@@ -134,11 +135,7 @@
 
   <div bind:this={cardList} class="cards h-full mt-2 pr-1 overflow-y-auto" data-list={list.id}>
     {#each list.cards as c (c.id)}
-      <div
-        class="card-container bg-white hover:bg-light-100-50 dark:bg-dark-100 dark:hover:bg-dark-50 mb-2 rounded-sm"
-        on:introstart={scrollToBottom}
-        on:introend={scrollToBottom}
-        transition:fade|local>
+      <div class="card-container bg-white hover:bg-light-100-50 dark:bg-dark-100 dark:hover:bg-dark-50 mb-2 rounded-sm">
         <ListCard {c} />
       </div>
     {/each}
