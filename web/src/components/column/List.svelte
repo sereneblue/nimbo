@@ -12,7 +12,6 @@
   export let list: List;
   export let hasMore: boolean;
 
-  let bufferCard: HTMLInputElement;
   let cardList: HTMLElement;
   let debounceScroll: number;
   let isListMenuOpen: boolean = false;
@@ -38,14 +37,16 @@
 
   const handleListInput = async (e: KeyboardEvent): Promise<void> => {
     if (e.key == "Enter") {
-      if (bufferCard.value) {
-        await $nimboStore.addNewCard(list, bufferCard.value);
+      if (e.target.value) {
+        await $nimboStore.addNewCard(list, e.target.value);
         $nimboStore = $nimboStore;
 
         scrollToBottom();
       }
 
-      bufferCard.value = "";
+      e.target.value = "";
+    } else if (e.key === "l" || e.key === "/") {
+      e.stopPropagation();
     }
   };
 
@@ -143,8 +144,7 @@
 
   <div class="w-full mt-2">
     <input
-      bind:this={bufferCard}
-      on:keydown={handleListInput}
+      on:keyup={handleListInput}
       class="bg-transparent inline-block w-full cursor-text focus:bg-white dark:focus:bg-dark-100 p-2 rounded-sm border border-transparent focus:border-white placeholder-gray-500 dark:placeholder-gray-400"
       type="text"
       placeholder="Add a card..." />
