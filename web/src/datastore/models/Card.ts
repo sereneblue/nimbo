@@ -29,9 +29,17 @@ export default class Card {
     this.listId = list.id;
     this.index = list.cards.length + 1;
     this.title = title;
+    this.description = "";
     this.created = new Date().getTime();
     this.checklist = new Array<ChecklistItem>();
     this.log = new Array<Activity>();
+  }
+
+  addToChecklist(text: string) {
+    this.checklist.push({
+      checked: false,
+      text
+    });
   }
 
   setDescription(text: string) {
