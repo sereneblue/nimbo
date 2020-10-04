@@ -16,6 +16,8 @@
     } else if (e.key == "Escape") {
       bufferContent = content;
       hasFocus = false;
+    } else if (e.key == "/" || e.key == "l") {
+      e.stopPropagation();
     }
   };
 
@@ -46,7 +48,7 @@
 <div class="min-w-0 w-full">
   {#if hasFocus}
     <input 
-      on:keydown={handleTitleInput}
+      on:keyup={handleTitleInput}
       on:blur={handleTitleBlur}
       class="w-full block px-2 font-semibold bg-light-100 dark:bg-dark-100 rounded"
       class:text-2xl={isTitle}
