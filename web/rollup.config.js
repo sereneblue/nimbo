@@ -2,6 +2,7 @@ import svelte from 'rollup-plugin-svelte';
 import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import css from "rollup-plugin-css-only";
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
@@ -46,6 +47,7 @@ export default {
     replace({
       'process.env.NODE_ENV': production ? JSON.stringify( 'production' ) : JSON.stringify( 'development' )
     }),
+    css({ output: "public/build/extra.css" }),
     svelte({
       // enable run-time checks when not in production
       dev: !production,
