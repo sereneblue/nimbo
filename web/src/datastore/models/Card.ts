@@ -42,6 +42,10 @@ export default class Card {
     });
   }
 
+  setDueDate(timestamp: number) {
+    this.due = timestamp;
+  }
+  
   setDescription(text: string) {
     this.description = text;
   }
