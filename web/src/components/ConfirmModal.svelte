@@ -22,7 +22,7 @@
 
 <Modal isOpen={isConfirmModalOpen} on:close={handleCloseModal}>
   <div class="p-4">
-    <h3 class="text-2xl mb-4">
+    <h3 class="text-2xl text-light dark:text-dark mb-4">
       {modalMessage}
     </h3>
     <div class="flex justify-end">
