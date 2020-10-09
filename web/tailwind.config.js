@@ -6,6 +6,16 @@ module.exports = {
     ]
   },
   theme: {
+    customForms: theme => ({
+      default: {
+        checkbox: {
+          '&:focus': {
+            boxShadow: '0 0 0 3px rgba(102, 126, 234, 0.5)',
+            borderColor: theme('colors.indigo.400')
+          }
+        }
+      }
+    }),
     extend: {
       colors: {
         "dark-100": "#4a4c4d",
@@ -14,17 +24,20 @@ module.exports = {
         "dark-300": "#1d1f21",
         "dark-300-75": "rgba(29, 31, 33, 0.75)",
         "dark": "#a5a8a7",
-        "light-100": "#f3f3f3",
-        "light-100-50": "rgba(243, 243, 243, 0.5)",
-        "light-200": "#e4e6f1",
-        "light-300": "#dcdcdc",
-        "light-300-75": "rgba(220, 220, 220, 0.75)",
-        "light": "#848484"
+        "light-100": "#e7e7e5",
+        "light-100-50": "rgba(231, 231, 229, 0.5)",
+        "light-200": "#dbdcdd",
+        "light-300": "#fafbfd",
+        "light": "#707070"
       }
     },
   },
-  variants: {},
-  plugins: [],
+  variants: {
+    display: ({ after }) => after(['group-hover']),
+  },
+  plugins: [
+    require('@tailwindcss/custom-forms'),
+  ],
   future: {
     removeDeprecatedGapUtilities: true,
   },
@@ -32,7 +45,6 @@ module.exports = {
   experimental: {
     extendedSpacingScale: true,
     applyComplexClasses: true,
-    darkModeVariant: true,
-    uniformColorPalette: true,
+    darkModeVariant: true
   },
 }
