@@ -5,6 +5,7 @@
   import 'flatpickr/dist/light.css';
 
   export let date: number;
+  export let complete: boolean = false;
 
   let calendar: flatpickr;
 
@@ -12,6 +13,11 @@
 
   const handleDateClear = (e: Event): void => {
     calendar.clear();
+  }
+
+  const handleDueComplete = (e: Event): void => {
+    complete = !complete;
+    dispatch("complete", complete);
   }
 
   onMount(() => {
@@ -30,6 +36,10 @@
       }
     });
   })
+
+  $: {
+    if (calendar) calendar._input.disabled = complete;
+  }
 </script>
 
 <style lang="postcss" global>
@@ -123,11 +133,26 @@
   .dark ~ .flatpickr-calendar .flatpickr-day.nextMonthDay {
     @apply text-dark hover:bg-dark-200;
   }
+
+  div .completed {
+    @apply bg-green-600 text-white;
+  }
+
+  .dark div .completed {
+    @apply bg-green-600 text-white;
+  }
 </style>
 
-<div class="flex items-center">
-  <input id="flatpickr" class="bg-transparent py-1 px-2 min-w-0 outline-none bg-light-100 dark:bg-dark-200 text-light dark:text-dark rounded pr-4" placeholder="Select a date..." />
-  <button title="Clear date" on:click={handleDateClear}>
-    <svg class="-ml-8 cursor-pointer opacity-50 hover:opacity-100" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-  </button>
+<div class="flex items-center px-1 bg-light-100 dark:bg-dark-200 text-light dark:text-dark rounded" class:completed={complete}>
+  {#if date}
+    <span class="bg-transparent -mr-2 pl-2 py-1 min-w-0 outline-none pr-4">
+      <input on:click={handleDueComplete} bind:checked={complete} type="checkbox" class="form-checkbox -mt-1 text-indigo-500 h-4 w-4 border-2 dark:border">
+    </span>
+  {/if}
+  <input id="flatpickr" class="bg-transparent py-1 pr-4 min-w-0 outline-none" placeholder="Select a date..." />
+  {#if !complete && date}
+    <button title="Clear date" on:click={handleDateClear}>
+      <svg class="-ml-8 cursor-pointer opacity-50 hover:opacity-100" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  {/if}
 </div>
