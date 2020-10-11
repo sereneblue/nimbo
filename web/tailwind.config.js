@@ -31,12 +31,19 @@ module.exports = {
         "light": "#707070"
       }
     },
+    truncate: {
+      lines: {
+        2: '2',
+        3: '3'
+      }
+    }
   },
   variants: {
     display: ({ after }) => after(['group-hover']),
   },
   plugins: [
     require('@tailwindcss/custom-forms'),
+    require('tailwindcss-truncate-multiline')(),
   ],
   future: {
     removeDeprecatedGapUtilities: true,
