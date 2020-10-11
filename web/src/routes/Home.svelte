@@ -72,7 +72,7 @@
       <div class="mb-8">
         <h4 class="flex items-center uppercase opacity-75 text-base font-semibold leading mb-1">
           <span class="mr-2">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
           </span>
           Starred
         </h4>
@@ -88,7 +88,7 @@
       <div>
         <h4 class="flex items-center uppercase opacity-75 text-base font-semibold leading mb-1">
           <span class="mr-2">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
           </span>
           Recently Viewed
         </h4>
@@ -111,14 +111,23 @@
         {#each sortedBoards as board (board.id)}
           <li title={board.title} class="p-2 w-60 h-32 text-white font-semibold text-xl rounded ml-4 mb-4 cursor-pointer" style={"background-color: " + board.color}>
             <a href={"b/" + board.id} class="flex flex-col group justify-between h-full">
-              <span class="truncate">{board.title}</span>
-              <div class="flex bottom-0 pb-1 pl-1 hidden group-hover:block">
-                <button on:click|preventDefault={e => handleStarBoard(board.id)} class="mr-4 transform ease-in-out hover:scale-150">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill={board.isStarred ? "currentColor" : "none" } stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                </button>
-                <button on:click|preventDefault={e => handleDeleteBoard(board.id)} class="mr-4 transform ease-in-out hover:scale-150">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                </button>
+              <span class="truncate-2-lines">{board.title}</span>
+              <div class="flex bottom-0 pl-1">
+                {#if board.isStarred}
+                  <div class="block group-hover:hidden">
+                    <button on:click|preventDefault={e => handleStarBoard(board.id)} class="mr-4 transform ease-in-out hover:scale-150">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </button>
+                  </div>
+                {/if}
+                <div class="hidden group-hover:block">
+                  <button on:click|preventDefault={e => handleStarBoard(board.id)} class="mr-4 transform ease-in-out hover:scale-150">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill={board.isStarred ? "currentColor" : "none" } stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  </button>
+                  <button on:click|preventDefault={e => handleDeleteBoard(board.id)} class="w-4 h-4 transform ease-in-out hover:scale-150">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                  </button>
+                </div>
               </div>
             </a>
           </li>
