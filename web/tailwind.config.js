@@ -52,6 +52,7 @@ module.exports = {
   experimental: {
     extendedSpacingScale: true,
     applyComplexClasses: true,
-    darkModeVariant: true
+    darkModeVariant: true,
+    purgeLayersByDefault: true
   },
 }
