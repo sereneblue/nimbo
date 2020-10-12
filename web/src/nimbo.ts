@@ -219,6 +219,22 @@ export default class nimbo {
     }
   }
 
+  public async updateCard(c: Card, property: string): Promise<void> {
+    for (let i: number = 0; i < this.boards.length; i++) {
+      for (let j: number = 0; j < this.boards[i].lists.length; j++) {
+        for (let k: number = 0; k < this.boards[i].lists[j].cards.length; k++) {
+          if (this.boards[i].lists[j].cards[k].id === c.id) {            
+            this.boards[i].lists[j].cards[k] = c;
+          }
+        }
+      }
+    }
+    
+    await this.db.cards.update(c.id, {
+      [property]: c[property]
+    });
+  }
+
   private async updateCardIndexes(c: Card, fromListId: string, fromIndex: number, toIndex: number): Promise<void> {
     await this.db.transaction('rw', this.db.cards, this.db.lists, async (): Promise<void> =>{
       if (c.listId != fromListId) {
