@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getContext } from "svelte";
+  import { afterUpdate, getContext } from "svelte";
   import { flip } from "svelte/animate";
 
   import List from "./List.svelte";
@@ -8,8 +8,11 @@
 
   export let boardId: string;
 
+  let boardLists: HTMLElement;
   let isConfirmModalOpen: boolean = false;
+  let hasNewList: boolean = false;;
   let modalMessage: string;
+
   let onConfirm = () => {};
 
   const nimboStore: Writable<nimbo> = getContext("nimbo");
@@ -17,6 +20,8 @@
   const addNewList = async (): Promise<void> => {
     $nimboStore.addNewList(boardId);
     $nimboStore = $nimboStore;
+
+    hasNewList = true;
   };
 
   const handleCloseConfirmModal = (): void => {
@@ -38,6 +43,15 @@
     }
   };
 
+  afterUpdate(() => {
+    if (hasNewList) {
+      let b: HTMLElement[] = boardLists.querySelectorAll('h2');
+      b[b.length - 1].click();
+
+      hasNewList = false;
+    }
+  });
+
   $: board = $nimboStore.getBoard(boardId);
 </script>
 
@@ -49,7 +63,7 @@
   {onConfirm}
   on:close={handleCloseConfirmModal} />
 
-<div class="flex max-h-full w-full pb-2 overflow-x-auto">
+<div bind:this={boardLists} class="flex max-h-full w-full pb-2 overflow-x-auto">
   {#each board.lists as l (l.id)}
     <div animate:flip={{ duration: 300 }}>
       <List
