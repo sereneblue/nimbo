@@ -42,7 +42,8 @@
   };
 
   let hasFocus: boolean = false;
-  let bufferContent: string = content;
+
+  $: bufferContent = content;
 </script>
 
 <div class="min-w-0 w-full">
