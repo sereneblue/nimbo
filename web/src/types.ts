@@ -41,8 +41,7 @@ export type SwapObject = {
   to: number;
 }
 
-export type TimeLogItem = {
+export type TimeEntry = {
   date: number;
-  description: string;
   duration: number;
 }

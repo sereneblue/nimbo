@@ -1,17 +1,6 @@
 import { nanoid } from '../../util';
 import type List from './List';
-
-enum ActivityType {};
-
-type ChecklistItem = {
-  text: string;
-  checked: boolean;
-}
-
-type Activity = {
-  type: ActivityType;
-  timestamp: number;
-}
+import type { ChecklistItem, TimeEntry } from '../../types';
 
 export default class Card {
   id: string;
@@ -22,7 +11,8 @@ export default class Card {
   created: number;
   checklist: ChecklistItem[];
   due: number;
-  log: Activity[];
+  isComplete: boolean;
+  log: TimeEntry[];
 
   constructor(list: List, title: string) {
     this.id = nanoid();
@@ -32,7 +22,7 @@ export default class Card {
     this.description = "";
     this.created = new Date().getTime();
     this.checklist = new Array<ChecklistItem>();
-    this.log = new Array<Activity>();
+    this.log = new Array<TimeEntry>();
   }
 
   addToChecklist(text: string) {
@@ -40,6 +30,18 @@ export default class Card {
       checked: false,
       text
     });
+  }
+
+  deleteFromChecklist(index: number) {
+    this.checklist.splice(index, 1);
+  }
+
+  deleteTimeEntry(index: number) {
+    this.log.splice(index, 1);
+  }
+
+  setComplete(complete: boolean) {
+    this.isComplete = complete;
   }
 
   setDueDate(timestamp: number) {
@@ -52,5 +54,12 @@ export default class Card {
 
   setTitle(title: string) {
     this.title = title;
+  }
+
+  trackTime(duration: number) {
+    this.log.push({
+      duration,
+      date: new Date().getTime()
+    });
   }
 }
