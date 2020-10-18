@@ -26,7 +26,7 @@
       altFormat: "M j, Y @ h:S K",
       defaultDate: date,
       enableTime: true,
-      minDate: "today",
+      minDate: date || "today",
       onChange(selectedDates: Date[], dateString: string, instance: any) {
         if (selectedDates.length) {
           dispatch("update", selectedDates[0].getTime());
