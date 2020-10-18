@@ -106,7 +106,7 @@
   }
 </style>
 
-<div class="flex flex-col bg-light-200 dark:bg-dark-200 h-auto max-h-full relative w-80 rounded mr-4 text-light dark:text-dark p-2 shadow">
+<div class="flex flex-col list bg-light-200 dark:bg-dark-200 h-auto max-h-full relative w-80 rounded mr-4 text-light dark:text-dark p-2 shadow">
   <div class="flex absolute top-0 right-0 mt-3 mr-2 cursor-pointer">
     <div class="relative inline-block text-left mt-6">
       <ListMenu isOpen={isListMenuOpen} index={list.index} {hasMore} on:emit={handleEmit} />
