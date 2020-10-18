@@ -1,6 +1,6 @@
 import { nanoid } from '../../util';
 import type List from './List';
-import type { ChecklistItem, TimeEntry } from '../../types';
+import type { ChecklistItem, PRIORITY, TimeEntry } from '../../types';
 
 export default class Card {
   id: string;
@@ -13,6 +13,7 @@ export default class Card {
   due: number;
   isComplete: boolean;
   log: TimeEntry[];
+  priority: PRIORITY;
 
   constructor(list: List, title: string) {
     this.id = nanoid();
@@ -50,6 +51,10 @@ export default class Card {
   
   setDescription(text: string) {
     this.description = text;
+  }
+
+  setPriority(priority: PRIORITY) {
+    this.priority = priority;
   }
 
   setTitle(title: string) {

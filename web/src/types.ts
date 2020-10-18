@@ -13,6 +13,13 @@ export type ChecklistItem = {
   checked: boolean;
 }
 
+export enum PRIORITY {
+  P1,
+  P2,
+  P3,
+  P4
+}
+
 export enum RESULT_TYPE {
   BOARD,
   CARD,
