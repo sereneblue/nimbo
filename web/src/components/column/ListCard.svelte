@@ -1,10 +1,11 @@
 <script lang="ts">
   import type Card from '../../datastore/models/Card';
+  import { PRIORITY } from '../../types';
   import { formatDate } from '../../util';
   
   export let c: Card;
 
-  let hasMoreDetails: boolean = !!c.checklist.length || !!c.due || !!c.description; 
+  let hasMoreDetails: boolean = !!c.checklist.length || !!c.due || !!c.description || c.priority in PRIORITY;
   let checklistCompleted: number = c.checklist.filter(item => item.checked).length;
   
   const handleCardClick = (e: Event): void => {
@@ -37,6 +38,30 @@
           <div class={c.isComplete ? "flex items-center p-1 rounded mr-2 text-white bg-green-500" : c.due < new Date().getTime() ? "flex items-center p-1 rounded mr-2 text-white bg-orange-600" : "flex items-center p-1 rounded mr-1"}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
             <span class="ml-1">{formatDate(c.due)}</span>
+          </div>
+        {/if}
+        {#if c.priority in PRIORITY}
+          <div class="flex font-bold text-center text-white">
+            {#if c.priority == PRIORITY.P1}
+              <span class="bg-red-500 p-1 rounded" title="Urgent">
+                P1
+              </span>
+            {/if}
+            {#if c.priority == PRIORITY.P2}
+              <span class="bg-orange-500 p-1 rounded" title="High">
+                P2
+              </span>
+            {/if}
+            {#if c.priority == PRIORITY.P3}
+              <span class="bg-green-500 p-1 rounded" title="Normal">
+                P3
+              </span>
+            {/if}
+            {#if c.priority == PRIORITY.P4}
+              <span class="bg-gray-500 p-1 rounded" title="Low">
+                P4
+              </span>
+            {/if}
           </div>
         {/if}
       </div>
