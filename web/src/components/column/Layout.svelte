@@ -45,9 +45,29 @@
 
   afterUpdate(() => {
     if (hasNewList) {
-      let b: HTMLElement[] = boardLists.querySelectorAll('h2');
-      b[b.length - 1].click();
+      let bl: HTMLElement[] = boardLists.querySelectorAll('.editable-title span');
+      bl[bl.length - 1].focus();
 
+      // position cursor at end of text
+      if (typeof window.getSelection != "undefined"
+              && typeof document.createRange != "undefined") {
+        let range = document.createRange();
+        range.selectNodeContents(bl[bl.length - 1]);
+        range.collapse(false);
+        let sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      } else if (typeof document.body.createTextRange != "undefined") {
+        let textRange = document.body.createTextRange();
+        textRange.moveToElementText(bl[bl.length - 1]);
+        textRange.collapse(false);
+        textRange.select();
+      }
+      
+      bl[bl.length - 1].closest('.list').scrollIntoView({
+        behavior: 'smooth',
+        inline: 'end'
+      });
       hasNewList = false;
     }
   });
