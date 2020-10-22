@@ -104,9 +104,13 @@ export default class nimbo {
         for (let i: number = 0; i < this.boards[boardIndex].lists.length; i++) {
           this.boards[boardIndex].lists[i].index = i + 1;
         };
-        
-        await this.db.lists.delete(listId);
-        await this.db.cards.where({ listId }).delete();
+
+        await this.db.transaction('rw', this.db.lists, this.db.cards, async (): Promise<void> =>{
+          await Promise.all([
+            this.db.lists.delete(listId),
+            this.db.cards.where({ listId }).delete()
+          ]);
+        });
         await this.updateListIndexes(updateFromIndex);
       }
     }
