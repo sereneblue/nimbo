@@ -2,7 +2,7 @@ import { nimboDB } from './datastore/db';
 import Board from './datastore/models/Board';
 import List from './datastore/models/List';
 import Card from './datastore/models/Card';
-import type { SortObject, SwapObject } from './types';
+import { CardDetails, RESULT_TYPE, SearchObject, SortObject, SwapObject } from './types';
 
 export default class nimbo {
   db: nimboDB;
@@ -114,6 +114,25 @@ export default class nimbo {
         await this.updateListIndexes(updateFromIndex);
       }
     }
+  }
+
+  public everything(): SearchObject[] {
+    return (this.boards.map((b) => {
+      return [{
+        type: RESULT_TYPE.BOARD,
+        text: b.title,
+        path: `/b/${b.id}`
+      }, b.lists.map(l => {
+          return l.cards.map(c => {
+            return {
+              type: RESULT_TYPE.CARD,
+              text: c.title,
+              path: `/c/${c.id}`
+            };
+          });
+        })
+      ];
+    }) as any).flat(4);
   }
 
   public getBoard(boardId: string): Board | null {
