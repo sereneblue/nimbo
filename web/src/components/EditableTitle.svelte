@@ -2,73 +2,76 @@
   import { createEventDispatcher } from 'svelte';
 
   export let content: string;
-  export let maxLength: number = 50;
   export let isTitle: boolean = false;
+
+  let bufferContent: string = content;
+  let hasFocus: boolean = false;
 
   const dispatch = createEventDispatcher();
 
-  const handleTitleInput = (e: KeyboardEvent): void => {
-    if (e.key == "Enter" && bufferContent) {
-      content = bufferContent;
-      hasFocus = false;
-
-      dispatch("updateTitle", content);
-    } else if (e.key == "Escape") {
-      bufferContent = content;
-      hasFocus = false;
-    } else if (e.key == "/" || e.key == "l") {
+  const handleShortcuts = (e: KeyboardEvent): void => {
+    if (e.key == "/" || e.key == "l") {
       e.stopPropagation();
-    }
-  };
-
-  const handleTitleBlur = (): void => {
-    // On Chrome, if user presses Esc it also calls this function
-    // Check if hasFocus is true before setting content
-
-    if (hasFocus) {
-      bufferContent = content;
-      hasFocus = false;
-
-      dispatch("updateTitle", content);
     }
   }
 
-  const handleTitleClick = (): void => {
+  const handleTitleFocus = (e: FocusEvent): void => {
     hasFocus = true;
+  }
+
+  const handleTitleInput = (e: KeyboardEvent): void => {
+    if (e.key == "Enter") {
+      e.preventDefault();
+
+      if (e.target.textContent) {
+        content = e.target.textContent;
+        e.target.blur();
+      }
+    } else if (e.key == "Escape") {
+      e.target.blur();
+    }
   };
 
-  const init = (el: HTMLElement): void => {
-    el.focus();
-  };
+  const handleTitleBlur = (e: FocusEvent): void => {
+    hasFocus = false;
+    bufferContent = content;
+    e.target.scrollTop = 0;
+    dispatch("updateTitle", content);
+  }
 
-  let hasFocus: boolean = false;
+  const handlePasteEvent = (node: Node): object => {
+    const handlePaste = (e: ClipboardEvent) => {
+      e.preventDefault();
+      var text = e.clipboardData.getData("text/plain");
+      document.execCommand("insertText", false, text);
+    }
 
-  $: bufferContent = content;
+    node.addEventListener("paste", handlePaste);
+
+    return {
+      destroy() {
+        document.removeEventListener("paste", handlePaste);
+      },
+    };
+  }
 </script>
 
+<style>
+  span[contenteditable]:empty:before {
+    content: "\feff";
+  }
+</style>
+
 <div class="min-w-0 w-full">
-  {#if hasFocus}
-    <input 
-      on:keyup={handleTitleInput}
-      on:blur={handleTitleBlur}
-      class="w-full block px-2 font-semibold bg-light-100 dark:bg-dark-100 rounded"
-      class:text-2xl={isTitle}
-      class:text-xl={!isTitle}
-      type="text"
-      bind:value={bufferContent}
-      maxlength={maxLength}
-      use:init>
-  {:else}
-    <div class="min-w-0" on:click={handleTitleClick}>
-      {#if isTitle}
-        <h1 class="w-full text-2xl font-semibold truncate overflow-hidden whitespace-no-wrap" title={content}>
-          <span class="hover:bg-light-200 dark:hover:bg-dark-200">{content}</span>
-        </h1>
-      {:else}
-        <h2 class="w-full text-xl font-semibold truncate overflow-hidden whitespace-no-wrap" title={content}>
-          <span class="hover:bg-light-100 dark:hover:bg-dark-100">{content}</span>
-        </h2>
-      {/if}
-    </div>
-  {/if}
+  <div class="min-w-0 editable-title">
+    {#if isTitle}
+      <h1 class="w-full text-2xl font-semibold" title={bufferContent}>
+        <span use:handlePasteEvent on:keyup={handleShortcuts} on:keydown={handleTitleInput} on:focus={handleTitleFocus} on:blur={handleTitleBlur} contenteditable class="block w-full focus:bg-light-300 dark:focus:bg-dark-100 border border-transparent border-dashed hover:border-light dark:hover:border-dark rounded break-all p-1" class:truncate-2-lines={!hasFocus} bind:textContent={bufferContent}></span>
+      </h1>
+    {:else}
+      <h2 class="w-full text-xl font-semibold pr-2" title={bufferContent}> 
+        <span use:handlePasteEvent on:keyup={handleShortcuts} on:keydown={handleTitleInput} on:focus={handleTitleFocus} on:blur={handleTitleBlur} contenteditable class="block w-full focus:bg-light-300 dark:focus:bg-dark-100 border border-transparent border-dashed hover:border-light dark:hover:border-dark rounded break-all p-1" class:truncate-3-lines={!hasFocus} bind:textContent={bufferContent}></span>
+      </h2>
+    {/if}
+  </div>
 </div>

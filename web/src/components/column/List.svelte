@@ -114,11 +114,10 @@
   </div>
 
   <div class="flex items-center">
-    <div class="flex min-w-0 flex-grow pl-2">
+    <div class="flex min-w-0 flex-grow">
       <EditableTitle
         content={list.title}
-        on:updateTitle={updateTitle}
-        maxLength={50} />
+        on:updateTitle={updateTitle} />
     </div>
 
     <button on:click={(e) => (isListMenuOpen = !isListMenuOpen)} type="button" class="text-light opacity-75 hover:opacity-100" aria-haspopup="true" aria-expanded="true">
