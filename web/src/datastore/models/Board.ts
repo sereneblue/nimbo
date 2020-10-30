@@ -22,6 +22,7 @@ export default class Board {
   id: string;
   title: string;
   color: string;
+  isArchived: boolean;
   isStarred: boolean;
   lastViewTime: number;
   lists: List[];
@@ -29,6 +30,7 @@ export default class Board {
   constructor(title: string) {
     this.id = nanoid();
     this.title = title;
+    this.isArchived = false;
     this.isStarred = false;
     this.lastViewTime = new Date().getTime();
     this.color = this.getRandomColor();
@@ -54,6 +56,10 @@ export default class Board {
     let tmp: List = this.lists[l.from - 1];
     this.lists[l.from - 1] = this.lists[l.to - 1];
     this.lists[l.to - 1] = tmp;
+  }
+
+  toggleBoardArchive(): void {
+    this.isArchived = !this.isArchived;
   }
 
   toggleBoardStar(): void {
