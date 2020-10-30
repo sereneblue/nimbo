@@ -57,13 +57,7 @@
   }).splice(0, 5);
 
   $: sortedBoards = [...$nimboStore.boards].sort((a: Board, b: Board): number => {
-    if (a.title < b.title) {
-      return -1;
-    } else  if (a.title > b.title) {
-      return 1;
-    }
-
-    return 0;
+   return a.title.localeCompare(b.title);
   });
 </script>
 
