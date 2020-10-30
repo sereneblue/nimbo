@@ -54,6 +54,10 @@
       },
     };
   }
+
+  $: {
+    bufferContent = content;
+  }
 </script>
 
 <style>
