@@ -218,6 +218,18 @@ export default class nimbo {
     }
   }
 
+  public async toggleBoardArchive(boardId: string): Promise<void> {
+    let boardIndex: number = this.boards.findIndex(b => b.id === boardId);
+
+    if (boardIndex > -1) {
+      this.boards[boardIndex].toggleBoardArchive();
+
+      await this.db.boards.update(boardId, {
+        isArchived: this.boards[boardIndex].isArchived
+      });
+    }
+  }
+
   public async toggleBoardStar(boardId: string): Promise<void> {
     let boardIndex: number = this.boards.findIndex(b => b.id === boardId);
 
