@@ -1,29 +1,31 @@
 import { nanoid } from '../../util';
 import type List from './List';
-import type { ChecklistItem, PRIORITY, TimeEntry } from '../../types';
+import type { ChecklistItem, PRIORITY, LABEL_COLOR, TimeEntry } from '../../types';
 
 export default class Card {
-  id: string;
-  listId: string;
-  index: number;
-  title: string;
-  description: string;
   created: number;
   checklist: ChecklistItem[];
+  description: string;
   due: number;
+  id: string;
   isComplete: boolean;
+  index: number;
+  label: LABEL_COLOR;
+  listId: string;
   log: TimeEntry[];
   priority: PRIORITY;
+  title: string;
 
   constructor(list: List, title: string) {
     this.id = nanoid();
-    this.listId = list.id;
-    this.index = list.cards.length + 1;
-    this.title = title;
-    this.description = "";
-    this.created = new Date().getTime();
     this.checklist = new Array<ChecklistItem>();
+    this.created = new Date().getTime();
+    this.description = "";
+    this.index = list.cards.length + 1;
+    this.label = null;
+    this.listId = list.id;
     this.log = new Array<TimeEntry>();
+    this.title = title;
   }
 
   addToChecklist(text: string) {
@@ -53,6 +55,10 @@ export default class Card {
     this.description = text;
   }
 
+  setLabel(label: LABEL_COLOR) {
+    this.label = label;
+  }
+  
   setPriority(priority: PRIORITY) {
     this.priority = priority;
   }

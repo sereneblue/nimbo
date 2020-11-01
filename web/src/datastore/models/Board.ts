@@ -1,5 +1,6 @@
 import { nanoid } from '../../util';
-import type { SwapObject } from '../../types';
+import { LABEL_COLOR } from '../../types';
+import type { BoardLabel, SwapObject } from '../../types';
 import type List from './List';
 import type Card from './Card';
 
@@ -18,12 +19,23 @@ const BOARD_COLORS: string[] = [
   "#818773"
 ];
 
+const BOARD_LABELS: BoardLabel[] = [
+  { color: LABEL_COLOR.RED, text: "" },
+  { color: LABEL_COLOR.ORANGE, text: "" },
+  { color: LABEL_COLOR.YELLOW, text: "" },
+  { color: LABEL_COLOR.GREEN, text: "" },
+  { color: LABEL_COLOR.TEAL, text: "" },
+  { color: LABEL_COLOR.BLUE, text: "" },
+  { color: LABEL_COLOR.PURPLE, text: "" }
+]; 
+
 export default class Board {
   id: string;
   title: string;
   color: string;
   isArchived: boolean;
   isStarred: boolean;
+  labels: BoardLabel[];
   lastViewTime: number;
   lists: List[];
 
@@ -35,6 +47,7 @@ export default class Board {
     this.lastViewTime = new Date().getTime();
     this.color = this.getRandomColor();
     this.lists = new Array<List>();
+    this.labels = BOARD_LABELS;
 
     Object.defineProperties(this, {
       lists: { value: [], enumerable: false, writable: true }

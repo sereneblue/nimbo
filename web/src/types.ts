@@ -20,10 +20,25 @@ export enum PRIORITY {
   P4
 }
 
+export type BoardLabel = {
+  color: LABEL_COLOR;
+  text: string;
+}
+
+export enum LABEL_COLOR {
+  RED,
+  ORANGE,
+  YELLOW,
+  GREEN,
+  TEAL,
+  BLUE,
+  PURPLE
+}
+
 export enum RESULT_TYPE {
   BOARD,
-  CARD,
-};
+  CARD
+}
 
 export type SearchObject = {
   type: RESULT_TYPE;
