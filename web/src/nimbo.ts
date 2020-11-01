@@ -118,6 +118,8 @@ export default class nimbo {
 
   public everything(): SearchObject[] {
     return (this.boards.map((b) => {
+      if (b.isArchived) return [];
+
       return [{
         type: RESULT_TYPE.BOARD,
         text: b.title,
