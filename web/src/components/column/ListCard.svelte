@@ -1,6 +1,6 @@
 <script lang="ts">
   import type Card from '../../datastore/models/Card';
-  import { PRIORITY } from '../../types';
+  import { PRIORITY, LABEL_COLOR } from '../../types';
   import { formatDate } from '../../util';
   
   export let c: Card;
@@ -16,7 +16,20 @@
   }
 </script>
 
-<div class="card relative group cursor-pointer focus:outline-none focus:border-white border border-transparent shadow font-semibold p-2 rounded-sm" on:click={handleCardClick} tabindex="0">
+<div class="card card-label relative group cursor-pointer focus:outline-none focus:border-white border border-transparent shadow font-semibold p-2 rounded-sm" on:click={handleCardClick} tabindex="0">
+  {#if c.label != null}
+    <div class="flex justify-end">
+      <div class="w-6 h-2 mb-1 rounded-sm"
+        class:bg-red-500={c.label == LABEL_COLOR.RED}
+        class:bg-orange-500={c.label == LABEL_COLOR.ORANGE}
+        class:bg-yellow-500={c.label == LABEL_COLOR.YELLOW}
+        class:bg-green-500={c.label == LABEL_COLOR.GREEN}
+        class:bg-teal-500={c.label == LABEL_COLOR.TEAL}
+        class:bg-blue-500={c.label == LABEL_COLOR.BLUE}
+        class:bg-purple-500={c.label == LABEL_COLOR.PURPLE}
+      ></div>
+    </div>
+  {/if}
   <div class="break-words">
     {c.title}
   </div>
