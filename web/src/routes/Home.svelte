@@ -78,7 +78,7 @@
         </h4>
         <ul class="pr-2">
           {#each starred as s}
-            <a href={"b/" + s.id} title={s.title} class="block flex hover:bg-light-200 dark:hover:bg-dark-200 p-2 rounded cursor-pointer font-bold">
+            <a href={"b/" + s.id} title={s.title} class="block flex hover:bg-light-100 dark:hover:bg-dark-200 p-2 rounded cursor-pointer font-bold">
               <div class="flex-none h-6 w-6 rounded mr-2" style={"background-color: " + s.color}></div>
               <span class="truncate">{s.title}</span>
             </a>
@@ -94,7 +94,7 @@
         </h4>
         <ul class="pr-2">
           {#each recentlyViewed as r}
-            <a href={"b/" + r.id} title={r.title} class="block flex hover:bg-light-200 dark:hover:bg-dark-200 p-2 rounded cursor-pointer font-bold">
+            <a href={"b/" + r.id} title={r.title} class="block flex hover:bg-light-100 dark:hover:bg-dark-200 p-2 rounded cursor-pointer font-bold">
               <div class="flex-none h-6 w-6 rounded mr-2" style={"background-color: " + r.color}></div>
               <span class="truncate">{r.title}</span>
             </a>
