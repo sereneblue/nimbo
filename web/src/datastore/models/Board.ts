@@ -20,13 +20,13 @@ const BOARD_COLORS: string[] = [
 ];
 
 const BOARD_LABELS: BoardLabel[] = [
-  { color: LABEL_COLOR.RED, text: "" },
-  { color: LABEL_COLOR.ORANGE, text: "" },
-  { color: LABEL_COLOR.YELLOW, text: "" },
-  { color: LABEL_COLOR.GREEN, text: "" },
-  { color: LABEL_COLOR.TEAL, text: "" },
-  { color: LABEL_COLOR.BLUE, text: "" },
-  { color: LABEL_COLOR.PURPLE, text: "" }
+  { color: LABEL_COLOR.RED, text: "Red" },
+  { color: LABEL_COLOR.ORANGE, text: "Orange" },
+  { color: LABEL_COLOR.YELLOW, text: "Yellow" },
+  { color: LABEL_COLOR.GREEN, text: "Green" },
+  { color: LABEL_COLOR.TEAL, text: "Teal" },
+  { color: LABEL_COLOR.BLUE, text: "Blue" },
+  { color: LABEL_COLOR.PURPLE, text: "Purple" }
 ]; 
 
 export default class Board {
