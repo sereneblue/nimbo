@@ -26,7 +26,7 @@
       altFormat: "M j, Y @ h:S K",
       defaultDate: date,
       enableTime: true,
-      minDate: date || "today",
+      minDate: !!date && date < new Date().getTime() ? date : "today",
       onChange(selectedDates: Date[], dateString: string, instance: any) {
         if (selectedDates.length) {
           dispatch("update", selectedDates[0].getTime());
@@ -126,11 +126,13 @@
   }
 
   .flatpickr-day.prevMonthDay, 
-  .flatpickr-day.nextMonthDay {
+  .flatpickr-day.nextMonthDay,
+  .flatpickr-day.flatpickr-disabled {
     @apply text-dark hover:bg-light-100;
   }
   .dark ~ .flatpickr-calendar .flatpickr-day.prevMonthDay, 
-  .dark ~ .flatpickr-calendar .flatpickr-day.nextMonthDay {
+  .dark ~ .flatpickr-calendar .flatpickr-day.nextMonthDay,
+  .dark ~ .flatpickr-calendar .flatpickr-day.flatpickr-disabled {
     @apply text-dark hover:bg-dark-200;
   }
 
