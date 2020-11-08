@@ -8,6 +8,7 @@
   import type nimbo from '../nimbo';
   import type Board from '../datastore/models/Board';
   
+  let hideArchivedBoards: boolean = true;
   let isOpen: boolean = false;
   let isConfirmModalOpen: boolean = false;
   let modalMessage: string;
@@ -56,7 +57,11 @@
     return b.lastViewTime - a.lastViewTime
   }).splice(0, 5);
 
-  $: sortedBoards = [...$nimboStore.boards].sort((a: Board, b: Board): number => {
+  const handleToggleArchivedBoards = (): void => {
+    hideArchivedBoards = !hideArchivedBoards;
+  }
+
+  $: sortedBoards = [...$nimboStore.boards].filter(b => !b.isArchived || !hideArchivedBoards).sort((a: Board, b: Board): number => {
    return a.title.localeCompare(b.title);
   });
 </script>
@@ -68,6 +73,13 @@
   <div class="flex p-8">
     <div class="w-1/4 fixed h-full pr-2 overflow-y-auto">
       <h1 class="font-bold text-2xl">My Boards</h1>
+      <button class="opacity-75 hover:opacity-100 ml-0.5" on:click={handleToggleArchivedBoards}>
+        {#if hideArchivedBoards}
+          Show archived boards
+        {:else}
+          Hide archived boards
+        {/if}
+      </button>
 
       <div class="mt-4 mb-8">
         <h4 class="flex items-center uppercase opacity-75 text-base font-semibold leading mb-1">
@@ -109,10 +121,20 @@
           Create a board
         </li>
         {#each sortedBoards as board (board.id)}
-          <li title={board.title} class="p-2 w-60 h-32 text-white font-semibold text-xl rounded ml-4 mb-4 cursor-pointer" style={"background-color: " + board.color}>
-            <a href={"b/" + board.id} class="flex flex-col group justify-between h-full">
+          <li title={board.title} class="p-2 w-60 h-32 overflow-hidden text-white font-semibold text-xl rounded ml-4 mb-4 cursor-pointer" style={"background-color: " + board.color}>
+            <a href={"b/" + board.id} class="flex flex-col relative group justify-between h-full">
+              {#if board.isArchived}
+                <div class="absolute bg-indigo-500 mt-2 w-28 -mr-10 text-center top-0 right-0 transform rotate-45 text-white text-xs">Archived</div>
+              {/if}
               <span class="truncate-2-lines">{board.title}</span>
               <div class="flex bottom-0 pl-1">
+                {#if board.isStarred}
+                  <div class="block group-hover:hidden">
+                    <button on:click|preventDefault={e => handleStarBoard(board.id)} class="mr-4 transform ease-in-out hover:scale-150">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </button>
+                  </div>
+                {/if}
                 <div class="hidden group-hover:block">
                   <button title="Star board" on:click|preventDefault={e => handleStarBoard(board.id)} class="mr-4 transform ease-in-out hover:scale-150">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill={board.isStarred ? "currentColor" : "none" } stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
