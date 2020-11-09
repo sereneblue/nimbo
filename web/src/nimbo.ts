@@ -2,7 +2,7 @@ import { nimboDB } from './datastore/db';
 import Board from './datastore/models/Board';
 import List from './datastore/models/List';
 import Card from './datastore/models/Card';
-import { CardDetails, RESULT_TYPE, SearchObject, SortObject, SwapObject } from './types';
+import { BoardLabel, CardDetails, RESULT_TYPE, SearchObject, SortObject, SwapObject } from './types';
 
 export default class nimbo {
   db: nimboDB;
@@ -315,6 +315,18 @@ export default class nimbo {
     await this.db.lists.where("index").above(startIndex).modify(l => {
       l.index = l.index - 1;
     });
+  }
+
+  public async updateLabels(boardId: string, labels: BoardLabel[]): Promise<void> {
+    let boardIndex: number = this.boards.findIndex(b => b.id === boardId);
+
+    if (boardIndex > -1) {
+      this.boards[boardIndex].setLabels(labels);
+
+      await this.db.boards.update(boardId, {
+        labels
+      });
+    }
   }
 
   public async updateListTitle(boardId: string, listId: string, title: string): Promise<void> {

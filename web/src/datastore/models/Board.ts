@@ -58,6 +58,10 @@ export default class Board {
     return BOARD_COLORS[Math.floor(Math.random() * BOARD_COLORS.length)];
   }
 
+  setLabels(labels: BoardLabel[]): void {
+    this.labels = labels;
+  }
+
   setTitle(title: string): void {
     this.title = title;
   }
