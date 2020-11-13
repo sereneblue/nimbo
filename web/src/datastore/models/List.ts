@@ -20,6 +20,14 @@ export default class List {
     });
   }
 
+  deleteCard(cardId: string): void {
+    let cardIndex: number = this.cards.findIndex(c => c.id === cardId);
+
+    if (cardIndex > -1) {
+      this.cards.splice(cardIndex, 1);
+    } 
+  }
+
   setTitle(title: string): void {
     this.title = title;
   }

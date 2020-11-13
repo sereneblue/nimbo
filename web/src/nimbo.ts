@@ -91,6 +91,20 @@ export default class nimbo {
     await this.db.boards.delete(id);
   }
 
+  public async deleteCard(list: List, cardId: string): Promise<void> {
+    for (let i: number = 0; i < this.boards.length; i++) {
+      for (let j: number = 0; j < this.boards[i].lists.length; j++) {
+        if (this.boards[i].lists[j].id === list.id) {
+          list.deleteCard(cardId);
+
+          this.boards[i].lists[j] = list;
+        }
+      }
+    }
+
+    await this.db.cards.delete(cardId);
+  }
+
   public async deleteList(boardId: string, listId: string): Promise<void> {
     let boardIndex: number = this.boards.findIndex(b => b.id === boardId);
     
@@ -142,6 +156,24 @@ export default class nimbo {
 
     if (boardIndex > -1) {
       return this.boards[boardIndex];
+    }
+
+    return null;
+  }
+
+  public getCardDetails(cardId: string): CardDetails | null {
+    for (let i: number = 0; i < this.boards.length; i++) {
+      for (let j: number = 0; j < this.boards[i].lists.length; j++) {
+        for (let k: number = 0; k < this.boards[i].lists[j].cards.length; k++) {
+          if (this.boards[i].lists[j].cards[k].id === cardId) {
+            return {
+              board: this.boards[i],
+              list: this.boards[i].lists[j],
+              card: this.boards[i].lists[j].cards[k]
+            }
+          }
+        }
+      }
     }
 
     return null;
