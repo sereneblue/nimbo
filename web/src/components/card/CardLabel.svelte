@@ -28,7 +28,7 @@
   }
 
   $: {
-    if (selected) {
+    if (selected in LABEL_COLOR) {
       selectedText = labels.find(l => l.color == selected).text;
     }
   }
@@ -39,16 +39,16 @@
     <span class="inline-block w-full rounded-md shadow-sm">
       <button on:click={handleLabelClick} type="button" aria-haspopup="listbox" aria-expanded="true" class="flex items-center px-1 bg-light-100 dark:bg-dark-200 text-light dark:text-dark rounded cursor-default relative w-64 pl-2 pr-10 py-1 text-left">
         <div class="flex items-center space-x-2 truncate">
-          {#if selected}
+          {#if selected in LABEL_COLOR}
             <span
               class="flex-shrink-0 rounded-full w-4 h-4"
-              class:bg-red-500={selected == LABEL_COLOR.RED}
-              class:bg-orange-500={selected == LABEL_COLOR.ORANGE}
-              class:bg-yellow-500={selected == LABEL_COLOR.YELLOW}
-              class:bg-green-500={selected == LABEL_COLOR.GREEN}
-              class:bg-teal-500={selected == LABEL_COLOR.TEAL}
-              class:bg-blue-500={selected == LABEL_COLOR.BLUE}
-              class:bg-purple-500={selected == LABEL_COLOR.PURPLE}></span>
+              class:bg-red-500={selected === LABEL_COLOR.RED}
+              class:bg-orange-500={selected === LABEL_COLOR.ORANGE}
+              class:bg-yellow-500={selected === LABEL_COLOR.YELLOW}
+              class:bg-green-500={selected === LABEL_COLOR.GREEN}
+              class:bg-teal-500={selected === LABEL_COLOR.TEAL}
+              class:bg-blue-500={selected === LABEL_COLOR.BLUE}
+              class:bg-purple-500={selected === LABEL_COLOR.PURPLE}></span>
             <span class="block truncate">
               {selectedText}
             </span>
