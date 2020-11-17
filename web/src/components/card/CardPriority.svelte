@@ -34,7 +34,7 @@
   }
 
   .p4.selected {
-    @apply bg-gray-500;
+    @apply bg-purple-500;
   }
 
   :global(.dark .priority) {
@@ -42,14 +42,14 @@
   }
 </style>
 
-<div class="flex text-light dark:text-dark rounded-sm">
-  <button on:click={e => handlePriorityClick(PRIORITY.P1) } class="priority p1 mr-2" class:selected={priority == PRIORITY.P1} title="Urgent">
+<div class="flex space-x-2 text-light dark:text-dark rounded-sm">
+  <button on:click={e => handlePriorityClick(PRIORITY.P1) } class="priority p1" class:selected={priority == PRIORITY.P1} title="Urgent">
     P1
   </button>
-  <button on:click={e => handlePriorityClick(PRIORITY.P2) } class="priority p2 mr-2" class:selected={priority == PRIORITY.P2} title="High">
+  <button on:click={e => handlePriorityClick(PRIORITY.P2) } class="priority p2" class:selected={priority == PRIORITY.P2} title="High">
     P2
   </button>
-  <button on:click={e => handlePriorityClick(PRIORITY.P3) } class="priority p3 mr-2" class:selected={priority == PRIORITY.P3} title="Normal">
+  <button on:click={e => handlePriorityClick(PRIORITY.P3) } class="priority p3" class:selected={priority == PRIORITY.P3} title="Normal">
     P3
   </button>
   <button on:click={e => handlePriorityClick(PRIORITY.P4) } class="priority p4" class:selected={priority == PRIORITY.P4} title="Low">

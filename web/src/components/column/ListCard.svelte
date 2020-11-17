@@ -71,7 +71,7 @@
               </span>
             {/if}
             {#if c.priority == PRIORITY.P4}
-              <span class="bg-gray-500 p-1 rounded" title="Low">
+              <span class="bg-purple-500 p-1 rounded" title="Low">
                 P4
               </span>
             {/if}
