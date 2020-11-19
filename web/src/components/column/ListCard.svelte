@@ -8,15 +8,12 @@
   let hasMoreDetails: boolean = !!c.checklist.length || !!c.due || !!c.description || c.priority in PRIORITY;
   let checklistCompleted: number = c.checklist.filter(item => item.checked).length;
   
-  const handleCardClick = (e: Event): void => {
-  }
-
   const handleTimeTracking = (e: Event): void => {
     e.stopPropagation();
   }
 </script>
 
-<div class="card card-label relative group cursor-pointer focus:outline-none focus:border-white border border-transparent shadow font-semibold p-2 rounded-sm" on:click={handleCardClick} tabindex="0">
+<div class="card card-label relative group cursor-pointer focus:outline-none focus:border-white border border-transparent shadow font-semibold p-2 rounded-sm" tabindex="0">
   {#if c.label != null}
     <div class="flex justify-end">
       <div class="w-6 h-2 mb-1 rounded-sm"
@@ -59,18 +56,15 @@
               <span class="bg-red-500 p-1 rounded" title="Urgent">
                 P1
               </span>
-            {/if}
-            {#if c.priority == PRIORITY.P2}
+            {:else if c.priority == PRIORITY.P2}
               <span class="bg-orange-500 p-1 rounded" title="High">
                 P2
               </span>
-            {/if}
-            {#if c.priority == PRIORITY.P3}
+            {:else if c.priority == PRIORITY.P3}
               <span class="bg-green-500 p-1 rounded" title="Normal">
                 P3
               </span>
-            {/if}
-            {#if c.priority == PRIORITY.P4}
+            {:else if c.priority == PRIORITY.P4}
               <span class="bg-purple-500 p-1 rounded" title="Low">
                 P4
               </span>
