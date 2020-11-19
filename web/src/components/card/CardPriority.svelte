@@ -2,13 +2,20 @@
   import { createEventDispatcher } from 'svelte';
   import { PRIORITY } from '../../types';
 
-  export let priority: PRIORITY;
+  export let selectedPriority: PRIORITY;
+
+  let priority: PRIORITY;
 
   const dispatch = createEventDispatcher();
 
   const handlePriorityClick = (p: PRIORITY): void => {
-    priority = p;
+    priority = priority === p ? null : p;
+    
     dispatch("update", priority);
+  }
+
+  $: {
+    priority = selectedPriority;
   }
 </script>
 
