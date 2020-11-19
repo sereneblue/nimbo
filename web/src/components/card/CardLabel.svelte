@@ -21,9 +21,9 @@
   }
 
   const handleSelectLabel = (color: LABEL_COLOR): void => {
-    dispatch("update", color);
+    selected = color === selected ? null : color;
 
-    selected = color;
+    dispatch("update", selected);
     isOpen = false;
   }
 
