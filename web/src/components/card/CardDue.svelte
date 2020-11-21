@@ -8,6 +8,9 @@
   export let complete: boolean = false;
 
   let calendar: flatpickr;
+  let bufferDate: number;
+  let bufferComplete: boolean;
+  let mounted: boolean = false;
 
   const dispatch = createEventDispatcher();
 
@@ -20,7 +23,7 @@
     dispatch("complete", complete);
   }
 
-  onMount(() => {
+  const setCalendar = (date: number): void => {
     calendar = flatpickr("#flatpickr", {
       altInput: true,
       altFormat: "M j, Y @ h:S K",
@@ -35,10 +38,26 @@
         }
       }
     });
-  })
+  }
+
+  onMount(() => {
+    setCalendar(date);
+
+    mounted = true;
+  });
 
   $: {
-    if (calendar) calendar._input.disabled = complete;
+    if (mounted) {
+      bufferDate = date;
+      bufferComplete = complete;
+      
+      if (bufferDate) {
+        setCalendar(bufferDate);
+        calendar._input.disabled = bufferComplete;
+      } else {
+        if (calendar) calendar.clear();
+      }
+    }
   }
 </script>
 
