@@ -21,7 +21,7 @@
 
 <style lang="postcss">
   .priority {
-    @apply bg-light-100 opacity-75 text-center w-8 py-1 cursor-pointer rounded;
+    @apply bg-light-100 text-center w-8 py-1 cursor-pointer rounded;
   }
 
   .selected {
@@ -45,7 +45,7 @@
   }
 
   :global(.dark .priority) {
-    @apply  bg-dark-200;
+    @apply bg-dark-200;
   }
 </style>
 
