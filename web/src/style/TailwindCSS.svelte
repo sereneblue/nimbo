@@ -39,4 +39,8 @@
     border-radius: 20px;
     border: 3px solid #343537;
   }
+
+  .link {
+    @apply text-indigo-500 underline opacity-100;
+  }
 </style>
