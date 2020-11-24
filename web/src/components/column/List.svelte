@@ -18,6 +18,13 @@
 
   const dispatch = createEventDispatcher();
 
+  const handleCardClick = (cardId: string, listIndex: number): void => {
+    dispatch("cardEdit", {
+      cardId,
+      listIndex
+    });
+  }
+
   const handleEmit = async (e: CustomEvent): Promise<void> => {
     if (e.detail[0] === "move") {
       await $nimboStore.swapLists(list.boardId, e.detail[1]);
@@ -135,7 +142,7 @@
 
   <div bind:this={cardList} class="cards h-full mt-2 pr-1 overflow-y-auto" data-list={list.id}>
     {#each list.cards as c (c.id)}
-      <div class="card-container bg-white hover:bg-light-100-50 dark:bg-dark-100 dark:hover:bg-dark-100-50 mb-2 rounded-sm">
+      <div class="card-container bg-white hover:bg-light-100-50 dark:bg-dark-100 dark:hover:bg-dark-100-50 mb-2 rounded-sm" on:click={e => handleCardClick(c.id, list.index)}>
         <ListCard {c} />
       </div>
     {/each}

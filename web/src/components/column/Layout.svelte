@@ -4,16 +4,20 @@
 
   import List from "./List.svelte";
   import ConfirmModal from "../ConfirmModal.svelte";
+  import InlineEditor from "./InlineEditor.svelte";
   import type nimbo from "../../nimbo";
+  import type { Board } from "../../datastore/models/Board";
 
   export let boardId: string;
 
+  let board: Board;
   let boardLists: HTMLElement;
   let isConfirmModalOpen: boolean = false;
   let hasNewList: boolean = false;;
   let modalMessage: string;
 
   let onConfirm = () => {};
+  let selectedCardId: string = null;
 
   const nimboStore: Writable<nimbo> = getContext("nimbo");
 
@@ -24,9 +28,22 @@
     hasNewList = true;
   };
 
+  const handleCardEditEvent = (e: CustomEvent): void => {
+    let inlineEditor = document.querySelector('.inline-editor');
+    let list: HTMLElement = document.querySelectorAll('.list')[e.detail.listIndex - 1];
+
+    list.parentNode.after(inlineEditor);
+
+    selectedCardId = e.detail.cardId;
+  }
+
   const handleCloseConfirmModal = (): void => {
     isConfirmModalOpen = false;
   };
+
+  const handleCloseEvent = (): void => {
+    selectedCardId = null;
+  }
 
   const handleDeleteEvent = (e: CustomEvent): void => {
     modalMessage = e.detail.message;
@@ -35,7 +52,7 @@
   };
 
   const handleKeyPress = async (e: KeyboardEvent): Promise<void> => {
-    if (e.key === "l") {
+    if (e.key === "l" && selectedCardId === null) {
       await addNewList();
       e.stopPropagation();
     } else if (e.key === "/") {
@@ -84,12 +101,15 @@
   on:close={handleCloseConfirmModal} />
 
 <div bind:this={boardLists} class="flex max-h-full w-full pb-2 overflow-x-auto">
+  <InlineEditor id={selectedCardId} on:delete={handleDeleteEvent} on:close={handleCloseEvent} />
+
   {#each board.lists as l (l.id)}
     <div animate:flip={{ duration: 300 }}>
       <List
         list={l}
         hasMore={l.index < board.lists.length}
-        on:delete={handleDeleteEvent} />
+        on:delete={handleDeleteEvent}
+        on:cardEdit={handleCardEditEvent} />
     </div>
   {/each}
   <div>
