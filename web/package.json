@@ -34,7 +34,9 @@
   },
   "dependencies": {
     "dexie": "^3.0.2",
+    "dexie-export-import": "^1.0.0",
     "dompurify": "^2.1.1",
+    "file-saver": "^2.0.5",
     "flatpickr": "^4.6.6",
     "fuzzysort": "^1.1.4",
     "marked": "^1.2.0",
