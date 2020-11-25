@@ -17,7 +17,6 @@
   let modalMessage: string;
 
   let onConfirm = () => {};
-  let selectedCardId: string = null;
 
   const nimboStore: Writable<nimbo> = getContext("nimbo");
 
@@ -34,7 +33,8 @@
 
     list.parentNode.after(inlineEditor);
 
-    selectedCardId = e.detail.cardId;
+    $nimboStore.setSelectedCard(e.detail.cardId);
+    $nimboStore = $nimboStore;
   }
 
   const handleCloseConfirmModal = (): void => {
@@ -42,7 +42,8 @@
   };
 
   const handleCloseEvent = (): void => {
-    selectedCardId = null;
+    $nimboStore.setSelectedCard(null);
+    $nimboStore = $nimboStore;
   }
 
   const handleDeleteEvent = (e: CustomEvent): void => {
@@ -52,7 +53,7 @@
   };
 
   const handleKeyPress = async (e: KeyboardEvent): Promise<void> => {
-    if (e.key === "l" && selectedCardId === null) {
+    if (e.key === "l" && $nimboStore.selectedCardId === null) {
       await addNewList();
       e.stopPropagation();
     } else if (e.key === "/") {
@@ -101,7 +102,7 @@
   on:close={handleCloseConfirmModal} />
 
 <div bind:this={boardLists} class="flex max-h-full w-full pb-2 overflow-x-auto">
-  <InlineEditor id={selectedCardId} on:delete={handleDeleteEvent} on:close={handleCloseEvent} />
+  <InlineEditor id={$nimboStore.selectedCardId} on:delete={handleDeleteEvent} on:close={handleCloseEvent} />
 
   {#each board.lists as l (l.id)}
     <div animate:flip={{ duration: 300 }}>

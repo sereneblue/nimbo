@@ -8,11 +8,13 @@ import { BoardLabel, CardDetails, RESULT_TYPE, SearchObject, SortObject, SwapObj
 export default class nimbo {
   db: nimboDB;
   boards: Board[];
+  selectedCardId: string;
   showCommandPalette: boolean;
 
   constructor() {
     this.db = new nimboDB();
     this.boards = new Array<Board>();
+    this.selectedCardId = null;
     this.showCommandPalette = false;
   }
 
@@ -248,6 +250,10 @@ export default class nimbo {
         }
       }
     }
+  }
+
+  public setSelectedCard(cardId: string | null): void {
+    this.selectedCardId = cardId;
   }
 
   public async swapLists(boardId: string, l: SwapObject): Promise<void> {

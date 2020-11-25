@@ -118,6 +118,7 @@
 
   const execAction = (s: Search): void => {
     $nimboStore.closePalette();
+    $nimboStore.setSelectedCard(null);
     $nimboStore = $nimboStore;
   
     navigate(s.obj.path);
