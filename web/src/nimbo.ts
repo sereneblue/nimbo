@@ -1,3 +1,4 @@
+import { exportDB, peakImportFile} from "dexie-export-import";
 import { nimboDB } from './datastore/db';
 import Board from './datastore/models/Board';
 import List from './datastore/models/List';
@@ -130,6 +131,10 @@ export default class nimbo {
     }
   }
 
+  public async export(): Promise<Blob> {
+    return await exportDB(this.db);
+  }
+
   public everything(): SearchObject[] {
     return (this.boards.map((b) => {
       if (b.isArchived) return [];
@@ -177,6 +182,19 @@ export default class nimbo {
     }
 
     return null;
+  }
+
+  public async import(db: File): Promise<boolean> {
+    try {
+      let e = await peakImportFile(db);
+
+      if (e.formatName == "dexie" && e.formatVersion == 1)  {
+         await this.db.import(db);
+         return true;
+      }
+    } catch (err) {};
+
+    return;
   }
 
   public async moveCard(c: SortObject): Promise<void> {

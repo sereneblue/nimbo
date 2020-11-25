@@ -1,7 +1,8 @@
 <script lang="ts">
   import { getContext } from 'svelte';
   import type { Writable } from 'svelte/store';
-  
+  import { saveAs } from 'file-saver';
+
   import CreateBoard from "../components/CreateBoard.svelte";
   import ConfirmModal from "../components/ConfirmModal.svelte";
 
@@ -9,6 +10,7 @@
   import type Board from '../datastore/models/Board';
   
   let hideArchivedBoards: boolean = true;
+  let importedDB: FileList;
   let isOpen: boolean = false;
   let isConfirmModalOpen: boolean = false;
   let modalMessage: string;
@@ -45,10 +47,32 @@
     isConfirmModalOpen = true;
   }
 
+  const handleExportBoards = async (): Promise<void> => {
+    let boards: Blob = await $nimboStore.export();
+
+    saveAs(boards, `nimbo_${new Date().getTime()}.db`);
+  }
+
+  const handleImportBoards = async (e: Event): void => {
+    let ok: boolean = await $nimboStore.import(importedDB[0]);
+
+    if (ok) {
+      window.location.reload();
+    }
+  }
+
+  const handleImportClick = (): void => {
+    document.querySelector('#import').click();
+  }
+
   const handleStarBoard = (boardId: string): void => {
     $nimboStore.toggleBoardStar(boardId);
 
     $nimboStore = $nimboStore;
+  }
+
+  const handleToggleArchivedBoards = (): void => {
+    hideArchivedBoards = !hideArchivedBoards;
   }
 
   $: starred = [...$nimboStore.boards].filter(b => b.isStarred).splice(0, 5);
@@ -57,13 +81,11 @@
     return b.lastViewTime - a.lastViewTime
   }).splice(0, 5);
 
-  const handleToggleArchivedBoards = (): void => {
-    hideArchivedBoards = !hideArchivedBoards;
-  }
-
   $: sortedBoards = [...$nimboStore.boards].filter(b => !b.isArchived || !hideArchivedBoards).sort((a: Board, b: Board): number => {
    return a.title.localeCompare(b.title);
   });
+
+  $: importedDB && handleImportBoards();
 </script>
 
 <div class="w-full min-h-screen h-full bg-light-300 dark:bg-dark-300 text-light dark:text-dark">
@@ -80,6 +102,21 @@
           Hide archived boards
         {/if}
       </button>
+      <div class="flex space-x-2 my-3">
+        <input id="import" bind:files={importedDB} type="file" style="display:none;" />
+        <button on:click={handleImportClick} class="flex items-center py-1 px-2 rounded text-xs bg-orange-500 text-white hover:bg-orange-600">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          Import
+        </button>
+        <button on:click={handleExportBoards} class="flex items-center py-1 px-2 rounded text-xs bg-green-500 text-white hover:bg-green-600">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Export
+        </button>
+      </div>
 
       <div class="mt-4 mb-8">
         <h4 class="flex items-center uppercase opacity-75 text-base font-semibold leading mb-1">
