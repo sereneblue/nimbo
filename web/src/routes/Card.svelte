@@ -52,6 +52,16 @@
 
 <div class="min-h-screen h-full bg-light-300 dark:bg-dark-300 text-light dark:text-dark">
   <div class="w-3/4 py-8 mx-auto">
-    <Editor {cardDetails} inline={false} on:update={handleUpdate} on:delete={handleDeleteEvent} />
+    {#if cardDetails}
+      <Editor {cardDetails} inline={false} on:update={handleUpdate} on:delete={handleDeleteEvent} />
+    {:else}
+      <div class="flex flex-col p-3 max-h-full">
+        <div class="text-center text-2xl mt-6">
+          ¯\_(ツ)_/¯
+        </div>
+        <h1 class="text-center font-bold text-2xl mt-2 mb-4">Card not found</h1>
+        <a class="link text-center text-lg" href="/">Go to home</a>
+      </div>
+    {/if}
   </div>
 </div>
