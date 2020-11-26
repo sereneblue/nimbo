@@ -23,6 +23,23 @@
   let hideCompleted: boolean = false;
 
   const dispatch = createEventDispatcher();
+  const renderer = new marked.Renderer();
+
+  renderer.link = function(href, title, text) {
+    var link = marked.Renderer.prototype.link.apply(this, arguments);
+    return link.replace("<a","<a class='link' target='_blank'");
+  };
+
+  marked.setOptions({
+      renderer: renderer
+  });
+
+  DOMPurify.addHook('afterSanitizeAttributes', function (node) {
+    if ('target' in node) {
+      node.setAttribute('target', '_blank');
+      node.setAttribute('rel', 'noopener');
+    }
+  });
 
   const handleChecklistDelete = (e: Event): void => {    
     cardDetails.card.deleteFromChecklist(Number(e.target.dataset.index));
