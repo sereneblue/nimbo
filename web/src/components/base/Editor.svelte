@@ -304,7 +304,7 @@
     </div>    
     <div class="mt-2 text-lg" class:ml-8={!inline}>
       {#if cardDetails.card.description && !editDescription}
-        <div class="rounded-sm px-1 cursor-text">
+        <div class="rounded-sm px-1 break-words">
           {@html DOMPurify.sanitize(marked(cardDetails.card.description))}
         </div>
       {:else}
