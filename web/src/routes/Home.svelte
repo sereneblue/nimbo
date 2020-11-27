@@ -88,6 +88,10 @@
   $: importedDB && handleImportBoards();
 </script>
 
+<svelte:head>
+  <title>My Boards | nimbo</title>
+</svelte:head>
+
 <div class="w-full min-h-screen h-full bg-light-300 dark:bg-dark-300 text-light dark:text-dark">
   <CreateBoard {isOpen} on:close={handleCloseCreateBoard} />
   <ConfirmModal {isConfirmModalOpen} {modalMessage} {onConfirm} on:close={handleCloseConfirmModal} />

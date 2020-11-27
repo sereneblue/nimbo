@@ -12,6 +12,7 @@
   let isConfirmModalOpen: boolean = false;
   let modalMessage: string;
   let onConfirm = () => {};
+  let title: string;
 
   const nimboStore: Writable<nimbo> = getContext("nimbo");
   
@@ -42,6 +43,10 @@
       cardDetails = cd; 
     }
   }
+
+  $: {
+    title = cardDetails ?  cardDetails.card.title + " | nimbo" : "Card not found | nimbo";
+  }
 </script>
 
 <ConfirmModal
@@ -49,6 +54,10 @@
   {modalMessage}
   {onConfirm}
   on:close={handleCloseConfirmModal} />
+
+<svelte:head>
+  <title>{title}</title>
+</svelte:head>
 
 <div class="min-h-screen h-full bg-light-300 dark:bg-dark-300 text-light dark:text-dark">
   <div class="w-3/4 py-8 mx-auto">

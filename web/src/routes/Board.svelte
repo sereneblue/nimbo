@@ -11,6 +11,7 @@
 
   export let id: string;
 
+  let title: string;
   const nimboStore: Writable<nimbo> = getContext('nimbo');
   
   const updateTitle = async (e: CustomEvent): Promise<void> => {
@@ -31,6 +32,10 @@
     }
   }
 
+  $: {
+    title = boardIndex > -1 ?  $nimboStore.boards[boardIndex].title + " | nimbo" : "Board not found | nimbo";
+  }
+
   const handleKeyPress = (e: KeyboardEvent): void => {
     if (e.key === "/") {
       $nimboStore.openPalette();
@@ -42,6 +47,10 @@
 <svelte:window on:keyup={handleKeyPress} />
 
 <SearchPalette />
+
+<svelte:head>
+  <title>{title}</title>
+</svelte:head>
 
 <div class="flex flex-col min-h-screen max-h-full h-screen overflow-hidden bg-light-300 dark:bg-dark-300 text-light dark:text-dark">
   {#if boardIndex > -1}
