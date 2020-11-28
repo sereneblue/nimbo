@@ -106,9 +106,9 @@
           Hide archived boards
         {/if}
       </button>
-      <div class="flex space-x-2 my-3">
-        <input id="import" bind:files={importedDB} type="file" style="display:none;" />
-        <button on:click={handleImportClick} class="flex items-center py-1 px-2 rounded text-xs bg-orange-500 text-white hover:bg-orange-600">
+      <div class="flex my-3">
+        <input id="import" class="hidden" bind:files={importedDB} type="file" />
+        <button on:click={handleImportClick} class="flex items-center py-1 px-2 rounded text-xs bg-orange-500 text-white hover:bg-orange-600 mr-2">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line>
           </svg>
