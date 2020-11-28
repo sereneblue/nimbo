@@ -111,7 +111,7 @@
       if (elements.length) {
         elements[0].click();
       }
-    } else if (e.key == "l") {
+    } else if (e.key === "l" || e.key === "h") {
       e.stopPropagation();
     }
   }
