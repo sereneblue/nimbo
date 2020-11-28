@@ -47,6 +47,10 @@ export default class Board {
     this.labels = labels;
   }
 
+  setLastViewTime(timestamp: number): void {
+    this.lastViewTime = timestamp;
+  }
+
   setTitle(title: string): void {
     this.title = title;
   }

@@ -445,8 +445,15 @@ export default class nimbo {
   }
 
   public async updateViewTime(boardId: string): Promise<void> {
-    await this.db.boards.update(boardId, {
-      lastViewTime: new Date().getTime()
-    });
+    let boardIndex: number = this.boards.findIndex(b => b.id === boardId);
+    
+    if (boardIndex > -1) {
+      let lastViewTime: number = new Date().getTime();
+      this.boards[boardIndex].setLastViewTime(lastViewTime);
+
+      await this.db.boards.update(boardId, {
+        lastViewTime
+      });
+    }
   }
 }
