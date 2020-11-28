@@ -58,6 +58,8 @@
       e.stopPropagation();
     } else if (e.key === "/") {
       e.stopPropagation();
+    } else if (e.key === "h") {
+      e.stopPropagation();
     }
   };
 

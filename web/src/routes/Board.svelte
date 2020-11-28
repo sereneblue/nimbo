@@ -1,5 +1,6 @@
 <script lang="ts">
   import { getContext } from 'svelte';
+  import { navigate } from 'svelte-routing';
 
   import ColumnLayout from '../components/column/Layout.svelte';
   import EditableTitle from '../components/EditableTitle.svelte';
@@ -40,6 +41,8 @@
     if (e.key === "/") {
       $nimboStore.openPalette();
       $nimboStore = $nimboStore;
+    } else if (e.key === "h") {
+      navigate("/");
     }
   };
 </script>

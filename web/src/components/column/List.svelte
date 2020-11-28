@@ -52,7 +52,7 @@
       }
 
       e.target.value = "";
-    } else if (e.key === "l" || e.key === "/") {
+    } else if (e.key === "l" || e.key === "/" || e.key === "h") {
       e.stopPropagation();
     }
   };

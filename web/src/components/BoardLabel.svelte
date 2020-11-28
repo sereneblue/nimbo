@@ -49,7 +49,7 @@
   }
 
   const handleShortcuts = (e: KeyboardEvent): void => {
-    if (e.key == "/" || e.key == "l") {
+    if (e.key === "/" || e.key === "l" || e.key === "h") {
       e.stopPropagation();
     }
   }
