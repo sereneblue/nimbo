@@ -2,6 +2,28 @@ import type Board from "./datastore/models/Board";
 import type Card from "./datastore/models/Card";
 import type List from "./datastore/models/List";
 
+export const BOARD_COLORS: string[] = [
+  "#DC7684",
+  "#A0C1B8",
+  "#2D7F9D",
+  "#A1B6B4",
+  "#717D84",
+  "#B5A25D",
+  "#6B436E",
+  "#9A83A3",
+  "#737088",
+  "#A63D11",
+  "#E97140",
+  "#818773"
+];
+
+export type BoardColor = typeof BOARD_COLORS[number];
+
+export type BoardLabel = {
+  color: LABEL_COLOR;
+  text: string;
+}
+
 export type CardDetails = {
   board: Board;
   list: List;
@@ -18,11 +40,6 @@ export enum PRIORITY {
   P2,
   P3,
   P4
-}
-
-export type BoardLabel = {
-  color: LABEL_COLOR;
-  text: string;
 }
 
 export enum LABEL_COLOR {

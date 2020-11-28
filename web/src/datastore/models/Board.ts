@@ -1,23 +1,8 @@
 import { nanoid } from '../../util';
-import { LABEL_COLOR } from '../../types';
+import { BOARD_COLORS, BoardColor, LABEL_COLOR } from '../../types';
 import type { BoardLabel, SwapObject } from '../../types';
 import type List from './List';
 import type Card from './Card';
-
-const BOARD_COLORS: string[] = [
-  "#DC7684",
-  "#E4CA99",
-  "#2D7F9D",
-  "#A1B6B4",
-  "#717D84",
-  "#B5A25D",
-  "#6B436E",
-  "#9A83A3",
-  "#737088",
-  "#A63D11",
-  "#E97140",
-  "#818773"
-];
 
 const BOARD_LABELS: BoardLabel[] = [
   { color: LABEL_COLOR.RED, text: "Red" },
@@ -32,7 +17,7 @@ const BOARD_LABELS: BoardLabel[] = [
 export default class Board {
   id: string;
   title: string;
-  color: string;
+  color: number;
   isArchived: boolean;
   isStarred: boolean;
   labels: BoardLabel[];
@@ -54,8 +39,8 @@ export default class Board {
     });
   }
 
-  private getRandomColor(): string {
-    return BOARD_COLORS[Math.floor(Math.random() * BOARD_COLORS.length)];
+  private getRandomColor(): number {
+    return Math.floor(Math.random() * BOARD_COLORS.length);
   }
 
   setLabels(labels: BoardLabel[]): void {
