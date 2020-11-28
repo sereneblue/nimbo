@@ -199,6 +199,49 @@ export default class nimbo {
     return;
   }
 
+  public async importTrelloBoard(b: any): Promise<string> {
+    let board: Board = new Board(b.name);
+
+    board.lastViewTime = new Date(b.dateLastView).getTime();
+    board.isStarred = b.starred;
+    board.isArchived = b.closed;
+
+    let cards: Card[] = [];
+    let lists: List[] = [];
+
+    for (let i: number = 0; i < b.lists.length; i++) {
+      let l: List = new List(board.id, i + 1);
+      l.setTitle(b.lists[i].name);
+
+      for (let j: number = 0; j < b.cards.length; j++) {
+        if (b.lists[i].id === b.cards[j].idList) {
+          let c: Card = new Card(l, b.cards[j].name);
+
+          c.description = b.cards[j].desc; 
+          c.due = b.cards[j].due ? new Date(b.cards[j].due).getTime() : null;
+          c.isComplete = b.cards[j].dueComplete;
+          
+          l.cards.push(c);
+        }
+      }
+
+      lists.push(l);
+    }
+
+
+    for (let i: number = 0; i < lists.length; i++) {
+      cards = cards.concat(lists[i].cards);
+    }
+
+    await this.db.transaction('rw', this.db.boards, this.db.lists, this.db.cards, async (): Promise<void> =>{
+      await this.db.boards.add(board);
+      await this.db.lists.bulkAdd(lists);
+      await this.db.cards.bulkAdd(cards);
+    });
+
+    return board.id;
+  }
+
   public async moveCard(c: SortObject): Promise<void> {
     let boardIndex: number = this.boards.findIndex(b => b.id === c.boardId);
 
