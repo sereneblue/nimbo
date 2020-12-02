@@ -26,7 +26,7 @@
       {modalMessage}
     </h3>
     <div class="flex justify-end">
-      <button on:click={handleCloseModal} class="mt-4 mr-2 text-dark dark:text-white hover:text-white border border-gray-500 w-40 hover:bg-gray-500 text-white text-xl font-bold py-2 px-4 rounded">
+      <button on:click={handleCloseModal} class="mt-4 mr-2 text-light dark:text-white hover:text-white border border-gray-500 w-40 hover:bg-gray-500 text-xl font-bold py-2 px-4 rounded">
         Close
       </button>
       <button on:click={handleConfirmModal} class="mt-4 bg-indigo-600 w-40 hover:bg-indigo-700 text-white text-xl font-bold py-2 px-4 rounded">

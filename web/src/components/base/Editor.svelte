@@ -267,13 +267,13 @@
             {cardDetails.board.title}
           </a>
           <span class="">/</span>
-          <span class="opacity-75">
+          <span class="">
             {cardDetails.list.title}
           </span>
         </div>
       </div>
     {/if}
-    <div class="relative opacity-75 text-2xl font-semibold mt-1" class:ml-8={!inline}>
+    <div class="relative text-2xl font-semibold mt-1" class:ml-8={!inline}>
       {#if inline}
         <div class="flex flex-col space-y-4 absolute w-8 h-8 top-0 right-0 -mr-10">
           <div class="relative cursor-pointer opacity-75 hover:opacity-100" title="Close" on:click={handleCloseClick}>
@@ -292,13 +292,13 @@
   <div class="mb-2">
     <div class="flex items-center">
       <div class:ml-8={!inline}>
-        <h3 class="text-xl opacity-75">
+        <h3 class="text-xl dark:opacity-75">
           Description
         </h3>
       </div>
       {#if editDescription || cardDetails.card.description }
         <div>
-          <button on:click={handleDescriptionClick} class="ml-2 text-base underline opacity-50 hover:opacity-75"  >{editDescription ? "Save" : "Edit"}</button>
+          <button on:click={handleDescriptionClick} class="ml-2 text-base underline dark:opacity-50 dark:hover:opacity-75"  >{editDescription ? "Save" : "Edit"}</button>
         </div>
       {/if}
     </div>    
@@ -309,7 +309,7 @@
         </div>
       {:else}
         {#if editDescription}
-          <textarea bind:value={cardDetails.card.description} on:keyup={handleDescriptionInput} class="w-full bg-white dark:bg-dark-100 p-1 rounded-sm placeholder-gray-500 dark:placeholder-gray-400 text-base" placeholder="Add a description" rows="10"></textarea>
+          <textarea bind:value={cardDetails.card.description} on:keyup={handleDescriptionInput} class="w-full bg-white border-light-200 border-2 dark:border-transparent dark:bg-dark-100 p-1 rounded placeholder-dark-200 dark:placeholder-gray-400 shadow-sm" placeholder="Add a description" rows="10"></textarea>
         {:else}
           <div class="opacity-75 hover:opacity-100 underline cursor-pointer" on:click={handleDescriptionClick}>Add a description</div>
         {/if}
@@ -321,7 +321,7 @@
     <div>
       <div class="flex items-center">
         <div class:ml-8={!inline}>
-          <h3 class="text-xl opacity-75">
+          <h3 class="text-xl dark:opacity-75">
             Due Date
           </h3>
         </div>
@@ -393,7 +393,7 @@
       <ul bind:this={checklist} class="ml-1 -mr-8">
         {#each cardDetails.card.checklist as cl, index (cl)}
           {#if (hideCompleted && !cl.checked) || hideCompleted == false }
-            <li class="checklist__item group relative flex mt-1 mr-1 p-1 rounded dark:hover:bg-dark-200">
+            <li class="checklist__item group relative flex mt-1 mr-1 p-1 rounded hover:bg-light-200 dark:hover:bg-dark-200">
               <label class="flex items-center cursor-pointer w-full" class:opacity-50={cl.checked}>
                 <input bind:checked={cl.checked} on:change={handleChecklistChange} type="checkbox" class="form-checkbox text-indigo-500 h-4 w-4 border-2 dark:border">
                 <span class="ml-2 text-lg" class:line-through={cl.checked} class:italic={cl.checked} class:opacity-75={cl.checked}>{cl.text}</span>
@@ -408,7 +408,7 @@
       <div class="mt-1" class:ml-8={!inline}>
         <textarea
         on:keydown={handleChecklistInput}
-        class="bg-transparent text-base inline-block w-full p-1 rounded-sm placeholder-gray-500 dark:placeholder-gray-500 "
+        class="bg-transparent text-base inline-block w-full p-1 rounded-sm placeholder-dark-200 dark:placeholder-gray-500"
         type="text" placeholder="Add an item to checklist"></textarea>
       </div>
     </div>
@@ -433,7 +433,7 @@
     <div class="mt-2">
       <ul class="-mr-8" class:ml-8={!inline}>
         {#each cardDetails.card.log as l, index (l)}
-          <li class="timetrack__item group flex mt-1 -ml-1 p-1 items-center rounded dark:hover:bg-dark-200">
+          <li class="timetrack__item group flex mt-1 -ml-1 p-1 items-center rounded hover:bg-light-200 dark:hover:bg-dark-200">
             <div class="flex-grow ml-1">
               <div class="text-xl font-semibold">{formatTime(l.duration)}</div>
               <div class="-mt-1 opacity-75">{formatDate(l.date)}</div>
@@ -447,7 +447,7 @@
       <div class="mt-1" class:ml-8={!inline}>
         <input
         on:keydown={handleTimeTrackingInput}
-        class="bg-transparent text-base inline-block w-full p-1 rounded-sm placeholder-gray-500 dark:placeholder-gray-500"
+        class="bg-transparent text-base inline-block w-full p-1 rounded-sm placeholder-dark-200 dark:placeholder-gray-500"
         type="text" placeholder="Add a duration. ex. 30m">
       </div>
     </div>

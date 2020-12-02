@@ -43,7 +43,7 @@
 </script>
 
 <div>
-  <div class="flex-none bg-light-200 inline-editor p-4 pb-8 mr-4 h-auto w-116 border-indigo-500 border shadow-lg dark:bg-dark-300 overflow-y-auto rounded" class:hidden={id == null}>
+  <div class="flex-none bg-light-300 inline-editor p-4 pb-8 mr-4 h-auto w-116 border-indigo-500 border shadow-lg dark:bg-dark-300 overflow-y-auto rounded" class:hidden={id == null}>
     {#if id}
       <Editor {cardDetails} inline={true}
         on:close={handleCloseEvent}

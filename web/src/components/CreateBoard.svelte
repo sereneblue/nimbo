@@ -71,7 +71,7 @@
         </div>
       </div>
 
-      <div class="border border-dashed flex flex-col space-y-2 text-center py-4 text-lg opacity-75">
+      <div class="border border-dashed border-light flex flex-col space-y-2 text-center py-4 text-lg opacity-75">
         <span>Import from Trello.</span>
         <span>Export board as JSON and paste (CTRL + V) here!</span>
       </div>
