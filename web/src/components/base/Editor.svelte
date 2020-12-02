@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher, onMount } from "svelte";
-  import { link } from "svelte-routing";
+  import { link } from "svelte-spa-router";
   import { formatDate, formatTime } from '../../util'; 
   import EditableTitle from '../EditableTitle.svelte';
   import CardDue from '../card/CardDue.svelte';
@@ -26,8 +26,7 @@
   const renderer = new marked.Renderer();
 
   renderer.link = function(href, title, text) {
-    var link = marked.Renderer.prototype.link.apply(this, arguments);
-    return link.replace("<a","<a class='link' target='_blank'");
+    return marked.Renderer.prototype.link.apply(this, arguments).replace("<a","<a class='link' target='_blank'");
   };
 
   marked.setOptions({
@@ -263,7 +262,7 @@
           <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7m0-18H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7m0-18v18"></path></svg>
         </div>
         <div class="text-lg">
-          <a bind:this={boardLink} class="link" href={"../b/" + cardDetails.board.id} use:link>
+          <a bind:this={boardLink} class="link" use:link={"/b/" + cardDetails.board.id}>
             {cardDetails.board.title}
           </a>
           <span class="">/</span>
@@ -279,7 +278,7 @@
           <div class="relative cursor-pointer opacity-75 hover:opacity-100" title="Close" on:click={handleCloseClick}>
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </div>
-          <a href={"/c/" + cardDetails.card.id} target="_blank" class="link relative opacity-75 hover:opacity-100" title="Open in new tab">
+          <a href={"#/c/" + cardDetails.card.id} target="_blank" class="link relative opacity-75 hover:opacity-100" title="Open in new tab">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
           </a>
         </div>

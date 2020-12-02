@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getContext } from 'svelte';
-  import { navigate } from 'svelte-routing';
+  import { link, push } from 'svelte-spa-router';
 
   import ColumnLayout from '../components/column/Layout.svelte';
   import EditableTitle from '../components/EditableTitle.svelte';
@@ -10,7 +10,7 @@
 
   import type nimbo from '../nimbo';
 
-  export let id: string;
+  export let params = {};
 
   let title: string;
   const nimboStore: Writable<nimbo> = getContext('nimbo');
@@ -26,7 +26,7 @@
   let boardIndex: number;
 
   $: { 
-    boardIndex = $nimboStore.boards.findIndex(b => b.id === id);  
+    boardIndex = $nimboStore.boards.findIndex(b => b.id === params.boardId);  
 
     if (boardIndex > -1) {
       $nimboStore.updateViewTime($nimboStore.boards[boardIndex].id);
@@ -42,7 +42,7 @@
       $nimboStore.openPalette();
       $nimboStore = $nimboStore;
     } else if (e.key === "h") {
-      navigate("/");
+      push("/");
     }
   };
 </script>
@@ -76,7 +76,7 @@
         ¯\_(ツ)_/¯
       </div>
       <h1 class="text-center font-bold text-2xl mt-2 mb-4">Board not found</h1>
-      <a class="link text-center text-lg" href="/">View all boards</a>
+      <a class="link text-center text-lg" href="/" use:link>View all boards</a>
     </div>
   {/if}
 </div>

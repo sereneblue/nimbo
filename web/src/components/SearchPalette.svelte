@@ -1,7 +1,7 @@
 <script lang="ts">
   import { afterUpdate, getContext } from 'svelte';
   import { fade } from 'svelte/transition';
-  import { navigate } from 'svelte-routing';
+  import { push } from 'svelte-spa-router';
   import fuzzysort from 'fuzzysort';
 
   import { clickOutside } from '../util';
@@ -121,7 +121,7 @@
     $nimboStore.setSelectedCard(null);
     $nimboStore = $nimboStore;
   
-    navigate(s.obj.path);
+    push(s.obj.path);
   }
 
   const init = (): void => {

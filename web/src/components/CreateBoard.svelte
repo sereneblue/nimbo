@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher, getContext } from 'svelte';
   import type { Writable } from 'svelte/store';
-  import { navigate } from 'svelte-routing';
+  import { push } from 'svelte-spa-router';
 
   import Modal from './base/Modal.svelte';
   import type nimbo from '../nimbo';
@@ -33,7 +33,7 @@
   
       $nimboStore.boards = $nimboStore.boards;
   
-      navigate("b/" + boardId);
+      push("/b/" + boardId);
     }
   }
 
@@ -48,7 +48,7 @@
 
       await $nimboStore.init();
 
-      navigate("b/" + boardId);
+      push("/b/" + boardId);
     } catch (e) {
       // failed to import board
       couldNotImport = true;

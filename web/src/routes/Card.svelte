@@ -1,12 +1,13 @@
 <script lang="ts">
   import { getContext } from "svelte";
+  import { link } from "svelte-spa-router";
 
   import Editor from "../components/base/Editor.svelte";
   import ConfirmModal from "../components/ConfirmModal.svelte";
   import type nimbo from "../nimbo";
-  import type { CardDetails } from '../types';
+  import type { CardDetails } from "../types";
 
-  export let id: string;
+  export let params = {};
 
   let cardDetails: CardDetails, cd: CardDetails;
   let isConfirmModalOpen: boolean = false;
@@ -37,7 +38,7 @@
   };
 
   $: {
-    cd = $nimboStore.getCardDetails(id);
+    cd = $nimboStore.getCardDetails(params.cardId);
     
     if (cd) {
       cardDetails = cd; 
@@ -69,7 +70,7 @@
           ¯\_(ツ)_/¯
         </div>
         <h1 class="text-center font-bold text-2xl mt-2 mb-4">Card not found</h1>
-        <a class="link text-center text-lg" href="/">Go to home</a>
+        <a class="link text-center text-lg" href="/" use:link>Go to home</a>
       </div>
     {/if}
   </div>

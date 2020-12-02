@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getContext } from 'svelte';
   import type { Writable } from 'svelte/store';
-  import { navigate } from 'svelte-routing';
+  import { push } from 'svelte-spa-router';
   import { saveAs } from 'file-saver';
 
   import CreateBoard from "../components/CreateBoard.svelte";
@@ -133,7 +133,7 @@
         </h4>
         <ul class="pr-2">
           {#each starred as s}
-            <a on:click={navigate("b/" + s.id)} title={s.title} class="block flex hover:bg-light-100 dark:hover:bg-dark-200 p-2 rounded cursor-pointer font-bold">
+            <a on:click={push("/b/" + s.id)} title={s.title} class="block flex hover:bg-light-100 dark:hover:bg-dark-200 p-2 rounded cursor-pointer font-bold">
                 <div class="flex-none h-6 w-6 rounded mr-2" style={"background-color: " + BOARD_COLORS[s.color]}></div>
               <span class="truncate">{s.title}</span>
             </a>
@@ -149,7 +149,7 @@
         </h4>
         <ul class="pr-2">
           {#each recentlyViewed as r}
-            <a on:click={navigate("b/" + r.id)} title={r.title} class="block flex hover:bg-light-100 dark:hover:bg-dark-200 p-2 rounded cursor-pointer font-bold">
+            <a on:click={push("/b/" + r.id)} title={r.title} class="block flex hover:bg-light-100 dark:hover:bg-dark-200 p-2 rounded cursor-pointer font-bold">
               <div class="flex-none h-6 w-6 rounded mr-2" style={"background-color: " + BOARD_COLORS[r.color]}></div>
               <span class="truncate">{r.title}</span>
             </a>
@@ -165,7 +165,7 @@
         </li>
         {#each sortedBoards as board (board.id)}
           <li title={board.title} class="p-2 w-60 h-32 overflow-hidden text-white font-semibold text-xl rounded ml-4 mb-4 cursor-pointer" style={"background-color: " + BOARD_COLORS[board.color]}>
-            <a on:click={navigate("b/" + board.id)}  class="flex flex-col relative group justify-between h-full">
+            <a on:click={push("/b/" + board.id)}  class="flex flex-col relative group justify-between h-full">
               {#if board.isArchived}
                 <div class="absolute bg-indigo-500 mt-2 w-28 -mr-10 text-center top-0 right-0 transform rotate-45 text-white text-xs">Archived</div>
               {/if}
