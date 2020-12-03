@@ -3,19 +3,21 @@ import { nimboDB } from './datastore/db';
 import Board from './datastore/models/Board';
 import List from './datastore/models/List';
 import Card from './datastore/models/Card';
-import { BoardLabel, CardDetails, RESULT_TYPE, SearchObject, SortObject, SwapObject } from './types';
+import { BoardLabel, CardDetails, RESULT_TYPE, SearchObject, SortObject, SwapObject, Theme } from './types';
 
 export default class nimbo {
   db: nimboDB;
   boards: Board[];
   selectedCardId: string;
   showCommandPalette: boolean;
+  theme: Theme;
 
   constructor() {
     this.db = new nimboDB();
     this.boards = new Array<Board>();
     this.selectedCardId = null;
     this.showCommandPalette = false;
+    this.theme = "dark";
   }
 
   public async init(): Promise<boolean> {
@@ -36,6 +38,8 @@ export default class nimbo {
         });
       }
     }
+
+    this.theme = localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
 
     return true;
   }
@@ -346,6 +350,14 @@ export default class nimbo {
         isStarred: this.boards[boardIndex].isStarred
       });
     }
+  }
+
+  public toggleTheme(): void {
+    let theme: Theme = this.theme === 'dark' ? 'light' : 'dark';
+
+    localStorage.setItem('theme', theme);
+
+    this.theme = theme;
   }
 
   public async updateBoardTitle(boardId: string, title: string): Promise<void> {

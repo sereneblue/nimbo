@@ -19,8 +19,8 @@
 
 <TailwindCSS />
 
-<div class="dark">
-  {#await loading then done}
+{#await loading then done}
+  <div class:dark={$nimboStore.theme === "dark"}>
     <Router {routes}/>
-  {/await}
-</div>
+  </div>
+{/await}

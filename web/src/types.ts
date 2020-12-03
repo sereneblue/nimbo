@@ -84,3 +84,5 @@ export type TimeEntry = {
   date: number;
   duration: number;
 }
+
+export type Theme = "dark" | "light";
