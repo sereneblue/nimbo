@@ -21,7 +21,7 @@ export default class Card {
     this.checklist = new Array<ChecklistItem>();
     this.created = new Date().getTime();
     this.description = "";
-    this.index = list.cards.length + 1;
+    this.index = list.cards.length;
     this.label = null;
     this.listId = list.id;
     this.log = new Array<TimeEntry>();

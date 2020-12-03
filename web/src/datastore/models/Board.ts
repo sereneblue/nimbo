@@ -56,12 +56,12 @@ export default class Board {
   }
 
   swapLists(l: SwapObject): void {
-    this.lists[l.from - 1].index = l.to;
-    this.lists[l.to - 1].index = l.from;
+    this.lists[l.from].index = l.to;
+    this.lists[l.to].index = l.from;
     
-    let tmp: List = this.lists[l.from - 1];
-    this.lists[l.from - 1] = this.lists[l.to - 1];
-    this.lists[l.to - 1] = tmp;
+    let tmp: List = this.lists[l.from];
+    this.lists[l.from] = this.lists[l.to];
+    this.lists[l.to] = tmp;
   }
 
   toggleBoardArchive(): void {

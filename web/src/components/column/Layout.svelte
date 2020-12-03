@@ -29,7 +29,7 @@
 
   const handleCardEditEvent = (e: CustomEvent): void => {
     let inlineEditor = document.querySelector('.inline-editor');
-    let list: HTMLElement = document.querySelectorAll('.list')[e.detail.listIndex - 1];
+    let list: HTMLElement = document.querySelectorAll('.list')[e.detail.listIndex];
 
     list.parentNode.after(inlineEditor);
 

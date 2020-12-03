@@ -48,7 +48,7 @@
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="options-menu">
-        {#if index > 1}
+        {#if index > 0}
           <button
             on:click={(e) => emit(['move', { from: index, to: index - 1}])}
             class="flex items-center w-full px-2 py-1 text-sm leading-5
@@ -83,7 +83,7 @@
           </button>
         {/if}
         <button
-          on:click={(e) => emit(['delete', [index]])}
+          on:click={(e) => emit(['delete'])}
           class="flex items-center w-full px-2 py-1 text-sm leading-5
             text-gray-700 hover:bg-gray-200 hover:text-gray-900
             focus:outline-none focus:bg-gray-200 focus:text-gray-900"

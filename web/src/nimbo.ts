@@ -68,7 +68,7 @@ export default class nimbo {
     let boardIndex: number = this.boards.findIndex(b => b.id === boardId);
     
     if (boardIndex > -1) {
-      let l: List = new List(boardId, this.boards[boardIndex].lists.length + 1); 
+      let l: List = new List(boardId, this.boards[boardIndex].lists.length); 
       this.boards[boardIndex].lists = [...this.boards[boardIndex].lists, l];
 
       await this.db.lists.add(l);
@@ -115,11 +115,14 @@ export default class nimbo {
       let listIndex: number = this.boards[boardIndex].lists.findIndex(l => l.id === listId); 
 
       if (listIndex > -1) {
-        let updateFromIndex: number = this.boards[boardIndex].lists[listIndex].index;
+        let listIndexes: object = {};
+        
         this.boards[boardIndex].lists.splice(listIndex, 1);
         
         for (let i: number = 0; i < this.boards[boardIndex].lists.length; i++) {
-          this.boards[boardIndex].lists[i].index = i + 1;
+          this.boards[boardIndex].lists[i].index = i;
+
+          listIndexes[this.boards[boardIndex].lists[i].id] = i;
         };
 
         await this.db.transaction('rw', this.db.lists, this.db.cards, async (): Promise<void> =>{
@@ -128,7 +131,8 @@ export default class nimbo {
             this.db.cards.where({ listId }).delete()
           ]);
         });
-        await this.updateListIndexes(updateFromIndex);
+
+        await this.updateListIndexes(listIndexes);
       }
     }
   }
@@ -210,7 +214,7 @@ export default class nimbo {
     let lists: List[] = [];
 
     for (let i: number = 0; i < b.lists.length; i++) {
-      let l: List = new List(board.id, i + 1);
+      let l: List = new List(board.id, i);
       l.setTitle(b.lists[i].name);
 
       for (let j: number = 0; j < b.cards.length; j++) {
@@ -228,15 +232,16 @@ export default class nimbo {
       lists.push(l);
     }
 
-
     for (let i: number = 0; i < lists.length; i++) {
       cards = cards.concat(lists[i].cards);
     }
 
     await this.db.transaction('rw', this.db.boards, this.db.lists, this.db.cards, async (): Promise<void> =>{
-      await this.db.boards.add(board);
-      await this.db.lists.bulkAdd(lists);
-      await this.db.cards.bulkAdd(cards);
+      await Promise.all([
+        this.db.boards.add(board),
+        this.db.lists.bulkAdd(lists),
+        this.db.cards.bulkAdd(cards)
+      ]);
     });
 
     return board.id;
@@ -250,47 +255,47 @@ export default class nimbo {
       let listToIndex: number = this.boards[boardIndex].lists.findIndex(l => l.id === c.to.list); 
 
       if (listFromIndex > -1 && listToIndex > -1) {
+        let cardIndexes: object = {};
+        let tmp: Card;
+
         if (c.from.list != c.to.list) {
           let fromListId: string;
 
-          let tmp: Card = this.boards[boardIndex].lists[listFromIndex].cards.splice(c.from.index, 1)[0]; 
+          tmp = this.boards[boardIndex].lists[listFromIndex].cards.splice(c.from.index, 1)[0]; 
           fromListId = tmp.listId;
 
           tmp.listId = this.boards[boardIndex].lists[listToIndex].id;
-          tmp.index = c.to.index + 1;
+          tmp.index = c.to.index;
 
-          for (let i: number = c.from.index; i < this.boards[boardIndex].lists[listFromIndex].cards.length; i++) {
-            this.boards[boardIndex].lists[listFromIndex].cards[i].index--; 
+          for (let i: number = 0; i < this.boards[boardIndex].lists[listFromIndex].cards.length; i++) {
+            this.boards[boardIndex].lists[listFromIndex].cards[i].index = i;
+
+            cardIndexes[this.boards[boardIndex].lists[listFromIndex].cards[i].id] = i;
           }
           
           this.boards[boardIndex].lists[listToIndex].cards.splice(c.to.index, 0, tmp);
 
-          for (let i: number = c.to.index + 1; i < this.boards[boardIndex].lists[listToIndex].cards.length; i++) {
-            this.boards[boardIndex].lists[listToIndex].cards[i].index++; 
-          }
+          for (let i: number = 0; i < this.boards[boardIndex].lists[listToIndex].cards.length; i++) {
+            this.boards[boardIndex].lists[listToIndex].cards[i].index = i;
 
-          await this.updateCardIndexes(tmp, fromListId, c.from.index, c.to.index);
+            cardIndexes[this.boards[boardIndex].lists[listToIndex].cards[i].id] = i;
+          }
         } else {
           if (c.from.index != c.to.index) {
-            let tmp: Card = this.boards[boardIndex].lists[listFromIndex].cards.splice(c.from.index, 1)[0];
-            tmp.index = c.to.index + 1;
-
-            let positions: number[] = [c.from.index, c.to.index].sort();
-
-            // only change indexes of indexes between from/to
-            for (let i: number = positions[0]; i < positions[1]; i++) {
-              if (c.from.index < c.to.index) {
-                this.boards[boardIndex].lists[listFromIndex].cards[i].index--;
-              } else {
-                this.boards[boardIndex].lists[listFromIndex].cards[i].index++;
-              }
-            }
+            tmp = this.boards[boardIndex].lists[listFromIndex].cards.splice(c.from.index, 1)[0];
+            tmp.index = c.to.index;
 
             this.boards[boardIndex].lists[listFromIndex].cards.splice(c.to.index, 0, tmp);
 
-            await this.updateCardIndexes(tmp, tmp.listId, c.from.index, c.to.index);
+            for (let i: number = 0; i < this.boards[boardIndex].lists[listFromIndex].cards.length; i++) {
+              this.boards[boardIndex].lists[listFromIndex].cards[i].index = i;
+
+              cardIndexes[this.boards[boardIndex].lists[listFromIndex].cards[i].id] = i;
+            }
           }
         }
+
+        await this.updateCardIndexes(tmp, cardIndexes);
       }
     }
   }
@@ -371,48 +376,15 @@ export default class nimbo {
     });
   }
 
-  private async updateCardIndexes(c: Card, fromListId: string, fromIndex: number, toIndex: number): Promise<void> {
-    await this.db.transaction('rw', this.db.cards, this.db.lists, async (): Promise<void> =>{
-      if (c.listId != fromListId) {
-        await this.db.cards.where({ listId: fromListId }).filter((c: Card): boolean => {
-          return c.index > fromIndex
-        }).modify(c => {
-          c.index--;
-        });
-  
-        await this.db.cards.where({ listId: c.listId }).filter((c: Card): boolean => {
-          return c.index > toIndex
-        }).modify(c => {
-          c.index++;
-        });
-      } else {
-        let positions: number[] = [fromIndex, toIndex].sort();
-        
-        await this.db.cards.where({ listId: fromListId }).filter((c: Card): boolean => {
-          if (fromIndex < toIndex) {
-            return positions[0] + 1 < c.index && c.index <= positions[1] + 1;
-          }
-
-          return positions[0] < c.index && c.index <= positions[1];
-        }).modify(c => {
-          if (fromIndex < toIndex) {
-            c.index--;
-          } else {
-            c.index++;
-          }
-        });
-      }
-
+  private async updateCardIndexes(c: Card, cardIndexes: object): Promise<void> {
+    await this.db.transaction('rw', this.db.cards, async (): Promise<void> =>{
       await this.db.cards.update(c.id, {
-        listId: c.listId,
-        index: c.index
+        listId: c.listId
       });
-    });
-  }
 
-  private async updateListIndexes(startIndex: number): Promise<void> {
-    await this.db.lists.where("index").above(startIndex).modify(l => {
-      l.index = l.index - 1;
+      await this.db.cards.where("id").anyOf(Object.keys(cardIndexes)).modify(c => {
+        c.index = cardIndexes[c.id];
+      })
     });
   }
 
@@ -426,6 +398,12 @@ export default class nimbo {
         labels
       });
     }
+  }
+
+  private async updateListIndexes(listIndexes: object): Promise<void> {
+    await this.db.lists.where("id").anyOf(Object.keys(listIndexes)).modify(l => {
+      l.index = listIndexes[l.id];
+    });
   }
 
   public async updateListTitle(boardId: string, listId: string, title: string): Promise<void> {
