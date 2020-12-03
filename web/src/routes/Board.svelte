@@ -42,6 +42,8 @@
       $nimboStore.openPalette();
       $nimboStore = $nimboStore;
     } else if (e.key === "h") {
+      $nimboStore.closePalette();
+      $nimboStore.setSelectedCard(null);
       push("/");
     }
   };
