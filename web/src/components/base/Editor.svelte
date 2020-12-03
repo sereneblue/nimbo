@@ -137,12 +137,6 @@
     editDescription = !editDescription;
   }
 
-  const handleDescriptionInput = (e: KeyboardEvent): void => {
-    if (e.key === "/") {
-      e.stopPropagation();
-    }
-  }
-
   const handleDueComplete = (e: Event): void => {
     cardDetails.card.setComplete(e.detail);
 
@@ -170,6 +164,12 @@
     });
 
     cardDetails.card = cardDetails.card;
+  }
+
+  const handleShortcuts = (e: KeyboardEvent): void => {
+    if (e.key === "/" || e.key === "l" || e.key === "h") {
+      e.stopPropagation();
+    }
   }
 
   const handleToggleHideCompleted = (e: Event): void => {
@@ -308,7 +308,7 @@
         </div>
       {:else}
         {#if editDescription}
-          <textarea bind:value={cardDetails.card.description} on:keyup={handleDescriptionInput} class="w-full bg-white border-light-200 border-2 dark:border-transparent dark:bg-dark-100 p-1 rounded placeholder-dark-200 dark:placeholder-gray-400 shadow-sm" placeholder="Add a description" rows="10"></textarea>
+          <textarea bind:value={cardDetails.card.description} on:keyup={handleShortcuts} class="w-full bg-white border-light-200 border-2 dark:border-transparent dark:bg-dark-100 p-1 rounded placeholder-dark-200 dark:placeholder-gray-400 shadow-sm" placeholder="Add a description" rows="10"></textarea>
         {:else}
           <div class="opacity-75 hover:opacity-100 underline cursor-pointer" on:click={handleDescriptionClick}>Add a description</div>
         {/if}
