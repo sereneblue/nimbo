@@ -186,7 +186,7 @@
         </li>
         {#each sortedBoards as board (board.id)}
           <li title={board.title} class="p-2 w-60 h-32 overflow-hidden text-white font-semibold text-xl rounded ml-4 mb-4 cursor-pointer" style={"background-color: " + BOARD_COLORS[board.color]}>
-            <a on:click={push("/b/" + board.id)}  class="flex flex-col relative group justify-between h-full">
+            <a on:click={e => push('/b/' + board.id)}  class="flex flex-col relative group justify-between h-full">
               {#if board.isArchived}
                 <div class="absolute bg-indigo-500 mt-2 w-28 -mr-10 text-center top-0 right-0 transform rotate-45 text-white text-xs">Archived</div>
               {/if}
@@ -194,19 +194,19 @@
               <div class="flex bottom-0 pl-1">
                 {#if board.isStarred}
                   <div class="block group-hover:hidden">
-                    <button on:click|preventDefault={e => handleStarBoard(board.id)} class="mr-4 transform ease-in-out hover:scale-150">
+                    <button on:click|stopPropagation={e => handleStarBoard(board.id)} class="mr-4 transform ease-in-out hover:scale-150">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                     </button>
                   </div>
                 {/if}
                 <div class="hidden group-hover:block">
-                  <button title="Star board" on:click|preventDefault={e => handleStarBoard(board.id)} class="mr-4 transform ease-in-out hover:scale-150">
+                  <button title="Star board" on:click|stopPropagation={e => handleStarBoard(board.id)} class="mr-4 transform ease-in-out hover:scale-150">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill={board.isStarred ? "currentColor" : "none" } stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                   </button>
-                  <button title="Archive board" on:click|preventDefault={e => handleArchiveBoard(board.id)} class="mr-4 transform ease-in-out hover:scale-150">
+                  <button title="Archive board" on:click|stopPropagation={e => handleArchiveBoard(board.id)} class="mr-4 transform ease-in-out hover:scale-150">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill={board.isArchived ? "currentColor" : "none" } stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>
                   </button>
-                  <button title="Delete board" on:click|preventDefault={e => handleDeleteBoard(board.id)} class="w-4 h-4 transform ease-in-out hover:scale-150">
+                  <button title="Delete board" on:click|stopPropagation={e => handleDeleteBoard(board.id)} class="w-4 h-4 transform ease-in-out hover:scale-150">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                   </button>
                 </div>
