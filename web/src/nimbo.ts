@@ -199,7 +199,9 @@ export default class nimbo {
       let e = await peakImportFile(db);
 
       if (e.formatName == "dexie" && e.formatVersion == 1)  {
-         await this.db.import(db);
+         await this.db.import(db, {
+           clearTablesBeforeImport: true
+         });
          return true;
       }
     } catch (err) {};
