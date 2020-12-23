@@ -13,6 +13,12 @@ module.exports = {
             boxShadow: '0 0 0 3px rgba(102, 126, 234, 0.5)',
             borderColor: theme('colors.indigo.400')
           }
+        },
+        select: {
+          '&:focus': {
+            boxShadow: '0 0 0 3px rgba(102, 126, 234, 0.5)',
+            borderColor: theme('colors.indigo.400')
+          }
         }
       }
     }),
