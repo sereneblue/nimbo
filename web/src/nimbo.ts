@@ -3,6 +3,7 @@ import { nimboDB } from './datastore/db';
 import Board from './datastore/models/Board';
 import List from './datastore/models/List';
 import Card from './datastore/models/Card';
+import Settings from './datastore/models/Settings';
 import { BoardLabel, CardDetails, RESULT_TYPE, SearchObject, SortObject, SwapObject, Theme } from './types';
 
 export default class nimbo {
@@ -10,14 +11,14 @@ export default class nimbo {
   boards: Board[];
   selectedCardId: string;
   showCommandPalette: boolean;
-  theme: Theme;
+  settings: Settings;
 
   constructor() {
     this.db = new nimboDB();
     this.boards = new Array<Board>();
     this.selectedCardId = null;
+    this.settings = new Settings();
     this.showCommandPalette = false;
-    this.theme = "dark";
   }
 
   public async init(): Promise<boolean> {
@@ -39,7 +40,12 @@ export default class nimbo {
       }
     }
 
-    this.theme = localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
+    let settings: Settings[] = await this.db.settings.toArray();
+    if (!settings.length) {
+      await this.updateSettings(this.settings);
+    } else {
+      this.settings = settings[0];
+    }
 
     return true;
   }
@@ -355,11 +361,11 @@ export default class nimbo {
   }
 
   public toggleTheme(): void {
-    let theme: Theme = this.theme === 'dark' ? 'light' : 'dark';
+    let theme: Theme = this.settings.theme === 'dark' ? 'light' : 'dark';
 
-    localStorage.setItem('theme', theme);
+    this.settings.theme = theme;
 
-    this.theme = theme;
+    this.updateSettings(this.settings);
   }
 
   public async updateBoardTitle(boardId: string, title: string): Promise<void> {
@@ -434,6 +440,10 @@ export default class nimbo {
         });
       }
     }
+  }
+
+  public async updateSettings(s: Settings): Promise<void> {
+    this.db.settings.put(s);
   }
 
   public async updateViewTime(boardId: string): Promise<void> {
