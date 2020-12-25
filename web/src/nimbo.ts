@@ -5,6 +5,7 @@ import List from './datastore/models/List';
 import Card from './datastore/models/Card';
 import Settings from './datastore/models/Settings';
 import { BoardLabel, CardDetails, RESULT_TYPE, SearchObject, SortObject, SwapObject, Theme } from './types';
+import { getTimestamps } from './util';
 
 export default class nimbo {
   db: nimboDB;
@@ -459,5 +460,47 @@ export default class nimbo {
         lastViewTime
       });
     }
+  }
+
+  public async zenCards(): Promise<Card[]> {
+    let d: Date = new Date();
+    d.setHours(23, 59, 59, 999);
+
+    let t: any = getTimestamps(d);
+    let allBoardsSelected = this.settings.selectedBoards.includes('all');
+
+    let lists: string[] = this.boards
+      .filter(b =>  allBoardsSelected || this.settings.selectedBoards.includes(b.id))
+      .map(b => {
+        return b.lists.map(l => l.id)
+      })
+      .reduce((acc, val) => acc.concat(val), []);
+
+    let cards: Card[] = await this.db.cards
+      .where('listId')
+      .anyOf(lists)
+      .filter((c: Card) => {
+        if (this.settings.dueFilter === "all") {
+          return true;
+        } else if (this.settings.dueFilter === "overdue") {
+          return c.isComplete && c.due && d.getTime() > c.due;
+        } else if (this.settings.dueFilter === "tomorrow") {
+          return !c.isComplete && c.due && c.due < t.tomorrow;
+        } else if (this.settings.dueFilter === "week") {
+          return !c.isComplete && c.due && c.due < t.week;
+        } else if (this.settings.dueFilter === "month") {
+          return !c.isComplete && c.due && c.due < t.month;
+        }
+      })
+      .toArray();
+
+    cards.sort((a: Card, b: Card): number => {
+      const aDefined: any = !!a.due;
+      const bDefined: any = !!b.due;
+      
+      return (bDefined - aDefined) || (aDefined === true && a.due - b.due) || 0;
+    });
+
+    return cards.slice(0, this.settings.maxCards);
   }
 }
