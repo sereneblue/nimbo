@@ -439,11 +439,13 @@ export default class nimbo {
           title
         });
       }
-    }
+    }  
   }
 
   public async updateSettings(s: Settings): Promise<void> {
-    this.db.settings.put(s);
+    await this.db.settings.put(s);
+
+    this.settings = s;
   }
 
   public async updateViewTime(boardId: string): Promise<void> {
