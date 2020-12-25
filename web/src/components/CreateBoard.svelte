@@ -30,9 +30,6 @@
 
     if (boardTitle) {
       let boardId: string = await $nimboStore.createBoard(boardTitle);
-  
-      $nimboStore.boards = $nimboStore.boards;
-  
       push("/b/" + boardId);
     }
   }
