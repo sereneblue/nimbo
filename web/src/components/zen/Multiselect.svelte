@@ -13,7 +13,7 @@
   let open: boolean = false;
 
   $: {
-    if (selectedValues.includes('all')) {
+    if (selectedValues.includes('all') && options.length) {
       displayText = `All ${options.length} board(s) selected`;
     } else if (selectedValues.length === 1) {
       displayText = options.find(o => o.value == selectedValues[0]).name;
