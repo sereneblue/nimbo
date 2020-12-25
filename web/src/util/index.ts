@@ -23,6 +23,22 @@ const clickOutside = (node: Node, closeAction: Function): object => {
   };
 };
 
+const getTimestamps = (d: Date): object => {
+  let tmp: Date = new Date(d);
+  let timestamps: any = {};
+
+  tmp.setDate(d.getDate() + 1);
+  timestamps.tomorrow = tmp.getTime();
+
+  tmp.setDate(d.getDate() + 7);
+  timestamps.week = tmp.getTime();
+
+  tmp.setDate(d.getDate() + 30);
+  timestamps.month = tmp.getTime();
+
+  return timestamps;
+}
+
 const formatDate = (timestamp: number): string => {
   d.setTime(timestamp);
   
@@ -59,6 +75,7 @@ const nanoid = customAlphabet('2346789ABCDEFGHJKLMNPQRTUVWXYZabcdefghijkmnpqrtwx
 
 export {
   clickOutside,
+  getTimestamps,
   formatDate,
   formatTime,
   nanoid
