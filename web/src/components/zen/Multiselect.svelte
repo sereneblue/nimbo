@@ -26,6 +26,10 @@
 
   $: allSelected = selectedValues.includes('all');
 
+  $: dropdownOptions = [
+    { name: 'Select all', value: 'all' }
+  ].concat(options);
+
   const handleClickOutside = (node): object => {
     return clickOutside(node, function() {
       open = false;
@@ -98,11 +102,7 @@
   {#if open}
     <div use:handleClickOutside transition:fade="{{ duration: 150 }}" class="absolute mt-0.5 w-full h-auto max-h-40 rounded-sm w-auto bg-light-100 dark:bg-dark-200 shadow-lg overflow-y-auto">
       <div class="flex flex-col">
-        <label class="flex items-center p-2 hover:bg-light-200 dark:hover:bg-dark-100 cursor-pointer">
-          <input type="checkbox" class="form-checkbox text-indigo-500" bind:group={selectedValues} value="all">
-          <span class="ml-2">Select all</span>
-        </label>
-        {#each options as o (o.value)}
+        {#each dropdownOptions as o (o.value)}
           <label on:click|preventDefault={() => handleOptionClick(o.value)} class="flex items-center p-2 hover:bg-light-200 dark:hover:bg-dark-100 cursor-pointer">
             <input type="checkbox" class="form-checkbox text-indigo-500" checked={selectedValues.includes(o.value) || allSelected } value={o.value}>
             <span class="ml-2">{o.name}</span>
