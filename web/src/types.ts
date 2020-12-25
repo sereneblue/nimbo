@@ -35,7 +35,7 @@ export type ChecklistItem = {
   checked: boolean;
 }
 
-export type DueFilterOptions = "all" | "overdue" | "day" | "tomorrow" | "month";
+export type DueFilterOptions = "all" | "overdue" | "month" | "tomorrow" | "week";
 
 export enum PRIORITY {
   P1,
