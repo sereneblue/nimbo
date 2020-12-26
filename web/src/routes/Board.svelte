@@ -16,11 +16,13 @@
   const nimboStore: Writable<nimbo> = getContext('nimbo');
   
   const updateTitle = async (e: CustomEvent): Promise<void> => {
-    $nimboStore.updateBoardTitle($nimboStore.boards[boardIndex].id, e.detail) 
+    $nimboStore.updateBoardTitle($nimboStore.boards[boardIndex].id, e.detail);
+    $nimboStore = $nimboStore;
   }
 
   const updateLabels = async (e: CustomEvent): Promise<void> => {
-    $nimboStore.updateLabels($nimboStore.boards[boardIndex].id, e.detail) 
+    $nimboStore.updateLabels($nimboStore.boards[boardIndex].id, e.detail);
+    $nimboStore = $nimboStore;
   }
 
   let boardIndex: number;
