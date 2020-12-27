@@ -50,7 +50,7 @@
     });
   }
 
-  const handleChecklistChange = (e: Event): void => {
+  const handleChecklistClick = (e: Event): void => {
     dispatch("update", {
       card: cardDetails.card,
       property: "checklist"
@@ -394,7 +394,7 @@
           {#if (hideCompleted && !cl.checked) || hideCompleted == false }
             <li class="checklist__item group relative flex mt-1 mr-1 p-1 rounded hover:bg-light-200 dark:hover:bg-dark-200">
               <label class="flex items-center cursor-pointer w-full" class:opacity-50={cl.checked}>
-                <input bind:checked={cl.checked} on:change={handleChecklistChange} type="checkbox" class="form-checkbox text-indigo-500 h-4 w-4 border-2 dark:border">
+                <input bind:checked={cl.checked} on:click={handleChecklistClick} type="checkbox" class="form-checkbox text-indigo-500 h-4 w-4 border-2 dark:border">
                 <span class="ml-2 text-lg" class:line-through={cl.checked} class:italic={cl.checked} class:opacity-75={cl.checked}>{cl.text}</span>
               </label>
               <div on:click={handleChecklistDelete} data-index={index} class="absolute top-0 right-0 p-2 opacity-100 cursor-pointer hidden group-hover:block">
