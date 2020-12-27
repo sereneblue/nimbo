@@ -37,7 +37,8 @@ module.exports = {
         "light": "#707070"
       },
       spacing: {
-        '116': '29rem'
+        '116': '29rem',
+        '160': '40rem'
       }
     },
     truncate: {
