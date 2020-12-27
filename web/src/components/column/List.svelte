@@ -151,7 +151,7 @@
   <div class="w-full mt-2">
     <input
       on:keyup={handleListInput}
-      class="bg-transparent inline-block w-full cursor-text focus:bg-white dark:focus:bg-dark-100 p-2 rounded-sm border border-transparent focus:border-white placeholder-light dark:placeholder-dark"
+      class="bg-transparent inline-block w-full cursor-text focus:bg-white dark:focus:bg-dark-100 p-2 rounded-sm border border-transparent focus:border-indigo-500 placeholder-light dark:placeholder-dark"
       type="text"
       placeholder="Add a card..." />
   </div>
