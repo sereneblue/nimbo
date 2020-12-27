@@ -41,7 +41,7 @@
   $: hasMoreDetails = !!card.checklist.length || !!card.log.length || !!card.due || !!card.description || card.priority in PRIORITY;
 </script>
 
-<div class="card card-label relative group cursor-pointer focus:outline-none focus:border-white border border-transparent shadow font-semibold p-2 rounded-sm" tabindex="0">
+<div class="card card-label relative group cursor-pointer focus:outline-none focus:border-indigo-500 border border-transparent shadow font-semibold p-2 rounded-sm" tabindex="0">
   {#if card.label != null}
     <div class="flex justify-end">
       <div class="w-6 h-2 mb-1 rounded-sm"
