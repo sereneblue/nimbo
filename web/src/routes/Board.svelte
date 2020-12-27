@@ -4,7 +4,6 @@
 
   import ColumnLayout from '../components/column/Layout.svelte';
   import EditableTitle from '../components/EditableTitle.svelte';
-  import InlineEditor from '../components/column/InlineEditor.svelte';
   import BoardLabel from '../components/BoardLabel.svelte';
   import SearchPalette from "../components/SearchPalette.svelte";
 
