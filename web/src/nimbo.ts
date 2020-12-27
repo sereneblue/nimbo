@@ -4,7 +4,7 @@ import Board from './datastore/models/Board';
 import List from './datastore/models/List';
 import Card from './datastore/models/Card';
 import Settings from './datastore/models/Settings';
-import { BoardLabel, CardDetails, RESULT_TYPE, SearchObject, SortObject, SwapObject, Theme } from './types';
+import { BoardLabel, CardDetails, PRIORITY, RESULT_TYPE, SearchObject, SortObject, SwapObject, Theme } from './types';
 import { getTimestamps } from './util';
 
 export default class nimbo {
@@ -467,12 +467,17 @@ export default class nimbo {
     d.setHours(23, 59, 59, 999);
 
     let t: any = getTimestamps(d);
-    let allBoardsSelected = this.settings.selectedBoards.includes('all');
+    let allBoardsSelected: boolean = this.settings.selectedBoards.includes('all');
+    let listFilters: string[]  = this.settings.listFilter.split(',').map(f => f.toLowerCase());
 
     let lists: string[] = this.boards
       .filter(b =>  allBoardsSelected || this.settings.selectedBoards.includes(b.id))
       .map(b => {
-        return b.lists.map(l => l.id)
+        return b.lists
+          .filter(l => {
+            return listFilters.length === 0 || listFilters.some(filter => l.title.toLowerCase().includes(filter))
+          })
+          .map(l => l.id)
       })
       .reduce((acc, val) => acc.concat(val), []);
 
@@ -494,12 +499,27 @@ export default class nimbo {
       })
       .toArray();
 
-    cards.sort((a: Card, b: Card): number => {
-      const aDefined: any = !!a.due;
-      const bDefined: any = !!b.due;
-      
-      return (bDefined - aDefined) || (aDefined === true && a.due - b.due) || 0;
+    // sort by due date
+    let cardsSortByDueDate = cards.filter(c => c.due && !c.isComplete);
+    cardsSortByDueDate.sort((a: Card, b: Card) => {
+      return a.due - b.due
     });
+
+    let cardsWithOutDueDate = cards.filter(c => c.due === null);
+    
+    // sort by priority
+    let cardsSortByPriority = cardsWithOutDueDate.filter(c => c.priority in PRIORITY);
+    cardsSortByPriority.sort((a: Card, b: Card) => {
+      return a.priority - b.priority
+    });
+
+    // sort by creation date
+    let cardsSortByCreationDate = cardsWithOutDueDate.filter(c => !(c.priority in PRIORITY));
+    cardsSortByCreationDate.sort((a: Card, b: Card) => {
+      return a.created - b.created
+    });
+
+    cards = cardsSortByDueDate.concat(cardsSortByPriority, cardsSortByCreationDate);
 
     return cards.slice(0, this.settings.maxCards);
   }
