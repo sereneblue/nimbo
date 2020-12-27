@@ -49,6 +49,17 @@ const formatDate = (timestamp: number): string => {
   return d.toLocaleString('en', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
+const formatForStopwatch = (seconds: number): string => {
+  let hours   = Math.floor(seconds / 3600)
+  let minutes = Math.floor(seconds / 60) % 60
+  seconds = seconds % 60
+
+  return [hours,minutes,seconds]
+    .map(v => v < 10 ? "0" + v : v)
+    .filter((v,i) => v !== "00" || i > 0)
+    .join(":")
+}
+
 const formatTime = (seconds: number): string => {
   let t: string = "";
 
@@ -77,6 +88,7 @@ export {
   clickOutside,
   getTimestamps,
   formatDate,
+  formatForStopwatch,
   formatTime,
   nanoid
 }
