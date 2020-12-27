@@ -13,7 +13,9 @@
   let open: boolean = false;
 
   $: {
-    if (selectedValues.includes('all') && options.length) {
+    if (options.length === 0) {
+      displayText = `No boards available`;
+    } else if (selectedValues.includes('all') && options.length) {
       displayText = `All ${options.length} board(s) selected`;
     } else if (selectedValues.length === 1) {
       displayText = options.find(o => o.value == selectedValues[0]).name;
@@ -68,7 +70,9 @@
   }
 
   const handleMultiselectClick = (): void => {
-    open = !open;
+    if (!(selectedValues.length === 1 && selectedValues[0] === 'all')) {
+      open = !open;
+    }
   }
 
   onMount(() => {
