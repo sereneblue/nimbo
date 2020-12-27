@@ -56,12 +56,12 @@
 </script> 
 
 <div>
-  <button on:click={handleButtonClick} class="py-1 px-2 rounded text-xs bg-indigo-600 text-white hover:bg-indigo-700">Labels</button>
+  <button on:click={handleButtonClick} class="py-1 px-2 rounded text-xs bg-indigo-500 text-white hover:bg-indigo-600">Labels</button>
 
   <Popover {isOpen} on:close={handleClose}>
-    <ul tabindex="-1" role="listbox" class="text-base w-40 py-1 leading-6 focus:outline-none w-80">
+    <ul tabindex="-1" role="listbox" class="text-base w-40 space-y-1 py-2 leading-6 focus:outline-none w-80">
       {#each labels as l (l)}
-        <li role="option" class="select-none relative py-2 pl-3 pr-9">
+        <li role="option" class="select-none relative py-1 pl-3 pr-9 hover:bg-light-200 dark:hover:bg-dark-100-50">
           <div class="flex items-center space-x-2 mr-2">
             <span
               class="flex-shrink-0 rounded-full w-4 h-4"
@@ -73,14 +73,14 @@
               class:bg-blue-500={l.color == LABEL_COLOR.BLUE}
               class:bg-purple-500={l.color == LABEL_COLOR.PURPLE}></span>
             {#if selectedColor == l.color}
-              <input use:focus on:blur={handleInputBlur} on:keyup={handleShortcuts} on:keydown={handleLabelInput} data-color={l.color} class="block rounded w-full px-1 focus:bg-light-300 dark:focus:bg-dark-100 border border-transparent border-dashed hover:border-light dark:hover:border-dark" value={l.text}>
+              <input use:focus on:blur={handleInputBlur} on:keyup={handleShortcuts} on:keydown={handleLabelInput} data-color={l.color} class="block rounded w-full px-1 focus:bg-light-300 dark:focus:bg-dark-100 border border-transparent border-dashed hover:border-light dark:hover:border-dark py-1" value={l.text}>
             {:else}
-              <span class="block truncate py-0.5">
+              <span class="block truncate py-1">
                 {l.text}
               </span>
             {/if}
           </div>
-          <button on:click={e => handleEditLabelClick(l.color)} class="absolute mx-auto opacity-50 hover:opacity-100 inset-y-0 right-0 flex items-center px-2 focus:bg-light-300 dark:focus:bg-dark-100 outline-none" title="Edit label">
+          <button on:click={e => handleEditLabelClick(l.color)} class="absolute mx-auto opacity-50 hover:opacity-100 inset-y-0 right-0 flex items-center mr-2.5 focus:bg-transparent outline-none" title="Edit label">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
             </svg>
