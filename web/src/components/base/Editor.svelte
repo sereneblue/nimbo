@@ -407,7 +407,7 @@
       <div class="mt-1" class:ml-8={!inline}>
         <textarea
         on:keydown={handleChecklistInput}
-        class="bg-transparent text-base inline-block w-full p-1 rounded-sm placeholder-dark-200 dark:placeholder-gray-500"
+        class="bg-transparent text-base inline-block w-full p-1 rounded-sm placeholder-dark-200 dark:placeholder-gray-500 border border-transparent focus:border-indigo-500"
         type="text" placeholder="Add an item to checklist"></textarea>
       </div>
     </div>
@@ -446,7 +446,7 @@
       <div class="mt-1" class:ml-8={!inline}>
         <input
         on:keydown={handleTimeTrackingInput}
-        class="bg-transparent text-base inline-block w-full p-1 rounded-sm placeholder-dark-200 dark:placeholder-gray-500"
+        class="bg-transparent text-base inline-block w-full p-1 rounded-sm placeholder-dark-200 dark:placeholder-gray-500 border border-transparent focus:border-indigo-500"
         type="text" placeholder="Add a duration. ex. 30m">
       </div>
     </div>
