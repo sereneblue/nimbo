@@ -67,7 +67,7 @@
           </div>
         {/if}
         {#if card.checklist.length}
-          <div class={checklistCompleted == card.checklist.length ? "flex items-center rounded text-white bg-green-500 p-1" : "flex items-center rounded py-1"}>
+          <div class={checklistCompleted == card.checklist.length ? "flex items-center rounded text-white bg-green-500 p-1" : "flex items-center rounded p-1"}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
             <span class="ml-1">{checklistCompleted} / {card.checklist.length}</span>
           </div>
@@ -79,7 +79,7 @@
           </div>
         {/if}
         {#if card.due}
-          <div class={card.isComplete ? "flex items-center rounded text-white bg-green-500 p-1" : card.due < new Date().getTime() ? "flex items-center rounded text-white bg-orange-600 py-1" : "flex items-center rounded py-1"}>
+          <div class={card.isComplete ? "flex items-center rounded text-white bg-green-500 p-1" : card.due < new Date().getTime() ? "flex items-center rounded text-white bg-orange-600 p-1" : "flex items-center rounded p-1"}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
             <span class="ml-1">{formatDate(card.due)}</span>
           </div>
