@@ -18,6 +18,7 @@
 
   let boardLink: HTMLAnchorElement;
   let bufferDescription: string;
+  let cardDescription: string = cardDetails.card.description;
   let checklist: HTMLElement;
   let editDescription: boolean = false;
   let hideCompleted: boolean = false;
@@ -128,6 +129,8 @@
 
   const handleDescriptionClick = (e: Event): void => {
     if (editDescription) {
+      cardDetails.card.description = description;
+
       dispatch("update", {
         card: cardDetails.card,
         property: "description"
@@ -302,7 +305,7 @@
         </div>
       {:else}
         {#if editDescription}
-          <textarea bind:value={cardDetails.card.description} on:keyup|stopPropagation class="w-full bg-white border-light-200 border-2 dark:border-transparent dark:bg-dark-100 p-1 rounded placeholder-dark-200 dark:placeholder-gray-400 shadow-sm" placeholder="Add a description" rows="10"></textarea>
+          <textarea bind:value={cardDescription} on:keyup|stopPropagation class="w-full bg-white border-light-200 border-2 dark:border-transparent dark:bg-dark-100 p-1 rounded placeholder-dark-200 dark:placeholder-gray-400 shadow-sm" placeholder="Add a description" rows="10"></textarea>
         {:else}
           <div class="opacity-75 hover:opacity-100 underline cursor-pointer" on:click={handleDescriptionClick}>Add a description</div>
         {/if}
