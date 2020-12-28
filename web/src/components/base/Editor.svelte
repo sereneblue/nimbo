@@ -129,7 +129,7 @@
 
   const handleDescriptionClick = (e: Event): void => {
     if (editDescription) {
-      cardDetails.card.description = description;
+      cardDetails.card.description = cardDescription;
 
       dispatch("update", {
         card: cardDetails.card,
