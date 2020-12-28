@@ -57,9 +57,11 @@
   }
 
   const handleKeyPress = (e: KeyboardEvent): void => {
-    if (e.key === "h") {
-      $nimboStore.setSelectedCard(null);
-      push("/");
+    if (!e.target.closest('.flatpickr-calendar')) {
+      if (e.key === "h") {
+        $nimboStore.setSelectedCard(null);
+        push("/");
+      }
     }
   };
 

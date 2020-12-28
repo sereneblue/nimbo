@@ -164,7 +164,7 @@
   }
 </style>
 
-<div class="flex items-center px-1 bg-light-100 dark:bg-dark-200 text-light dark:text-dark rounded" class:completed={complete}>
+<div class="flex items-center px-1 bg-light-100 dark:bg-dark-200 text-light dark:text-dark rounded" on:keyup|stopPropagation class:completed={complete}>
   {#if date}
     <span class="bg-transparent -mr-2 pl-2 py-1 min-w-0 outline-none pr-4">
       <input on:click={handleDueComplete} bind:checked={complete} type="checkbox" class="form-checkbox -mt-1 text-indigo-500 h-4 w-4 border-2 dark:border">

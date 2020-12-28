@@ -39,13 +39,15 @@
   }
 
   const handleKeyPress = (e: KeyboardEvent): void => {
-    if (e.key === "/") {
-      $nimboStore.openPalette();
-      $nimboStore = $nimboStore;
-    } else if (e.key === "h") {
-      $nimboStore.closePalette();
-      $nimboStore.setSelectedCard(null);
-      push("/");
+    if (!e.target.closest('.flatpickr-calendar')) {
+      if (e.key === "/") {
+        $nimboStore.openPalette();
+        $nimboStore = $nimboStore;
+      } else if (e.key === "h") {
+        $nimboStore.closePalette();
+        $nimboStore.setSelectedCard(null);
+        push("/");
+      }
     }
   };
 </script>
