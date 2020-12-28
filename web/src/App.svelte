@@ -3,7 +3,7 @@
   import Router from 'svelte-spa-router';
   
   import TailwindCSS from "./style/TailwindCSS.svelte"
-  import { Board, Card, Home } from "./routes";
+  import { Board, Card, Home, Zen } from "./routes";
   import { nimboStore } from "./datastore/stores";
 
   let loading: Promise<boolean> = $nimboStore.init();
@@ -13,6 +13,7 @@
   const routes = {
     '/c/:cardId': Card,
     '/b/:boardId': Board,
+    '/zen': Zen,
     '/': Home
   }
 </script>
