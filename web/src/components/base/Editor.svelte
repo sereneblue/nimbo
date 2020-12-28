@@ -242,15 +242,6 @@
   $: totalTime = cardDetails.card.log.reduce((a, b) => { return a + b.duration}, 0);
 </script>
 
-<style lang="postcss">
-  .checklist__item--chosen {
-    @apply bg-light-100 dark:bg-black border border-2 border-dashed opacity-50;
-  }
-  .checklist__item--drag.checklist__item--chosen {
-    @apply bg-light-100 dark:bg-dark-100 border-white opacity-100;
-  }
-</style>
-
 <div class="{inline ? 'w-96' : 'w-4/5 mx-auto'}">
   <div class="mb-2">
     {#if !inline}
@@ -262,10 +253,7 @@
           <a bind:this={boardLink} class="link" use:link={"/b/" + cardDetails.board.id}>
             {cardDetails.board.title}
           </a>
-          <span class="">/</span>
-          <span class="">
-            {cardDetails.list.title}
-          </span>
+          <span>/ {cardDetails.list.title}</span>
         </div>
       </div>
     {/if}
@@ -288,7 +276,7 @@
   <div class="mb-2">
     <div class="flex items-center">
       <div class:ml-8={!inline}>
-        <h3 class="text-xl dark:opacity-75">
+        <h3 class="text-lg">
           Description
         </h3>
       </div>
@@ -317,7 +305,7 @@
     <div>
       <div class="flex items-center">
         <div class:ml-8={!inline}>
-          <h3 class="text-xl dark:opacity-75">
+          <h3 class="text-lg">
             Due Date
           </h3>
         </div>
@@ -329,7 +317,7 @@
     <div>
       <div class="flex items-center">
         <div class:ml-8={!inline}>
-          <h3 class="text-xl opacity-75">
+          <h3 class="text-lg">
             Priority
           </h3>
         </div>
@@ -341,7 +329,7 @@
     <div>
       <div class="flex items-center">
         <div class:ml-8={!inline}>
-          <h3 class="text-xl opacity-75">
+          <h3 class="text-lg">
             Label
           </h3>
         </div>
