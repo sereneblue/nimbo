@@ -1,5 +1,6 @@
 import { exportDB, peakImportFile} from "dexie-export-import";
 import { nimboDB } from './datastore/db';
+import type { BroadcastChannel } from 'broadcast-channel';
 import { Board, Card, List, Settings } from './datastore/models';
 import { BoardLabel, CardDetails, PRIORITY, RESULT_TYPE, SearchObject, SortObject, SwapObject, Theme } from './types';
 import { getTimestamps } from './util';
@@ -7,9 +8,10 @@ import { getTimestamps } from './util';
 export default class nimbo {
   db: nimboDB;
   boards: Board[];
+  channel: BroadcastChannel;
   selectedCardId: string;
-  showCommandPalette: boolean;
   settings: Settings;
+  showCommandPalette: boolean;
 
   constructor() {
     this.db = new nimboDB();
@@ -21,7 +23,7 @@ export default class nimbo {
 
   public async init(): Promise<boolean> {
     this.boards = await this.db.boards.toArray();
-    
+
     let lists: List[][] = await Promise.all(this.boards.map(b => this.db.lists.where({ boardId: b.id }).toArray()));
 
     for (let i: number = 0; i < lists.length; i++) {
@@ -39,7 +41,7 @@ export default class nimbo {
     }
 
     let settings: Settings[] = await this.db.settings.toArray();
-    if (!settings.length) {
+    if (settings.length === 0) {
       await this.updateSettings(this.settings);
     } else {
       this.settings = settings[0];
@@ -70,6 +72,8 @@ export default class nimbo {
         await this.db.cards.add(c);
       }
     }
+
+    this.update();
   }
 
   public async addNewList(boardId: string): Promise<void> {
@@ -81,6 +85,8 @@ export default class nimbo {
 
       await this.db.lists.add(l);
     }
+
+    this.update();
   }
 
   public async createBoard(title: string): Promise<string> {
@@ -88,6 +94,8 @@ export default class nimbo {
     this.boards = [...this.boards, b];
 
     await this.db.boards.add(b);
+
+    this.update();
 
     return b.id;
   }
@@ -100,6 +108,8 @@ export default class nimbo {
     }
 
     await this.db.boards.delete(id);
+
+    this.update();
   }
 
   public async deleteCard(list: List, cardId: string): Promise<void> {
@@ -114,6 +124,8 @@ export default class nimbo {
     }
 
     await this.db.cards.delete(cardId);
+
+    this.update();
   }
 
   public async deleteList(boardId: string, listId: string): Promise<void> {
@@ -143,6 +155,8 @@ export default class nimbo {
         await this.updateListIndexes(listIndexes);
       }
     }
+
+    this.update();
   }
 
   public async export(): Promise<Blob> {
@@ -254,6 +268,8 @@ export default class nimbo {
       ]);
     });
 
+    this.update();
+
     return board.id;
   }
 
@@ -308,6 +324,16 @@ export default class nimbo {
         await this.updateCardIndexes(tmp, cardIndexes);
       }
     }
+
+    this.update();
+  }
+
+  public async refresh(): Promise<void> {
+    await this.init();
+  }
+
+  public setChannel(channel: BroadcastChannel): void {
+    this.channel = channel;
   }
 
   public setSelectedCard(cardId: string | null): void {
@@ -332,6 +358,8 @@ export default class nimbo {
         await this.db.lists.bulkPut([from, to]);
       });
     }
+
+    this.update();
   }
 
   public async toggleBoardArchive(boardId: string): Promise<void> {
@@ -344,6 +372,8 @@ export default class nimbo {
         isArchived: this.boards[boardIndex].isArchived
       });
     }
+
+    this.update();
   }
 
   public async toggleBoardStar(boardId: string): Promise<void> {
@@ -356,14 +386,21 @@ export default class nimbo {
         isStarred: this.boards[boardIndex].isStarred
       });
     }
+
+    this.update();
   }
 
-  public toggleTheme(): void {
+  public async toggleTheme(): Promise<void> {
     let theme: Theme = this.settings.theme === 'dark' ? 'light' : 'dark';
 
     this.settings.theme = theme;
 
-    this.updateSettings(this.settings);
+    await this.updateSettings(this.settings);
+    this.update();
+  }
+
+  public update(): void {
+    this.channel.postMessage("update");
   }
 
   public async updateBoardTitle(boardId: string, title: string): Promise<void> {
@@ -376,6 +413,8 @@ export default class nimbo {
         title
       });
     }
+
+    this.update();
   }
 
   public async updateCard(c: Card, property: string): Promise<void> {
@@ -392,6 +431,8 @@ export default class nimbo {
     await this.db.cards.update(c.id, {
       [property]: c[property]
     });
+
+    this.update();
   }
 
   private async updateCardIndexes(c: Card, cardIndexes: object): Promise<void> {
@@ -416,6 +457,8 @@ export default class nimbo {
         labels
       });
     }
+
+    this.update();
   }
 
   private async updateListIndexes(listIndexes: object): Promise<void> {
@@ -437,13 +480,17 @@ export default class nimbo {
           title
         });
       }
-    }  
+    }
+
+    this.update();
   }
 
   public async updateSettings(s: Settings): Promise<void> {
     await this.db.settings.put(s);
 
     this.settings = s;
+
+    this.update();
   }
 
   public async updateViewTime(boardId: string): Promise<void> {
@@ -457,6 +504,8 @@ export default class nimbo {
         lastViewTime
       });
     }
+
+    this.update();
   }
 
   public async zenCards(): Promise<Card[]> {
@@ -503,7 +552,7 @@ export default class nimbo {
     });
 
     let cardsWithOutDueDate = cards.filter(c => c.due === null);
-    
+
     // sort by priority
     let cardsSortByPriority = cardsWithOutDueDate.filter(c => c.priority in PRIORITY);
     cardsSortByPriority.sort((a: Card, b: Card) => {

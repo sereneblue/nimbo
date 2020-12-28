@@ -25,7 +25,6 @@
   let isConfirmModalOpen: boolean = false;
   let modalMessage: string;
   let onConfirm = () => {};
-  let settings: object = $nimboStore.settings;
   let showFilters: boolean = false;
 
   const handleCloseConfirmModal = (): void => {
@@ -65,12 +64,21 @@
     }
   };
 
-  const handleListInputBlur = (e: FocusEvent): void => {
+  const handleListInputBlur = async (e: FocusEvent): void => {
     settings.listFilter = e.target.value;
+
+    await $nimboStore.updateSettings(settings);
+    $nimboStore = $nimboStore;
   }
 
+  const handleSettingsUpdate = async (key: string, value: any): void => {
+    settings[key] = isNaN(parseInt(value, 10)) ? value : Number(value);
+
+    await $nimboStore.updateSettings(settings);
+    $nimboStore = $nimboStore;
+  } 
+
   const refreshCardList = async (): Promise<void> => {
-    cards = await $nimboStore.zenCards();
   }
 
   const updateTimeTracking = async (e: CustomEvent): Promise<void> => {
@@ -78,12 +86,13 @@
     $nimboStore = $nimboStore;
   }
 
+  $: settings = $nimboStore.settings;
   $: {
-    $nimboStore.updateSettings(settings);
-    $nimboStore = $nimboStore;
-
-    refreshCardList();
+    (async () => {
+      cards = await $nimboStore.zenCards();
+    })();
   }
+
 </script>
 
 <svelte:window on:keyup={handleKeyPress} />
@@ -143,7 +152,7 @@
               </div>
               <label class="block">
                 <span>Due Date</span>
-                <select class="form-select p-1.5 mt-1 bg-white dark:bg-dark-200 border border-light-200 dark:border-transparent w-full" bind:value={settings.dueFilter}>
+                <select class="form-select p-1.5 mt-1 bg-white dark:bg-dark-200 border border-light-200 dark:border-transparent w-full" on:change={e => handleSettingsUpdate('dueFilter', e.target.value)} value={settings.dueFilter}>
                   <option value="all">All</option>
                   <option value="overdue">Overdue</option>
                   <option value="tomorrow">Due in the next day</option>
@@ -153,7 +162,7 @@
               </label>
               <label class="block">
                 <span>Max cards to display</span>
-                <select class="form-select p-1.5 mt-1 bg-white dark:bg-dark-200 border border-light-200 dark:border-transparent w-full" bind:value={settings.maxCards}>
+                <select class="form-select p-1.5 mt-1 bg-white dark:bg-dark-200 border border-light-200 dark:border-transparent w-full" on:change={e => handleSettingsUpdate('maxCards', e.target.value)} value={settings.maxCards}>
                   <option value={1}>1</option>
                   <option value={3}>3</option>
                   <option value={5}>5</option>

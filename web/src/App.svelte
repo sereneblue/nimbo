@@ -1,10 +1,19 @@
 <script lang="ts">
   import { setContext } from 'svelte';
   import Router from 'svelte-spa-router';
-  
+  import { BroadcastChannel } from 'broadcast-channel';
+
   import TailwindCSS from "./style/TailwindCSS.svelte"
   import { Board, Card, Home, Zen } from "./routes";
   import { nimboStore } from "./datastore/stores";
+
+  const channel: BroadcastChannel<any> = new BroadcastChannel('nimbo');
+  $nimboStore.setChannel(channel);
+
+  channel.onmessage = async (msg: any): Promise<void> => {
+    await $nimboStore.refresh();
+    $nimboStore = $nimboStore;
+  }
 
   let loading: Promise<boolean> = $nimboStore.init();
 
