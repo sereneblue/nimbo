@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { fly } from 'svelte/transition';
-  import type Card from '../../datastore/models/Card';
+  import type { Card } from '../../datastore/models';
   import { PRIORITY, LABEL_COLOR } from '../../types';
   import type { TimeEntry } from '../../types';
   import { formatDate, formatForStopwatch, formatTime } from '../../util';

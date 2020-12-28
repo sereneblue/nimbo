@@ -1,6 +1,4 @@
-import type Board from "./datastore/models/Board";
-import type Card from "./datastore/models/Card";
-import type List from "./datastore/models/List";
+import type { Board, Card, List } from "./datastore/models";
 
 export const BOARD_COLORS: string[] = [
   "#DC7684",

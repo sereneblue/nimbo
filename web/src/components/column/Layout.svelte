@@ -6,7 +6,7 @@
   import ConfirmModal from "../ConfirmModal.svelte";
   import InlineEditor from "./InlineEditor.svelte";
   import type nimbo from "../../nimbo";
-  import type { Board } from "../../datastore/models/Board";
+  import type { Board } from "../../datastore/models";
 
   export let boardId: string;
 

@@ -1,8 +1,5 @@
 ﻿﻿import Dexie from 'dexie';
-import Board from './models/Board';
-import List from './models/List';
-import Card from './models/Card';
-import Settings from './models/Settings';
+import { Board, Card, List, Settings } from './models';
 
 export class nimboDB extends Dexie {
   boards: Dexie.Table<Board, string>;

@@ -1,9 +1,6 @@
 import { exportDB, peakImportFile} from "dexie-export-import";
 import { nimboDB } from './datastore/db';
-import Board from './datastore/models/Board';
-import List from './datastore/models/List';
-import Card from './datastore/models/Card';
-import Settings from './datastore/models/Settings';
+import { Board, Card, List, Settings } from './datastore/models';
 import { BoardLabel, CardDetails, PRIORITY, RESULT_TYPE, SearchObject, SortObject, SwapObject, Theme } from './types';
 import { getTimestamps } from './util';
 

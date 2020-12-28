@@ -9,7 +9,7 @@
   import { BOARD_COLORS } from '../types';
 
   import type nimbo from '../nimbo';
-  import type Board from '../datastore/models/Board';
+  import type { Board } from '../datastore/models';
   
   let hideArchivedBoards: boolean = true;
   let importedDB: FileList;
