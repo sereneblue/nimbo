@@ -67,6 +67,12 @@
     document.querySelector('#import').click();
   }
 
+  const handleKeyPress = (e: KeyboardEvent): void => {
+    if (e.key === "z") {
+      push("/zen");
+    }
+  };
+
   const handleStarBoard = (boardId: string): void => {
     $nimboStore.toggleBoardStar(boardId);
 
@@ -95,6 +101,8 @@
 
   $: importedDB && handleImportBoards();
 </script>
+
+<svelte:window on:keyup={handleKeyPress} />
 
 <svelte:head>
   <title>My Boards | nimbo</title>

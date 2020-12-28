@@ -1,6 +1,7 @@
 <script lang="ts">
   import { getContext } from 'svelte';
   import { slide, fly } from 'svelte/transition';
+  import { push } from 'svelte-spa-router';
 
   import ConfirmModal from '../components/ConfirmModal.svelte';
   import InlineEditor from '../components/column/InlineEditor.svelte';
@@ -55,6 +56,13 @@
     showFilters = !showFilters;
   }
 
+  const handleKeyPress = (e: KeyboardEvent): void => {
+    if (e.key === "h") {
+      $nimboStore.setSelectedCard(null);
+      push("/");
+    }
+  };
+
   const handleListInputBlur = (e: FocusEvent): void => {
     settings.listFilter = e.target.value;
   }
@@ -75,6 +83,8 @@
     refreshCardList();
   }
 </script>
+
+<svelte:window on:keyup={handleKeyPress} />
 
 <svelte:head>
   <title>Zen Mode | nimbo</title>
@@ -126,6 +136,7 @@
                   class="bg-white dark:bg-dark-200 inline-block w-full focus:bg-white dark:focus:bg-dark-100 p-1.5 mt-1 rounded-sm border border-transparent focus:border-indigo-500 placeholder-light dark:placeholder-dark"
                   type="text"
                   on:blur={handleListInputBlur}
+                  on:keyup|stopPropagation
                   placeholder="Ex. pending, todo, etc" />
               </div>
               <label class="block">

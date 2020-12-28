@@ -9,12 +9,6 @@
 
   const dispatch = createEventDispatcher();
 
-  const handleShortcuts = (e: KeyboardEvent): void => {
-    if (e.key === "/" || e.key === "l" || e.key === "h") {
-      e.stopPropagation();
-    }
-  }
-
   const handleTitleFocus = (e: FocusEvent): void => {
     hasFocus = true;
   }
@@ -70,11 +64,11 @@
   <div class="min-w-0 editable-title">
     {#if isTitle}
       <h1 class="w-full text-2xl font-semibold" title={bufferContent}>
-        <span use:handlePasteEvent on:keyup={handleShortcuts} on:keydown={handleTitleInput} on:focus={handleTitleFocus} on:blur={handleTitleBlur} contenteditable class="block w-full focus:bg-light-100 dark:focus:bg-dark-100 border border-transparent border-dashed hover:border-light dark:hover:border-dark rounded p-1" class:truncate-2-lines={!hasFocus} bind:textContent={bufferContent}></span>
+        <span use:handlePasteEvent on:keyup|stopPropagation on:keydown={handleTitleInput} on:focus={handleTitleFocus} on:blur={handleTitleBlur} contenteditable class="block w-full focus:bg-light-100 dark:focus:bg-dark-100 border border-transparent border-dashed hover:border-light dark:hover:border-dark rounded p-1" class:truncate-2-lines={!hasFocus} bind:textContent={bufferContent}></span>
       </h1>
     {:else}
       <h2 class="w-full text-xl font-semibold pr-2" title={bufferContent}> 
-        <span use:handlePasteEvent on:keyup={handleShortcuts} on:keydown={handleTitleInput} on:focus={handleTitleFocus} on:blur={handleTitleBlur} contenteditable class="block w-full focus:bg-light-300 dark:focus:bg-dark-100 border border-transparent border-dashed hover:border-light dark:hover:border-dark rounded p-1" class:truncate-3-lines={!hasFocus} bind:textContent={bufferContent}></span>
+        <span use:handlePasteEvent on:keyup|stopPropagation on:keydown={handleTitleInput} on:focus={handleTitleFocus} on:blur={handleTitleBlur} contenteditable class="block w-full focus:bg-light-300 dark:focus:bg-dark-100 border border-transparent border-dashed hover:border-light dark:hover:border-dark rounded p-1" class:truncate-3-lines={!hasFocus} bind:textContent={bufferContent}></span>
       </h2>
     {/if}
   </div>

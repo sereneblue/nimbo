@@ -52,8 +52,6 @@
       }
 
       e.target.value = "";
-    } else if (e.key === "l" || e.key === "/" || e.key === "h") {
-      e.stopPropagation();
     }
   };
 
@@ -150,7 +148,7 @@
 
   <div class="w-full mt-2">
     <input
-      on:keyup={handleListInput}
+      on:keyup|stopPropagation={handleListInput}
       class="bg-transparent inline-block w-full focus:bg-white dark:focus:bg-dark-100 p-2 rounded-sm border border-transparent focus:border-indigo-500 placeholder-light dark:placeholder-dark"
       type="text"
       placeholder="Add a card..." />

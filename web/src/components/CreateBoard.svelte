@@ -51,12 +51,12 @@
       couldNotImport = true;
     }
   }
-</script> 
+</script>
 
 <Modal {isOpen} on:close={handleClose}>
   <div class="p-4" on:paste={handlePasteEvent}>
     <form on:submit={handleCreateBoard}>
-      <input title="Please enter a valid board name" autocomplete="off" pattern=".*\S+.*" class="text-light dark:text-dark text-2xl p-2 shadow-none w-full bg-light-300 dark:bg-dark-300 border border-transparent focus:border-indigo-500 appearance-none leading-normal rounded outline-none" placeholder="Board name" bind:value={boardTitle} on:keydown={handleInput} required type="text">
+      <input title="Please enter a valid board name" autocomplete="off" pattern=".*\S+.*" class="text-light dark:text-dark text-2xl p-2 shadow-none w-full bg-light-300 dark:bg-dark-300 border border-transparent focus:border-indigo-500 appearance-none leading-normal rounded outline-none" placeholder="Board name" bind:value={boardTitle} on:keydown={handleInput} on:keyup|stopPropagation required type="text">
 
       <button type="submit" class="mt-4 bg-indigo-600 w-full hover:bg-indigo-700 text-white text-xl font-bold py-2 px-4 rounded">
         Create board

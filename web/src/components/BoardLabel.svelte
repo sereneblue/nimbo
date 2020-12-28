@@ -47,12 +47,6 @@
       e.target.blur();
     }
   }
-
-  const handleShortcuts = (e: KeyboardEvent): void => {
-    if (e.key === "/" || e.key === "l" || e.key === "h") {
-      e.stopPropagation();
-    }
-  }
 </script> 
 
 <div>
@@ -73,7 +67,7 @@
               class:bg-blue-500={l.color == LABEL_COLOR.BLUE}
               class:bg-purple-500={l.color == LABEL_COLOR.PURPLE}></span>
             {#if selectedColor == l.color}
-              <input use:focus on:blur={handleInputBlur} on:keyup={handleShortcuts} on:keydown={handleLabelInput} data-color={l.color} class="block rounded w-full px-1 focus:bg-light-300 dark:focus:bg-dark-100 border border-transparent border-dashed hover:border-light dark:hover:border-dark py-1" value={l.text}>
+              <input use:focus on:blur={handleInputBlur} on:keyup|stopPropagation on:keydown={handleLabelInput} data-color={l.color} class="block rounded w-full px-1 focus:bg-light-300 dark:focus:bg-dark-100 border border-transparent border-dashed hover:border-light dark:hover:border-dark py-1" value={l.text}>
             {:else}
               <span class="block truncate py-1">
                 {l.text}

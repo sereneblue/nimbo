@@ -114,12 +114,6 @@
     }
   }
 
-  const handleShortcuts = (e: KeyboardEvent): void => {
-    if (e.key === "/" || e.key === "l" || e.key === "h") {
-      e.stopPropagation();
-    }
-  }
-
   const execAction = (s: Search): void => {
     $nimboStore.closePalette();
     $nimboStore.setSelectedCard(null);
@@ -147,7 +141,7 @@
 </style>
 
 {#if $nimboStore.showCommandPalette }
-  <div use:init on:keyup={handleShortcuts} class="absolute w-full top-0 left-0 h-screen z-10 bg-dark-300-75" transition:fade={{ duration: 100 }}>
+  <div use:init on:keyup|stopPropagation class="absolute w-full top-0 left-0 h-screen z-10 bg-dark-300-75" transition:fade={{ duration: 100 }}>
     <div class="bg-light-200 dark:bg-dark-200 mt-24 w-3/4 md:w-2/3 xl:w-1/2 mx-auto rounded py-2 shadow-lg" use:handleClickOutside>
       <div class="px-2">
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute text-dark m-4"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>

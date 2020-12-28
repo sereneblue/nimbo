@@ -165,13 +165,7 @@
 
     cardDetails.card = cardDetails.card;
   }
-
-  const handleShortcuts = (e: KeyboardEvent): void => {
-    if (e.key === "/" || e.key === "l" || e.key === "h") {
-      e.stopPropagation();
-    }
-  }
-
+  
   const handleToggleHideCompleted = (e: Event): void => {
     hideCompleted = !hideCompleted;
   }
@@ -308,7 +302,7 @@
         </div>
       {:else}
         {#if editDescription}
-          <textarea bind:value={cardDetails.card.description} on:keyup={handleShortcuts} class="w-full bg-white border-light-200 border-2 dark:border-transparent dark:bg-dark-100 p-1 rounded placeholder-dark-200 dark:placeholder-gray-400 shadow-sm" placeholder="Add a description" rows="10"></textarea>
+          <textarea bind:value={cardDetails.card.description} on:keyup|stopPropagation class="w-full bg-white border-light-200 border-2 dark:border-transparent dark:bg-dark-100 p-1 rounded placeholder-dark-200 dark:placeholder-gray-400 shadow-sm" placeholder="Add a description" rows="10"></textarea>
         {:else}
           <div class="opacity-75 hover:opacity-100 underline cursor-pointer" on:click={handleDescriptionClick}>Add a description</div>
         {/if}
@@ -407,6 +401,7 @@
       <div class="mt-1" class:ml-8={!inline}>
         <textarea
         on:keydown={handleChecklistInput}
+        on:keyup|stopPropagation
         class="bg-transparent text-base inline-block w-full p-1 rounded-sm placeholder-dark-200 dark:placeholder-gray-500 border border-transparent focus:border-indigo-500"
         type="text" placeholder="Add an item to checklist"></textarea>
       </div>
@@ -446,6 +441,7 @@
       <div class="mt-1" class:ml-8={!inline}>
         <input
         on:keydown={handleTimeTrackingInput}
+        on:keyup|stopPropagation
         class="bg-transparent text-base inline-block w-full p-1 rounded-sm placeholder-dark-200 dark:placeholder-gray-500 border border-transparent focus:border-indigo-500"
         type="text" placeholder="Add a duration. ex. 30m">
       </div>
