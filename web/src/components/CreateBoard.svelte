@@ -51,6 +51,12 @@
       couldNotImport = true;
     }
   }
+
+  $: {
+    if (isOpen) {
+      boardTitle = "";
+    }
+  };
 </script>
 
 <Modal {isOpen} on:close={handleClose}>
