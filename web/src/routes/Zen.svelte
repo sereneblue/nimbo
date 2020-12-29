@@ -23,8 +23,11 @@
     isConfirmModalOpen = false;
   };
 
-  const handleBoardFilterUpdate = (e: CustomEvent): void => {
+  const handleBoardFilterUpdate = async (e: CustomEvent): Promise<void> => {
     settings.selectedBoards = e.detail;
+
+    await $nimboStore.updateSettings(settings);
+    $nimboStore = $nimboStore;
   }
 
   const handleCardClick = (cardId: string): void => {
