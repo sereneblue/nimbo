@@ -41,13 +41,13 @@ export default {
     sourcemap: true,
     format: 'iife',
     name: 'app',
-    file: 'public/build/bundle.js',
+    file: 'public/assets/bundle.js',
   },
   plugins: [
     replace({
       'process.env.NODE_ENV': production ? JSON.stringify( 'production' ) : JSON.stringify( 'development' )
     }),
-    css({ output: "public/build/extra.css" }),
+    css({ output: "public/assets/extra.css" }),
     svelte({
       // enable run-time checks when not in production
       dev: !production,
