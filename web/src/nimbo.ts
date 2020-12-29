@@ -220,6 +220,8 @@ export default class nimbo {
          await this.db.import(db, {
            clearTablesBeforeImport: true
          });
+
+         this.update();
          return true;
       }
     } catch (err) {};
