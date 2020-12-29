@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getContext } from 'svelte';
+  import { getContext, onMount } from 'svelte';
   import { link, push } from 'svelte-spa-router';
 
   import ColumnLayout from '../components/column/Layout.svelte';
@@ -27,11 +27,7 @@
   let boardIndex: number;
 
   $: { 
-    boardIndex = $nimboStore.boards.findIndex(b => b.id === params.boardId);  
-
-    if (boardIndex > -1) {
-      $nimboStore.updateViewTime($nimboStore.boards[boardIndex].id);
-    }
+    boardIndex = $nimboStore.boards.findIndex(b => b.id === params.boardId);
   }
 
   $: {
@@ -50,6 +46,12 @@
       }
     }
   };
+
+  onMount(() => {
+    if (boardIndex > -1) {
+      $nimboStore.updateViewTime($nimboStore.boards[boardIndex].id);
+    }
+  });
 </script>
 
 <svelte:window on:keyup={handleKeyPress} />
