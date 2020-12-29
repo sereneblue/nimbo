@@ -12,14 +12,6 @@
   import { PRIORITY } from '../types';
 
   const nimboStore: Writable<nimbo> = getContext('nimbo');
-  const boards: any[] = $nimboStore.boards
-    .filter(b => b.isArchived === false)
-    .map(b => {
-      return {
-        name: b.title,
-        value: b.id
-      }
-    });
  
   let cards: Card[] = [];
   let isConfirmModalOpen: boolean = false;
@@ -87,8 +79,16 @@
     $nimboStore = $nimboStore;
   }
 
-  $: settings = $nimboStore.settings;
   $: $nimboStore && refreshCardList();
+  $: settings = $nimboStore.settings;
+  $: boards = $nimboStore.boards
+    .filter(b => b.isArchived === false)
+    .map(b => {
+      return {
+        name: b.title,
+        value: b.id
+      }
+    });
 </script>
 
 <svelte:window on:keyup={handleKeyPress} />
