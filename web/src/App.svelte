@@ -8,11 +8,18 @@
   import { nimboStore } from "./datastore/stores";
 
   const channel: BroadcastChannel<any> = new BroadcastChannel('nimbo');
+
+  let timeout: number = 0; 
+
   $nimboStore.setChannel(channel);
 
   channel.onmessage = async (msg: any): Promise<void> => {
-    await $nimboStore.refresh();
-    $nimboStore = $nimboStore;
+    clearTimeout(timeout);
+
+    timeout = setTimeout(async () => {
+      await $nimboStore.refresh();
+      $nimboStore = $nimboStore;
+    }, 250)
   }
 
   let loading: Promise<boolean> = $nimboStore.init();
