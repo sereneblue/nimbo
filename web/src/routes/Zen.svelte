@@ -112,7 +112,7 @@
             {#if cards.length}
               {#each cards as c}
                 <div class="card-container bg-white hover:bg-light-100-50 dark:bg-dark-100 dark:hover:bg-dark-100-50 rounded-sm w-96" on:click={e => handleCardClick(c.id)}>
-                  <ListCard {c} on:trackTime={updateTimeTracking} isZen />
+                  <ListCard {c} on:trackTime={updateTimeTracking} isFocused={$nimboStore.selectedCardId === c.id} isZen />
                 </div>
               {/each}
             {:else}
