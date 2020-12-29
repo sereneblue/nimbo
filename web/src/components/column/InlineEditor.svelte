@@ -27,6 +27,8 @@
   const handleUpdate = async (e: CustomEvent): Promise<void> => {
     if (e.detail.card) {
       await $nimboStore.updateCard(e.detail.card, e.detail.property);
+    } else if (e.detail.boardId) {
+      await $nimboStore.moveCard(e.detail);
     } else {
       await $nimboStore.deleteCard(e.detail.list, e.detail.cardId);
     }
@@ -51,7 +53,7 @@
     class:w-116={!isZen}
     class:hidden={id == null}>
     {#if id}
-      <Editor {cardDetails} inline={true}
+      <Editor {cardDetails} inline={true} {isZen}
         on:close={handleCloseEvent}
         on:delete={handleDeleteEvent}
         on:update={handleUpdate} />

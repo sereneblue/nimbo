@@ -15,6 +15,7 @@
 
   export let cardDetails: CardDetails;
   export let inline: boolean;
+  export let isZen: boolean;
 
   let boardLink: HTMLAnchorElement;
   let bufferDescription: string;
@@ -158,6 +159,22 @@
     })
   }
 
+  const handleListUpdate = (e: Event): void => {
+    let newList = cardDetails.board.lists.find(l => l.id === e.target.value);
+
+    dispatch("update", {
+      boardId: cardDetails.board.id,
+      from: {
+        list: cardDetails.card.listId,
+        index: cardDetails.card.index
+      },
+      to: {
+        list: newList.id,
+        index: newList.cards.length
+      }
+    });
+  }
+
   const handlePriorityUpdate = (e: Event): void => {
     cardDetails.card.setPriority(e.detail);
 
@@ -238,6 +255,13 @@
   $: checklistProgress = cardDetails.card.checklist.length === 0 ? 
       "" :
       Math.round( (cardDetails.card.checklist.filter(c => c.checked).length / cardDetails.card.checklist.length) * 100 ) + "%";
+
+  $: lists = cardDetails.board.lists.map(l => {
+    return {
+      name: l.title,
+      value: l.id
+    }
+  });
 
   $: totalTime = cardDetails.card.log.reduce((a, b) => { return a + b.duration}, 0);
 </script>
@@ -338,6 +362,24 @@
         <CardLabel on:update={handleLabelUpdate} selected={cardDetails.card.label} labels={cardDetails.board.labels} />
       </div>
     </div>
+    {#if isZen}
+      <div>
+        <div class="flex items-center">
+          <div class:ml-8={!inline}>
+            <h3 class="text-lg">
+              List
+            </h3>
+          </div>
+        </div>    
+        <div class="flex mt-2 text-lg" class:ml-8={!inline}>
+          <select class="form-select p-1 bg-white dark:bg-dark-200 border border-light-200 dark:border-transparent w-full pr-8" on:change={handleListUpdate} bind:value={cardDetails.card.listId}>
+            {#each lists as l (l)}
+              <option value={l.value}>{l.name}</option>
+            {/each}
+          </select>
+        </div>
+      </div>
+    {/if}
   </div>
 
   <div class="mb-2">
