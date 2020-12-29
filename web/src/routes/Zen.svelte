@@ -79,6 +79,7 @@
   } 
 
   const refreshCardList = async (): Promise<void> => {
+    cards = await $nimboStore.zenCards();
   }
 
   const updateTimeTracking = async (e: CustomEvent): Promise<void> => {
@@ -87,12 +88,7 @@
   }
 
   $: settings = $nimboStore.settings;
-  $: {
-    (async () => {
-      cards = await $nimboStore.zenCards();
-    })();
-  }
-
+  $: $nimboStore && refreshCardList();
 </script>
 
 <svelte:window on:keyup={handleKeyPress} />

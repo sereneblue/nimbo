@@ -324,8 +324,6 @@ export default class nimbo {
         await this.updateCardIndexes(tmp, cardIndexes);
       }
     }
-
-    this.update();
   }
 
   public async refresh(): Promise<void> {
@@ -445,6 +443,8 @@ export default class nimbo {
         c.index = cardIndexes[c.id];
       })
     });
+
+    this.update();
   }
 
   public async updateLabels(boardId: string, labels: BoardLabel[]): Promise<void> {
@@ -551,7 +551,7 @@ export default class nimbo {
       return a.due - b.due
     });
 
-    let cardsWithOutDueDate = cards.filter(c => c.due === null);
+    let cardsWithOutDueDate = cards.filter(c => c.due === null || c.due === undefined);
 
     // sort by priority
     let cardsSortByPriority = cardsWithOutDueDate.filter(c => c.priority in PRIORITY);
