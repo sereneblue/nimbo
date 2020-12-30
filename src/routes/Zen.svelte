@@ -147,7 +147,7 @@
                   type="text"
                   on:blur={handleListInputBlur}
                   on:keyup|stopPropagation
-                  placeholder="Ex. pending, todo, etc" />
+                  placeholder="Ex. 'pending,todo' etc" />
               </div>
               <label class="block">
                 <span>Due Date</span>
