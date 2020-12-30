@@ -2,7 +2,7 @@
   import { createEventDispatcher, onMount } from 'svelte';
   
   import flatpickr from 'flatpickr';
-  import 'flatpickr/dist/light.css';
+  import 'flatpickr/dist/themes/dark.css';
 
   export let date: number;
   export let complete: boolean = false;
@@ -66,10 +66,19 @@
     @apply bg-indigo-500;
   }
   span.flatpickr-weekday {
-    @apply text-white;
+    @apply text-white bg-indigo-500;
+  }
+  .flatpickr-day.today {
+    @apply border-indigo-500;
   }
   .flatpickr-day.selected {
     @apply bg-indigo-500 border-indigo-500 hover:bg-indigo-400; 
+  }
+  .flatpickr-months .flatpickr-month {
+    @apply bg-indigo-500;
+  }
+  .flatpickr-current-month .flatpickr-monthDropdown-months {
+    @apply bg-indigo-500;
   }
   .flatpickr-months {
     @apply bg-indigo-500;
@@ -87,49 +96,83 @@
   span.arrowUp, span.arrowDown {
     @apply hover:bg-opacity-50;
   }
-  .flatpickr-months .flatpickr-prev-month:hover,
-  .flatpickr-months .flatpickr-next-month:hover,
-  .flatpickr-months .flatpickr-prev-month:hover svg,
+  .flatpickr-months .flatpickr-prev-month:hover {
+    @apply hover:text-indigo-900 fill-current;
+  }
+  .flatpickr-months .flatpickr-next-month:hover {
+    @apply hover:text-indigo-900 fill-current;
+  }
+  .flatpickr-months .flatpickr-prev-month:hover svg {
+    @apply hover:text-indigo-900 fill-current;
+  }
   .flatpickr-months .flatpickr-next-month:hover svg {
     @apply hover:text-indigo-900 fill-current;
   }
-  .flatpickr-months .flatpickr-prev-month, .flatpickr-months .flatpickr-next-month {
+  .flatpickr-months .flatpickr-prev-month {
     @apply text-white fill-current; 
   }
-
+  .flatpickr-months .flatpickr-next-month {
+    @apply text-white fill-current; 
+  }
   div.flatpickr-calendar {
     @apply bg-light-200;
   }
   .dark ~ div.flatpickr-calendar {
     @apply bg-dark-100;
   }
-
-  .flatpickr-months .flatpickr-month, 
-  .flatpickr-time span.flatpickr-am-pm, 
-  .numInput.flatpickr-minute, 
-  .numInput.flatpickr-hour, 
-  .flatpickr-time span.flatpickr-time-separator {
+  .flatpickr-months .flatpickr-month {
     @apply text-black text-opacity-50;
   }
-  .dark ~ .flatpickr-calendar .flatpickr-months .flatpickr-month, 
-  .dark ~ .flatpickr-calendar .flatpickr-time span.flatpickr-am-pm, 
-  .dark ~ .flatpickr-calendar .numInput.flatpickr-minute, 
-  .dark ~ .flatpickr-calendar .numInput.flatpickr-hour, 
+  .flatpickr-time span.flatpickr-am-pm {
+   @apply text-black text-opacity-50;
+  }
+  .numInput.flatpickr-minute {
+   @apply text-black text-opacity-50;
+  }
+  .numInput.flatpickr-hour {
+   @apply text-black text-opacity-50;
+  }
+  .flatpickr-time span {
+   @apply text-black text-opacity-50;
+  }
+  .flatpickr-time-separator {
+   @apply text-black text-opacity-50;
+  }
+
+  .dark ~ .flatpickr-calendar .flatpickr-months .flatpickr-month {
+    @apply text-white text-opacity-100;
+  }
+  .dark ~ .flatpickr-calendar .flatpickr-time span.flatpickr-am-pm {
+    @apply text-white text-opacity-100;
+  }
+  .dark ~ .flatpickr-calendar .numInput.flatpickr-minute{
+    @apply text-white text-opacity-100;
+  }
+  .dark ~ .flatpickr-calendar .numInput.flatpickr-hour {
+    @apply text-white text-opacity-100;
+  }
   .dark ~ .flatpickr-calendar .flatpickr-time span.flatpickr-time-separator {
     @apply text-white text-opacity-100;
   }
 
-  .flatpickr-time span.flatpickr-am-pm, 
-  .numInput.flatpickr-minute, 
+  .flatpickr-time span.flatpickr-am-pm {
+    @apply hover:bg-light-100 focus:bg-light-100;
+  }
+  .numInput.flatpickr-minute {
+    @apply hover:bg-light-100 focus:bg-light-100;
+  }
   .numInput.flatpickr-hour {
     @apply hover:bg-light-100 focus:bg-light-100;
   }
-  .dark ~ .flatpickr-calendar .flatpickr-time span.flatpickr-am-pm, 
-  .dark ~ .flatpickr-calendar .numInput.flatpickr-minute, 
+  .dark ~ .flatpickr-calendar .flatpickr-time span.flatpickr-am-pm {
+    @apply hover:bg-dark-200 focus:bg-dark-200;
+  } 
+  .dark ~ .flatpickr-calendar .numInput.flatpickr-minute {
+    @apply hover:bg-dark-200 focus:bg-dark-200;
+  }
   .dark ~ .flatpickr-calendar .numInput.flatpickr-hour {
     @apply hover:bg-dark-200 focus:bg-dark-200;
   }
-
   .flatpickr-calendar.hasTime .flatpickr-time {
     @apply border-black border-opacity-25;
   }
@@ -144,13 +187,21 @@
     @apply text-white text-opacity-100 hover:bg-dark-200;
   }
 
-  .flatpickr-day.prevMonthDay, 
-  .flatpickr-day.nextMonthDay,
+  .flatpickr-day.prevMonthDay {
+    @apply text-dark hover:bg-light-100;
+  }
+  .flatpickr-day.nextMonthDay {
+    @apply text-dark hover:bg-light-100;
+  }
   .flatpickr-day.flatpickr-disabled {
     @apply text-dark hover:bg-light-100;
   }
-  .dark ~ .flatpickr-calendar .flatpickr-day.prevMonthDay, 
-  .dark ~ .flatpickr-calendar .flatpickr-day.nextMonthDay,
+  .dark ~ .flatpickr-calendar .flatpickr-day.prevMonthDay {
+    @apply text-dark hover:bg-dark-200;
+  }
+  .dark ~ .flatpickr-calendar .flatpickr-day.nextMonthDay {
+    @apply text-dark hover:bg-dark-200;
+  }
   .dark ~ .flatpickr-calendar .flatpickr-day.flatpickr-disabled {
     @apply text-dark hover:bg-dark-200;
   }
@@ -170,7 +221,7 @@
       <input on:click={handleDueComplete} bind:checked={complete} type="checkbox" class="form-checkbox -mt-1 text-indigo-500 h-4 w-4 border-2 dark:border">
     </span>
   {/if}
-  <input id="flatpickr" class="bg-transparent py-1 pr-4 min-w-0 outline-none" placeholder="Select a date..." />
+  <input id="flatpickr" class="bg-transparent py-1 pr-4 min-w-0 placeholder-light dark:placeholder-dark placeholder-opacity-100 outline-none" placeholder="Select a date..." />
   {#if !complete && date}
     <button title="Clear date" on:click={handleDateClear}>
       <svg class="-ml-8 cursor-pointer opacity-50 hover:opacity-100" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>

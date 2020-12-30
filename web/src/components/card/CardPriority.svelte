@@ -19,9 +19,9 @@
   }
 </script>
 
-<style lang="postcss">
+<style lang="postcss" global>
   .priority {
-    @apply bg-light-100 text-center w-8 py-1 cursor-pointer rounded;
+    @apply bg-light-100 dark:bg-dark-200 text-center w-8 py-1 cursor-pointer rounded;
   }
 
   .selected {
@@ -42,10 +42,6 @@
 
   .p4.selected {
     @apply bg-purple-500;
-  }
-
-  :global(.dark .priority) {
-    @apply bg-dark-200;
   }
 </style>
 
