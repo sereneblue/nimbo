@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getContext } from "svelte";
-  import { link } from "svelte-spa-router";
+  import { link, push } from "svelte-spa-router";
 
   import Editor from "../components/base/Editor.svelte";
   import ConfirmModal from "../components/ConfirmModal.svelte";
@@ -37,6 +37,12 @@
     onConfirm = e.detail.onConfirm;
   };
 
+  const handleKeyPress = (e: KeyboardEvent): void => {
+    if (e.key === "b" && cardDetails) {
+      push("/b/" + cardDetails.board.id);
+    }
+  };
+
   $: {
     cd = $nimboStore.getCardDetails(params.cardId);
     
@@ -50,15 +56,17 @@
   }
 </script>
 
+<svelte:head>
+  <title>{title}</title>
+</svelte:head>
+
+<svelte:window on:keyup={handleKeyPress} />
+
 <ConfirmModal
   {isConfirmModalOpen}
   {modalMessage}
   {onConfirm}
   on:close={handleCloseConfirmModal} />
-
-<svelte:head>
-  <title>{title}</title>
-</svelte:head>
 
 <div class="min-h-screen h-full bg-light-300 dark:bg-dark-300 text-light dark:text-dark">
   <div class="w-3/4 py-8 mx-auto">
