@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "rollup -c --environment NODE_ENV:production",
+    "build-release": "npm run build && cd public && zip -r nimbo.zip .",
     "dev": "rollup -c -w",
     "start": "sirv public --single",
     "validate": "svelte-check"
