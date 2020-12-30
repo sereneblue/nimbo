@@ -56,7 +56,7 @@
     if (e.key === "l" && $nimboStore.selectedCardId === null) {
       await addNewList();
       e.stopPropagation();
-    } else if (e.key === "/" || e.key === "h") {
+    } else if (e.code === "Space" || e.key === "h") {
       e.stopPropagation();
     }
   };

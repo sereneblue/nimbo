@@ -36,7 +36,7 @@
 
   const handleKeyPress = (e: KeyboardEvent): void => {
     if (!e.target.closest('.flatpickr-calendar')) {
-      if (e.key === "/") {
+      if (e.code === "Space") {
         $nimboStore.openPalette();
         $nimboStore = $nimboStore;
       } else if (e.key === "h") {
