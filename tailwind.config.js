@@ -6,7 +6,7 @@ module.exports = {
     ],
     options: {
       defaultExtractor: (content) => {
-        const regExp = new RegExp(/[A-Za-z0-9-_:/]+/g)
+        const regExp = new RegExp(/[A-Za-z0-9-_:\./]+/g)
         const matchedTokens = []
         let match = regExp.exec(content)
 
