@@ -1,6 +1,6 @@
 {
-  "name": "svelte-app",
-  "version": "1.0.0",
+  "name": "nimbo",
+  "version": "1.0.1",
   "scripts": {
     "build": "rollup -c --environment NODE_ENV:production",
     "build-release": "npm run build && cd public && rm assets/*.map && zip -r nimbo.zip .",
