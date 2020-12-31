@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>nimbo</title>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="bg-indigo-700 flex flex-col">
+      <div class="flex flex-col h-full items-center my-10 space-y-6 text-center justify-center">
+        <div class="mx-auto text-white">
+          <h1 class="text-6xl font-bold">nimbo</h1>
+          <h3 class="text-2xl">The nimble Kanban board</h3>
+        </div>
+        <div class="flex space-x-2">
+          <a href="../" class="bg-indigo-400 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded">Try now</a>
+          <a href="https://github.com/sereneblue/nimbo/releases/latest/download/nimbo.zip" class="bg-indigo-400 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded">Download</a>
+        </div>
+      </div>
+    </div>
+    <div class="py-4">
+      <img id="screenshot" class="mx-auto py-2" width="1000" src="images/my_boards.png">
+      <h2 class="text-4xl mb-4 font-bold text-indigo-600 text-center">Features</h2>
+      <div class="w-full">
+        <div class="flex flex-col space-y-4">
+          <div class="flex flex-col mx-4 lg:flex-row space-y-4 lg:space-y-0 space-x-0 lg:space-x-4 justify-center">
+            <div class="h-24 lg:h-32 w-full lg:w-1/4 p-4 rounded shadow bg-white border border-indigo-600">
+              <h4 class="text-2xl font-bold text-indigo-600 mb-1">Works offline</h4>
+              <p class="text-lg">Use nimbo offline. All data is locally stored in IndexedDB</p>
+            </div>
+            <div class="h-24 lg:h-32 w-full lg:w-1/4 p-4 rounded shadow bg-white border border-indigo-600">
+              <h4 class="text-2xl font-bold text-indigo-600 mb-1">Instant search</h4>
+              <p class="text-lg">Search and navigate to all of your non-archived boards and cards instantly</p>
+            </div>
+            <div class="h-24 lg:h-32 w-full lg:w-1/4 p-4 rounded shadow bg-white border border-indigo-600">
+              <h4 class="text-2xl font-bold text-indigo-600 mb-1">Light/dark theme</h4>
+              <p class="text-lg">Switch between light and dark theme</p>
+            </div>
+          </div>
+          <div class="flex flex-col mx-4 lg:flex-row space-y-4 lg:space-y-0 space-x-0 lg:space-x-4 justify-center">
+            <div class="h-24 lg:h-32 w-full lg:w-1/4 p-4 rounded shadow bg-white border border-indigo-600">
+              <h4 class="text-2xl font-bold text-indigo-600 mb-1">Control your data</h4>
+              <p class="text-lg">Import/export your data between browsers. Supports importing from Trello.</p>
+            </div>
+            <div class="h-24 lg:h-32 w-full lg:w-1/4 p-4 rounded shadow bg-white border border-indigo-600">
+              <h4 class="text-2xl font-bold text-indigo-600 mb-1">Archive and star boards</h4>
+              <p class="text-lg">Archive boards to hide from Zen mode and search palette.</p>
+            </div>
+            <div class="h-24 lg:h-32 w-full lg:w-1/4 p-4 rounded shadow bg-white border border-indigo-600">
+              <h4 class="text-2xl font-bold text-indigo-600 mb-1">Card details</h4>
+              <p class="text-lg">Add a checklist, description, due date, label and priority to your cards.</p>
+            </div>
+          </div>
+          <div class="flex flex-col mx-4 lg:flex-row space-y-4 lg:space-y-0 space-x-0 lg:space-x-4 justify-center">
+            <div class="h-24 lg:h-32 w-full lg:w-1/4 p-4 rounded shadow bg-white border border-indigo-600">
+              <h4 class="text-2xl font-bold text-indigo-600 mb-1">Markdown support</h4>
+              <p class="text-lg">Add a description to your cards using Markdown</p>
+            </div>
+            <div class="h-24 lg:h-32 w-full lg:w-1/4 p-4 rounded shadow bg-white border border-indigo-600">
+              <h4 class="text-2xl font-bold text-indigo-600 mb-1">Sync data between tabs</h4>
+              <p class="text-lg">Changes are synced between your tabs</p>
+            </div>
+            <div class="h-24 lg:h-32 w-full lg:w-1/4 p-4 rounded shadow bg-white border border-indigo-600">
+              <h4 class="text-2xl font-bold text-indigo-600 mb-1">Zen mode</h4>
+              <p class="text-lg">Use filters to get a simple overview of your next tasks with time tracking</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pb-8">
+      <h2 class="text-4xl mb-4 font-bold text-indigo-600 text-center">Keyboard shortcuts</h2>
+      <div class="w-3/4 flex flex-col space-y-2 mx-auto">
+        <div>
+          <h4 class="text-2xl font-bold text-indigo-600">My boards</h4>
+          <div class="py-2">
+            <div>
+              <span class="text-xl h-4 rounded px-2 py-1 border border-indigo-600 mr-1">Z</span> Go to Zen mode
+            </div>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-2xl font-bold text-indigo-600">Board</h4>
+          <div class="py-2">
+            <div>
+              <span class="text-xl h-4 rounded px-2 py-1 border border-indigo-600 mr-1">H</span> Go to 'My Boards'
+            </div>
+          </div>
+          <div class="py-2">
+            <div>
+              <span class="text-xl h-4 rounded px-2 py-1 border border-indigo-600 mr-1">L</span> Create new list
+            </div>
+          </div>
+          <div class="py-2">
+            <div>
+              <span class="text-xl h-4 rounded px-2 py-1 border border-indigo-600 mr-1">space</span> Open search palette
+            </div>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-2xl font-bold text-indigo-600">Card</h4>
+          <div class="py-2">
+            <div>
+              <span class="text-xl h-4 rounded px-2 py-1 border border-indigo-600 mr-1">B</span> Go to card's board
+            </div>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-2xl font-bold text-indigo-600">Zen Mode</h4>
+          <div class="py-2">
+            <div>
+              <span class="text-xl h-4 rounded px-2 py-1 border border-indigo-600 mr-1">H</span> Go to 'My Boards'
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    let screenShot = document.querySelector('#screenshot');
+    let index = 0;
+    let images = [
+      './images/my_boards.png',
+      './images/archive_star_board.png',
+      './images/card_details.png',
+      './images/search_palette.png',
+      './images/light_theme.png',
+      './images/zen.png'
+    ];
+
+    setInterval(() => {
+      index++;
+
+      if (index === images.length) {
+        index = 0;
+      }
+
+      screenshot.src = images[index];
+    }, 3000);
+  </script>
+</html>
