@@ -145,7 +145,7 @@
     <div class="bg-light-200 dark:bg-dark-200 mt-24 w-3/4 md:w-2/3 xl:w-1/2 mx-auto rounded py-2 shadow-lg" use:handleClickOutside>
       <div class="px-2">
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute text-dark m-4"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        <input id="cmdInput" class="dark:text-dark dark:bg-dark-300 text-light text-2xl pl-12 pr-2 py-2 w-full bg-light-300 border border-transparent border-blue-500 appearance-none leading-normal rounded outline-none" bind:value={query} on:keyup={handleSearchInput} type="text">
+        <input id="cmdInput" class="dark:text-dark dark:bg-dark-300 text-light text-2xl pl-12 pr-2 py-2 w-full bg-light-300 border border-transparent border-indigo-500 appearance-none leading-normal rounded outline-none" bind:value={query} on:keyup={handleSearchInput} type="text">
       </div>
       
       <ul class="mt-2" bind:this={resultList}>
