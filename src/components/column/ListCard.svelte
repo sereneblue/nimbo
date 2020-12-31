@@ -58,7 +58,7 @@
       ></div>
     </div>
   {/if}
-  <div class="break-words">
+  <div class="break-words truncate-3-lines">
     {card.title}
   </div>
   {#if hasMoreDetails}
