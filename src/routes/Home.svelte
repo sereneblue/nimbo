@@ -89,6 +89,8 @@
     $nimboStore = $nimboStore;
   }
 
+  $: numArchived = [...$nimboStore.boards].filter(b => b.isArchived).length;
+
   $: starred = [...$nimboStore.boards].filter(b => b.isStarred).splice(0, 5);
 
   $: recentlyViewed = [...$nimboStore.boards].sort((a: Board, b: Board): number => {
@@ -117,7 +119,7 @@
       <h1 class="font-bold text-2xl">My Boards</h1>
       <button class="opacity-75 hover:opacity-100 ml-0.5" on:click={handleToggleArchivedBoards}>
         {#if hideArchivedBoards}
-          Show archived boards
+          Show archived boards { numArchived ? `(${numArchived})` : '' }
         {:else}
           Hide archived boards
         {/if}
