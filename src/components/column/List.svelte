@@ -29,6 +29,8 @@
     if (e.detail[0] === "move") {
       await $nimboStore.swapLists(list.boardId, e.detail[1]);
       $nimboStore = $nimboStore;
+    } else if (e.detail[0] === "create") {
+      dispatch("create", e.detail[1]);
     } else if (e.detail[0] === "delete") {
       dispatch("delete", {
         message: "Are you sure you want to delete this list?",

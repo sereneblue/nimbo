@@ -83,6 +83,22 @@
           </button>
         {/if}
         <button
+          on:click={(e) => emit(['create', index])}
+          class="flex items-center w-full px-2 py-1 text-sm leading-5
+            text-gray-700 hover:bg-gray-200 hover:text-gray-900
+            focus:outline-none focus:bg-gray-200 focus:text-gray-900"
+          role="menuitem">
+          <svg
+            class="w-6 h-6 mr-1"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line></svg> Create new list
+        </button>
+        <button
           on:click={(e) => emit(['delete'])}
           class="flex items-center w-full px-2 py-1 text-sm leading-5
             text-gray-700 hover:bg-gray-200 hover:text-gray-900

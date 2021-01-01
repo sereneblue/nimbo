@@ -13,18 +13,18 @@
   let board: Board;
   let boardLists: HTMLElement;
   let isConfirmModalOpen: boolean = false;
-  let hasNewList: boolean = false;;
-  let modalMessage: string;
+  let modalMessage: string = "";
+  let newIndex: number = null;
 
   let onConfirm = () => {};
 
   const nimboStore: Writable<nimbo> = getContext("nimbo");
 
-  const addNewList = async (): Promise<void> => {
-    $nimboStore.addNewList(boardId);
+  const addNewList = async (e: Event, index: number = null): Promise<void> => {
+    $nimboStore.addNewList(boardId, index);
     $nimboStore = $nimboStore;
 
-    hasNewList = true;
+    newIndex = index === null ? board.lists.length - 1 : index + 1;
   };
 
   const handleCardEditEvent = (e: CustomEvent): void => {
@@ -46,6 +46,10 @@
     $nimboStore = $nimboStore;
   }
 
+  const handleCreateEvent = async (e: CustomEvent): Promise<void> => {
+    await addNewList(e, e.detail);
+  }
+
   const handleDeleteEvent = (e: CustomEvent): void => {
     modalMessage = e.detail.message;
     isConfirmModalOpen = true;
@@ -62,31 +66,32 @@
   };
 
   afterUpdate(() => {
-    if (hasNewList) {
+    if (newIndex != null) {
       let bl: HTMLElement[] = boardLists.querySelectorAll('.editable-title span');
-      bl[bl.length - 1].focus();
+      bl[newIndex].focus();
 
       // position cursor at end of text
       if (typeof window.getSelection != "undefined"
               && typeof document.createRange != "undefined") {
         let range = document.createRange();
-        range.selectNodeContents(bl[bl.length - 1]);
+        range.selectNodeContents(bl[newIndex]);
         range.collapse(false);
         let sel = window.getSelection();
         sel.removeAllRanges();
         sel.addRange(range);
       } else if (typeof document.body.createTextRange != "undefined") {
         let textRange = document.body.createTextRange();
-        textRange.moveToElementText(bl[bl.length - 1]);
+        textRange.moveToElementText(bl[newIndex]);
         textRange.collapse(false);
         textRange.select();
       }
       
-      bl[bl.length - 1].closest('.list').scrollIntoView({
+      bl[newIndex].closest('.list').scrollIntoView({
         behavior: 'smooth',
         inline: 'end'
       });
-      hasNewList = false;
+
+      newIndex = null;
     }
   });
 
@@ -110,6 +115,7 @@
         list={l}
         hasMore={l.index < board.lists.length}
         on:delete={handleDeleteEvent}
+        on:create={handleCreateEvent}
         on:cardEdit={handleCardEditEvent} />
     </div>
   {/each}

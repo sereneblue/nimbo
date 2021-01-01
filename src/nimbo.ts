@@ -76,12 +76,28 @@ export default class nimbo {
     this.update();
   }
 
-  public async addNewList(boardId: string): Promise<void> {
+  public async addNewList(boardId: string, index: number = null): Promise<void> {
     let boardIndex: number = this.boards.findIndex(b => b.id === boardId);
     
     if (boardIndex > -1) {
-      let l: List = new List(boardId, this.boards[boardIndex].lists.length); 
-      this.boards[boardIndex].lists = [...this.boards[boardIndex].lists, l];
+      let l: List = new List(boardId, this.boards[boardIndex].lists.length);
+
+      if (index != null) {
+        let listIndexes: object = {};
+
+        this.boards[boardIndex].lists.splice(index + 1, 0, l);
+        this.boards[boardIndex].lists = this.boards[boardIndex].lists;
+
+        for (let i: number = 0; i < this.boards[boardIndex].lists.length; i++) {
+          this.boards[boardIndex].lists[i].index = i;
+
+          listIndexes[this.boards[boardIndex].lists[i].id] = i;
+        };
+
+        await this.updateListIndexes(listIndexes);
+      } else {
+        this.boards[boardIndex].lists = [...this.boards[boardIndex].lists, l];
+      }
 
       await this.db.lists.add(l);
     }
