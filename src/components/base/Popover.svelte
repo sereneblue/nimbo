@@ -17,7 +17,7 @@
 </script>
 
 {#if isOpen }
-  <div use:handleClickOutside class="absolute mt-2 z-10 rounded-md bg-light-100 dark:bg-dark-200 text-light dark:text-dark shadow-xl w-auto">
+  <div use:handleClickOutside class="absolute mt-2 z-10 rounded bg-light-100 dark:bg-dark-200 text-light dark:text-dark shadow-xl w-auto">
 	 <slot isOpen={isOpen}></slot>
   </div>
 {/if}

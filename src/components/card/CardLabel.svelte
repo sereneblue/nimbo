@@ -36,7 +36,7 @@
 
 <div class="space-y-1">
   <div class="relative">
-    <span class="inline-block w-full rounded-md shadow-sm">
+    <span class="inline-block w-full rounded shadow-sm">
       <button on:click={handleLabelClick} type="button" aria-haspopup="listbox" aria-expanded="true" class="flex items-center px-1 bg-light-100 dark:bg-dark-200 text-light dark:text-dark rounded cursor-default relative w-64 pl-2 pr-10 py-1 text-left">
         <div class="flex items-center space-x-2 truncate">
           {#if selected in LABEL_COLOR}
@@ -65,7 +65,7 @@
     </span>
     
     <Popover {isOpen} on:close={handleClose}>
-      <ul tabindex="-1" role="listbox" aria-activedescendant="listbox-item-3" class="max-h-56 w-64 rounded-md py-1 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5">
+      <ul tabindex="-1" role="listbox" aria-activedescendant="listbox-item-3" class="max-h-56 w-64 rounded py-1 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5">
         {#each labels as l (l)}
           <li on:click={e => handleSelectLabel(l.color)} data-label={l.color} role="option" class="hover:bg-light-200 dark:hover:bg-dark-100 dark:hover:bg-dark-100 cursor-pointer select-none relative py-2 pl-3 pr-9">
             <div class="flex items-center space-x-2">

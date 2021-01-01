@@ -53,7 +53,7 @@
   <button on:click={handleButtonClick} class="py-1 px-2 rounded text-xs bg-indigo-500 text-white hover:bg-indigo-600">Labels</button>
 
   <Popover {isOpen} on:close={handleClose}>
-    <ul tabindex="-1" role="listbox" class="text-base w-40 space-y-1 py-2 leading-6 focus:outline-none w-80">
+    <ul tabindex="-1" role="listbox" class="text-base w-40 space-y-1 py-2 leading-6 focus:outline-none w-80 rounded border border-indigo-500">
       {#each labels as l (l)}
         <li role="option" class="select-none relative py-1 pl-3 pr-9 hover:bg-light-200 dark:hover:bg-dark-100-50">
           <div class="flex items-center space-x-2 mr-2">
