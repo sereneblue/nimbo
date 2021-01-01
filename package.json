@@ -1,6 +1,6 @@
 {
   "name": "nimbo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "scripts": {
     "build": "rollup -c --environment NODE_ENV:production",
     "build-release": "npm run build && cd public && rm assets/*.map && zip -r nimbo.zip .",
