@@ -113,7 +113,7 @@
     <div animate:flip={{ duration: 300 }}>
       <List
         list={l}
-        hasMore={l.index < board.lists.length}
+        hasMore={l.index < board.lists.length - 1}
         on:delete={handleDeleteEvent}
         on:create={handleCreateEvent}
         on:cardEdit={handleCardEditEvent} />
