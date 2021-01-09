@@ -1,7 +1,22 @@
 import { customAlphabet } from 'nanoid';
 
-let d: Date = new Date();
-let currentYear: number = new Date().getFullYear();
+const d: Date = new Date();
+const day: number = d.getDate();
+const month: number = d.getMonth();
+const year: number = d.getFullYear();
+
+const beforeDate = (timestamp: number, when: string): boolean => {
+  let tmpDate = new Date();
+
+  if (when === 'today') {
+    return timestamp < tmpDate.getTime();
+  } else if (when === 'tomorrow') {
+    tmpDate.setDate(tmpDate.getDate() + 1);
+    return timestamp < tmpDate.getTime();
+  }
+
+  return false;
+}
 
 const clickOutside = (node: Node, closeAction: Function): object => {
   const handleClick = (event: Event) => {
@@ -42,11 +57,17 @@ const getTimestamps = (d: Date): object => {
 const formatDate = (timestamp: number): string => {
   d.setTime(timestamp);
   
-  if (d.getFullYear() == currentYear) {
-    return d.toLocaleString('en', { month: 'short', day: 'numeric' });
+  if (
+    d.getDate() === day &&
+    d.getMonth() === month &&
+    d.getFullYear() === year
+  ) {
+    return d.toLocaleString('default', { hour: 'numeric', minute: 'numeric' });
+  } else if (d.getFullYear() == year) {
+    return d.toLocaleString('default', { month: 'short', day: 'numeric' });
   }
 
-  return d.toLocaleString('en', { month: 'short', day: 'numeric', year: 'numeric' });
+  return d.toLocaleString('default', { year: 'numeric' });
 }
 
 const formatForStopwatch = (seconds: number): string => {
@@ -85,6 +106,7 @@ const formatTime = (seconds: number): string => {
 const nanoid = customAlphabet('2346789ABCDEFGHJKLMNPQRTUVWXYZabcdefghijkmnpqrtwxyz', 10);
 
 export {
+  beforeDate,
   clickOutside,
   getTimestamps,
   formatDate,

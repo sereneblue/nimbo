@@ -4,7 +4,7 @@
   import type { Card } from '../../datastore/models';
   import { PRIORITY, LABEL_COLOR } from '../../types';
   import type { TimeEntry } from '../../types';
-  import { formatDate, formatForStopwatch, formatTime } from '../../util';
+  import { beforeDate, formatDate, formatForStopwatch, formatTime } from '../../util';
   
   export let c: Card;
   export let isFocused: boolean = false;
@@ -82,7 +82,13 @@
           </div>
         {/if}
         {#if card.due}
-          <div class={card.isComplete ? "flex items-center rounded text-white bg-green-500 p-1" : card.due < new Date().getTime() ? "flex items-center rounded text-white bg-orange-600 p-1" : "flex items-center rounded p-1"}>
+          <div class={
+              card.isComplete ? "flex items-center rounded text-white bg-green-500 p-1" : 
+              beforeDate(card.due, 'today') ? 
+                "flex items-center rounded text-white bg-red-600 p-1" : 
+                beforeDate(card.due, 'tomorrow') ? 
+                  "flex items-center rounded text-white bg-orange-600 p-1" : 
+                  "flex items-center rounded p-1"}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
             <span class="ml-1">{formatDate(card.due)}</span>
           </div>
