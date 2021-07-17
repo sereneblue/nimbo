@@ -19,7 +19,7 @@
 
   let boardLink: HTMLAnchorElement;
   let bufferDescription: string;
-  let cardDescription: string = cardDetails.card.description;
+  let cardDescription: string;
   let checklist: HTMLElement;
   let editDescription: boolean = false;
   let hideCompleted: boolean = false;
@@ -264,6 +264,8 @@
   });
 
   $: totalTime = cardDetails.card.log.reduce((a, b) => { return a + b.duration}, 0);
+
+  $: cardDescription = cardDetails?.card?.description;
 </script>
 
 <div class="{inline ? 'w-96' : 'w-4/5 mx-auto'}">

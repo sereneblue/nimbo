@@ -41,7 +41,7 @@
         
     if (cd) {
       cardDetails = cd; 
-    }    
+    }
   }
 </script>
 
