@@ -1,6 +1,6 @@
 # nimbo
 
-![nimbo version](https://img.shields.io/badge/version-1.0.4-brightgreen.svg)
+![nimbo version](https://img.shields.io/badge/version-1.0.5-brightgreen.svg)
 ![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)
 
 The nimble Kanban board.
