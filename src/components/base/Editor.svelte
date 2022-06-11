@@ -18,7 +18,6 @@
   export let isZen: boolean;
 
   let boardLink: HTMLAnchorElement;
-  let bufferDescription: string;
   let cardDescription: string;
   let checklist: HTMLElement;
   let editDescription: boolean = false;
@@ -136,9 +135,15 @@
         card: cardDetails.card,
         property: "description"
       });
+    } else {
+      cardDescription = cardDetails.card.description;
     }
 
     editDescription = !editDescription;
+  }
+
+  const handleDescriptionInput = (e: Event): void => {
+    cardDescription = e.target.value;
   }
 
   const handleDueComplete = (e: Event): void => {
@@ -265,7 +270,9 @@
 
   $: totalTime = cardDetails.card.log.reduce((a, b) => { return a + b.duration}, 0);
 
-  $: cardDescription = cardDetails?.card?.description;
+  $: if (cardDetails?.card.id) {
+    cardDescription = cardDetails?.card?.description;
+  };
 </script>
 
 <div class="{inline ? 'w-96' : 'w-4/5 mx-auto'}">
@@ -319,7 +326,7 @@
         </div>
       {:else}
         {#if editDescription}
-          <textarea bind:value={cardDescription} on:keyup|stopPropagation class="w-full bg-white border-light-200 border-2 dark:border-transparent dark:bg-dark-100 p-1 rounded placeholder-dark-200 dark:placeholder-gray-400 shadow-sm" placeholder="Add a description" rows="10"></textarea>
+          <textarea value={cardDescription} on:keyup|stopPropagation={handleDescriptionInput} class="w-full bg-white border-light-200 border-2 dark:border-transparent dark:bg-dark-100 p-1 rounded placeholder-dark-200 dark:placeholder-gray-400 shadow-sm" placeholder="Add a description" rows="10"></textarea>
         {:else}
           <div class="opacity-75 hover:opacity-100 underline cursor-pointer" on:click={handleDescriptionClick}>Add a description</div>
         {/if}
